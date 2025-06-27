@@ -3,9 +3,9 @@
   {
      protected static function get_view($views)
         {
-        $white_list = ["Home", "Pruducts", "Users"];
+        $white_list = ["Home", "Pruducts", "new-user"];
         if (in_array($views, $white_list)) {
-            if (is_file("./views/" . $views . ".php")) {
+            if (is_file("./view/" . $views . ".php")) {
                 $content = "./view/" . $views . ".php";
             } else {
                 $content = "404";
