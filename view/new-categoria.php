@@ -65,7 +65,7 @@
             </div>
         </div>
     </nav>
-
+ <!-- FIN DE CUERPO DE PÁGINA-->
     <div class="container_fluid">
         <div class="card">
             <h5 class="btn btn-primary">registrar Categoria</h5>
@@ -96,7 +96,7 @@
 
 
     </div>
-
+   <!-- FIN DE CUERPO DE PÁGINA-->
 </body>
 
 <script src="<?php echo BASE_URL ?>view/function/categoria.js"></script>
