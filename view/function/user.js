@@ -35,13 +35,14 @@ async function registarUsuario() {
 
         const datos = new FormData(frm_user);
         // enviar datos al controlador 
-        let respusta = await fetch(base_url + 'control/UsuarioController.php?tipo=registrar', {
+        let respuesta = await fetch(base_url + 'control/UsuarioController.php?tipo=registrar', {
             method: 'POST',
             mode: 'cors',
             cache: 'no-cache',
             body: datos
         }); //ALERTA EN UNA CONDICION (TRUE) (FALSE)
-        let json = await respusta.json();
+       // ----
+        let json = await respuesta.json();
         if (json.status) {
             //validamos que json.status sea igual tru , si es false ya 
             alert(json.msg);//sea registrado registrado
@@ -73,7 +74,15 @@ async function iniciar_secion() {
             cache: 'no-cache',
             body: datos
         });
-        
+        let json = await respuesta.json();
+        if (json.status) {
+            location.replace(base_url+'new-user');
+            //validamos que json.status sea igual tru , si es false ya 
+            //sea registrado registrado
+            
+        } else {
+            alert(json.msg);
+        }
     }
     catch (error) {
         console.log(error);
