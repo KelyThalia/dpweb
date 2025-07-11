@@ -48,7 +48,7 @@ async function registarCategoria() {
     }
 
 }
-console.log()
+
 //finalizamos hacer todo el proceso de registro siglo de 
 //vista
 //html

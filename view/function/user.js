@@ -10,12 +10,12 @@ function validar_form() {
     let direccion = document.getElementById("direccion").value;
     let rol = document.getElementById("rol").value;
 
-    if (nro_documento == "" || razon_social == "" || telefono == "" || correo == "" || departamento == "" 
+    if (nro_documento == "" || razon_social == "" || telefono == "" || correo == "" || departamento == ""
         || provincia == "" || distrito == "" || cod_postal == "" || direccion == "" || rol == "") {
         alert("Error: Existen campos vacios");
         return;
     }
-   registarUsuario ();
+    registarUsuario();
 }
 
 // Evita que se envie el formulario xd
@@ -35,9 +35,9 @@ async function registarUsuario() {
 
         const datos = new FormData(frm_user);
         // enviar datos al controlador 
-        let respusta = await fetch (base_url + 'control/UsuarioController.php?tipo=registrar' ,{
+        let respusta = await fetch(base_url + 'control/UsuarioController.php?tipo=registrar', {
             method: 'POST',
-            mode:'cors',
+            mode: 'cors',
             cache: 'no-cache',
             body: datos
         }); //ALERTA EN UNA CONDICION (TRUE) (FALSE)
@@ -46,7 +46,7 @@ async function registarUsuario() {
             //validamos que json.status sea igual tru , si es false ya 
             alert(json.msg);//sea registrado registrado
             document.getElementById('frm_user').reset();
-        }else{
+        } else {
             alert(json.msg);
         }
 
@@ -56,8 +56,31 @@ async function registarUsuario() {
     }
 
 }
-console.log()
-//finalizamos hacer todo el proceso de registro siglo de 
+async function iniciar_secion() {
+    let usuario = document.getElementById("username").value;
+    let password = document.getElementById("password").value;
+
+    if (usuario == "" || password == "") {
+        alert("Error, campos vacios!")
+        return;
+
+    }
+    try {
+        const datos = new FormData(frm_login);
+        let respuesta = await fetch(base_url +'control/UsuarioController.php?tipo=iniciar_sesion', {
+            method: 'POST',
+            mode: 'cors',
+            cache: 'no-cache',
+            body: datos
+        });
+        
+    }
+    catch (error) {
+        console.log(error);
+    }
+}
+
+//finalizamos hacer todo el proceso de registro siglo de
 //vista
 //html
 //validar con js
