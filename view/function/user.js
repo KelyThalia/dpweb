@@ -18,7 +18,7 @@ function validar_form() {
     registarUsuario();
 }
 
-// Evita que se envie el formulario xd
+// Evita que se envie el formulario s
 
 if (document.querySelector('#frm_user')) {
     let frm_user = document.querySelector('#frm_user');
