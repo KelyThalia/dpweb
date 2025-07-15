@@ -50,13 +50,13 @@
                     
                 </ul>
                 <form class="d-flex" role="search">
-                    /*Este bloque crea un menú desplegable
+                    <!--Este bloque crea un menú desplegable
                      para el perfil del usuario (por ejemplo,
-                      con opciones como “perfil” o “logout”). */
+                      con opciones como “perfil” o “logout”). -->
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                         <li class="nav-item dropdown"> 
                             <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                Dropdown /* Este es un menú desplegable que se activa al hacer clic en el enlace. */
+                                Dropdown <!-- Este es un menú desplegable que se activa al hacer clic en el enlace. -->
                             </a>
                             <ul class="dropdown-menu">
                                 <li><a class="dropdown-item" href="#">perfil</a></li>
