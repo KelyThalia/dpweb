@@ -5,7 +5,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kely - Iniciar Sesión</title>
+    <title>Kely</title>
     <style>
         body {
             background: linear-gradient(to bottom right, khaki, #ffe9c6);
