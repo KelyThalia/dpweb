@@ -50,13 +50,13 @@
                     
                 </ul>
                 <form class="d-flex" role="search">
-<<<<<<< HEAD
+
                     
-=======
+
                     <!--Este bloque crea un menú desplegable
                      para el perfil del usuario (por ejemplo,
                       con opciones como “perfil” o “logout”). -->
->>>>>>> ca1529abdfc43aa00414d1d14dd2b79aeae6d909
+
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                         <li class="nav-item dropdown"> 
                             <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -69,7 +69,7 @@
                                     <hr class="dropdown-divider">
                                 </li>
                                 <li><a class="dropdown-item" href="#">conted</a></li>
-                                /*Opciones dentro del menú desplegable. */
+                                <!--Opciones dentro del menú desplegable.-->
                             </ul>
                         </li>
                     </ul>
