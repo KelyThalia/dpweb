@@ -63,3 +63,12 @@ if ($tipo == "iniciar_sesion") {
     }
     echo json_encode($respuesta);
 }
+
+if($tipo == "ver_usuario") {
+    $usuarios = $objPersona->verUsuario();
+    echo json_encode($usuarios);
+}
+//Append child agregar hijo es mas cencillo ocument objet vfgd agregas hijos
+//inner html
+//primero se usa un bucle 
+//carguar la informacion de la base de datos

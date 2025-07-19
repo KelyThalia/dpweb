@@ -20,7 +20,7 @@ function validar_form() {
     }/*Aquí se verifica si alguno de los campos está vacío. */
     registarUsuario();
 } /* El operador || significa "o",
-   así que si cualquiera de los campos es una
+   así que si cualquiera de los campos es una--
     cadena vacía (""), entra al bloque if. */
 
 /* Evita que se envie el formulario 
@@ -37,7 +37,7 @@ if (document.querySelector('#frm_user')) { /* verifica si existe un formulario c
         e.preventDefault(); /*Esto detiene el comportamiento predeterminado del formulario, que sería enviarlo directamente al servidor y recargar la página.En lugar de eso, queremos validar los datos primero. */
         validar_form(); /* Aquí se llama a la función validar_form() que hemos definido antes. Esta función valida los campos del formulario y, si todo está bien, llama a registarUsuario() para enviar los datos al servidor. */
     }
-} 
+}
 
 async function registarUsuario() {
     try {
@@ -51,7 +51,7 @@ async function registarUsuario() {
             cache: 'no-cache',
             body: datos
         }); //ALERTA EN UNA CONDICION (TRUE) (FALSE)
-       // ----
+        // ----
         let json = await respuesta.json();
         if (json.status) {
             //validamos que json.status sea igual tru , si es false ya 
@@ -65,10 +65,10 @@ async function registarUsuario() {
         console.log("Error al registrar usuario" + e);
 
     }
- /*“Esta función registrarUsuario se encarga de enviar los datos del formulario al servidor
- usando JavaScript moderno con fetch. Primero recoge todos los datos con FormData, luego los
-  envía mediante una solicitud POST a un archivo PHP. Espera la respuesta y muestra un mensaje
- de éxito o error dependiendo del resultado. Si ocurre un problema técnico, lo muestra en la consola del navegador.” */
+    /*“Esta función registrarUsuario se encarga de enviar los datos del formulario al servidor
+    usando JavaScript moderno con fetch. Primero recoge todos los datos con FormData, luego los
+     envía mediante una solicitud POST a un archivo PHP. Espera la respuesta y muestra un mensaje
+    de éxito o error dependiendo del resultado. Si ocurre un problema técnico, lo muestra en la consola del navegador.” */
 }
 async function iniciar_secion() {
     let usuario = document.getElementById("username").value;
@@ -81,7 +81,7 @@ async function iniciar_secion() {
     }
     try {
         const datos = new FormData(frm_login);
-        let respuesta = await fetch(base_url +'control/UsuarioController.php?tipo=iniciar_sesion', {
+        let respuesta = await fetch(base_url + 'control/UsuarioController.php?tipo=iniciar_sesion', {
             method: 'POST',
             mode: 'cors',
             cache: 'no-cache',
@@ -89,10 +89,10 @@ async function iniciar_secion() {
         });
         let json = await respuesta.json();
         if (json.status) {
-            location.replace(base_url+'new-user');
+            location.replace(base_url + 'new-user');
             //validamos que json.status sea igual tru , si es false ya 
             //sea registrado registrado
-            
+
         } else {
             alert(json.msg);
         }
@@ -100,18 +100,25 @@ async function iniciar_secion() {
     catch (error) {
         console.log(error);
     }
-    /*“Esta función iniciar_secion sirve para iniciar sesión en el sistema. 
-    Primero, valida que los campos no estén vacíos. Luego, envía los datos al
-    servidor usando una solicitud fetch. Si las credenciales son correctas, redirige 
-    al usuario a otra página. Si hay algún error, se muestra un mensaje 
-    de alerta o se registra el error en consola. Es una forma moderna y eficiente de manejar 
-    el login con JavaScript.” */
+
 }
 
-//finalizamos hacer todo el proceso de registro siglo de
-//vista
-//html
-//validar con js
-//controlador recivir validar campos vacios devolver hacia la vista una ves validado enviar al modelo / ejecutar y notificar al controlador / controladoer validamos la respuesta debolver a ja
-//en jv validar la respuesta si es correcto mostrar notificacion igualmento si se correcto
-//MODELO VISTA CONTROLADR PARA EL USUARIO
+async function view_users() {
+    try {
+        let respuesta = await fetch(base_url + 'control/UsuarioController.php?tipo=ver_usuario', {
+            method: 'POST',
+            mode: 'cors',
+            cache: 'no-cache',
+        });
+       
+    }
+    catch (error) {
+        
+    }
+
+}
+if (document.getElementById('content_users')) {
+    view_users();
+}
+
+

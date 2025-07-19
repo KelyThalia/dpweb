@@ -30,7 +30,7 @@
                         <a class="nav-link active" aria-current="page" href="#">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">users</a>
+                        <a class="nav-link" href="<?= BASE_URL ?>users">users</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#">productos</a>
@@ -50,11 +50,17 @@
                     
                 </ul>
                 <form class="d-flex" role="search">
+<<<<<<< HEAD
                     
+=======
+                    <!--Este bloque crea un menú desplegable
+                     para el perfil del usuario (por ejemplo,
+                      con opciones como “perfil” o “logout”). -->
+>>>>>>> ca1529abdfc43aa00414d1d14dd2b79aeae6d909
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                         <li class="nav-item dropdown"> 
                             <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                Dropdown /* Este es un menú desplegable que se activa al hacer clic en el enlace. */
+                                Dropdown <!-- Este es un menú desplegable que se activa al hacer clic en el enlace. -->
                             </a>
                             <ul class="dropdown-menu">
                                 <li><a class="dropdown-item" href="#">perfil</a></li>
