@@ -120,5 +120,40 @@ async function view_users() {
 if (document.getElementById('content_users')) {
     view_users();
 }
+document.addEventListener("DOMContentLoaded", function () {
+  cargarUsuarios();
+});
+
+function cargarUsuarios() {
+  fetch("http://localhost/dpweb/control/UsuarioController.php?tipo=ver_usuario")
+    .then(response => {
+      if (!response.ok) {
+        throw new Error("Error al obtener datos del servidor");
+      }
+      return response.json();
+    })
+    .then(usuarios => {
+      const tabla = document.getElementById("content_users");
+      tabla.innerHTML = ""; // Limpiar contenido anterior
+
+      usuarios.forEach((usuario, index) => {
+        const fila = document.createElement("tr");
+
+        fila.innerHTML = `
+          <td>${index + 1}</td>
+          <td>${usuario.dni}</td>
+          <td>${usuario.nombres_apellidos}</td>
+          <td>${usuario.correo}</td>
+          <td>${usuario.rol}</td>
+          <td>${usuario.estado}</td>
+        `;
+
+        tabla.appendChild(fila);
+      });
+    })
+    .catch(err => {
+      console.error("Error al listar usuarios:", err);
+    });
+}
 
 
