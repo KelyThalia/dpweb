@@ -11,9 +11,9 @@
                 <th>Estado</th>
             </tr>
         </thead>
-        <body id="content_users">
+        <tbody id="content_users">
             
-        </body>
+        </tbody>
     </table>
 </div>
 <script src="<?= BASE_URL?>view/function/user.js"></script>

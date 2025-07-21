@@ -63,37 +63,18 @@ if ($tipo == "iniciar_sesion") {
     }
     echo json_encode($respuesta);
 }
-/*
-if($tipo == "ver_usuario") {
+
+
+if($tipo == "ver_usuarios") {
     $usuarios = $objPersona->verUsuario();
     echo json_encode($usuarios);
-}*/
-
-if ($_GET['tipo'] == 'ver_usuario') {
-    $usuarios = $usuario->listar(); // método que consulta la BD
-    header('Content-Type: application/json');
-    echo json_encode($usuarios);
-    exit;
 }
 
-if ($_GET['tipo'] == 'ver_usuario') {
-    $usuarios = $usuario->listarUsuario();
-    header('Content-Type: application/json');
-    echo json_encode($usuarios);
-    exit;
-}
 
-if ($_GET['tipo'] == 'registrar') {
-    $dni = $_POST['dni'];
-    $nombres = $_POST['nombres_apellidos'];
-    $correo = $_POST['correo'];
-    $rol = $_POST['rol'];
-    $estado = $_POST['estado'];
 
-    $res = $usuario->registrar($dni, $nombres, $correo, $rol, $estado);
-    echo $res ? "ok" : "error";
-    exit;
-}
+
+
+
 
 
 

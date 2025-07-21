@@ -8,18 +8,8 @@ class UsuarioModel
     $this->conexion = new conexion();
     $this->conexion = $this->conexion->connect();
   }
-  public function registrar(
-    $nro_identidad,
-    $razon_social,
-    $telefono,
-    $correo,
-    $departamento,
-    $distrito,
-    $provincia,
-    $cod_postal,
-    $direccion,
-    $rol,
-    $password
+  public function registrar($nro_identidad, $razon_social, $telefono, $correo, $departamento, $distrito, $provincia, $cod_postal,  $direccion,
+    $rol, $password
   ) {
     $consulta = "INSERT INTO  Persona (nro_identidad, razon_social, telefono, correo, departamento, 
       distrito, provincia, cod_postal, direccion, rol, password) VALUES ('$nro_identidad', '$razon_social', '$telefono', '$correo', '$departamento', 
@@ -44,11 +34,17 @@ class UsuarioModel
     $sql = $this->conexion->query($consulta);
     return $sql->fetch_object();
   }
-  public function listarUsuaro($dni, $nombres, $correo, $rol, $estado) {
-    $sql = "INSERT INTO usuarios (dni, nombres_apellidos, correo, rol, estado) 
-            VALUES ('$dni', '$nombres', '$correo', '$rol', '$estado')";
-    return $this->conexion->query($sql);
+  public function verUsuario() {
+    $arr_usuario = array();
+    $consulta = "SELECT * FROM persona";
+    $sql = $this->conexion->query($consulta);
+    while ($objeto = $sql->fetch_object()){
+        array_push($arr_usuario, $objeto);
+      }
+    return $arr_usuario;
+  }
+
 }
 
   
-}
+
