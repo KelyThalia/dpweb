@@ -1,5 +1,6 @@
 <?php
 require_once("../library/conexion.php");
+//require_once "../config/config.php";
 class UsuarioModel
 {
   private $conexion;

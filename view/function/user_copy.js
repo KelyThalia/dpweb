@@ -1,6 +1,6 @@
 /*Cada línea busca un campo del formulario HTML por su ID 
 (como nro_identidad, correo, etc.) y guarda su valor en una variable.*/
-//include("../config/config.php");
+
 function validar_form() {
     let nro_documento = document.getElementById("nro_identidad").value; /*nro_documento guarda el valor del campo número de documento. */
     let razon_social = document.getElementById("razon_social").value;
@@ -108,51 +108,36 @@ async function view_users() {
         let respuesta = await fetch(base_url + 'control/UsuarioController.php?tipo=ver_usuarios', {
             method: 'POST',
             mode: 'cors',
-            cache: 'no-cache'
+            cache:'no-cache'
+
         });
+       
+       let json = await respuesta.json();
+        let content_users = document.getElementById('content_users');
+        content_users.innerHTML = ""; // Limpiar contenido anterior
 
-        let usuarios = await respuesta.json();
-        let tbody = document.getElementById('content_users');
-        tbody.innerHTML = ''; // Limpia el contenido previo
-
-        // Mapeo de roles
-        const rolesMap = {
-            '1': 'Administrador',
-            '2': 'Contador',
-            '3': 'Almacenero',
-            '4': 'Usuario'
-        };
-
-        // Variable para acumular las filas en HTML
-        let filasHTML = '';
-
-        usuarios.forEach((usuario, index) => {
-            filasHTML += `
-                <tr class="text-center">
-                    <td>${index + 1}</td>
-                    <td>${usuario.nro_identidad}</td>
-                    <td>${usuario.razon_social}</td>
-                    <td>${usuario.correo}</td>
-                    <td>${rolesMap[usuario.rol] || 'Desconocido'}</td>
-                    <td>${usuario.estado || 'Activo'}</td>
-                </tr>
+        json.forEach((user, index) => {
+            let fila = document.createElement('tr');
+            fila.innerHTML = `
+              <td>${index + 1}</td>
+              <td>${usuario.dni}</td>
+              <td>${usuario.nombres_apellidos}</td>
+              <td>${usuario.correo}</td>
+              <td>${usuario.rol}</td>
+              <td>${usuario.estado}</td>
             `;
-        });
-
-        // Agrega todo el contenido generado al tbody
-        tbody.innerHTML = filasHTML;
-
-    } catch (error) {
-        console.error("Error al obtener usuarios:", error);
-        Swal.fire({
-            icon: "error",
-            title: "Error",
-            text: "No se pudieron cargar los usuarios."
+            content_users.appendChild(fila);
         });
     }
-}
+    catch (error) {
+        console.error("Error al cargar usuarios:", error);
+       
 
-// Verifica si existe el elemento antes de ejecutar
+    }
+}
 if (document.getElementById('content_users')) {
     view_users();
 }
+
+
+
