@@ -112,34 +112,25 @@ async function view_users() {
         });
 
         let usuarios = await respuesta.json();
+        console.log("Usuarios recibidos:", usuarios); // <-- para depurar
+
         let tbody = document.getElementById('content_users');
-        tbody.innerHTML = ''; // Limpia el contenido previo
+        tbody.innerHTML = '';
 
-        // Mapeo de roles
-        const rolesMap = {
-            '1': 'Administrador',
-            '2': 'Contador',
-            '3': 'Almacenero',
-            '4': 'Usuario'
-        };
+        let filasHTML = usuarios.map((usuario, index) => `
+            <tr class="text-center">
+                <td>${index + 1}</td>
+                <td>${usuario.nro_identidad}</td>
+                <td>${usuario.razon_social}</td>
+                <td>${usuario.correo}</td>
+                <td>${usuario.rol || 'Desconocido'}</td>
+                <td>${usuario.estado || 'Activo'}</td>
+                <td>
+                 <a href="`+ base_url+`edit_user/`+usuario.id+`">Editar</a>
+                </td>
+            </tr>
+        `).join('');
 
-        // Variable para acumular las filas en HTML
-        let filasHTML = '';
-
-        usuarios.forEach((usuario, index) => {
-            filasHTML += `
-                <tr class="text-center">
-                    <td>${index + 1}</td>
-                    <td>${usuario.nro_identidad}</td>
-                    <td>${usuario.razon_social}</td>
-                    <td>${usuario.correo}</td>
-                    <td>${rolesMap[usuario.rol] || 'Desconocido'}</td>
-                    <td>${usuario.estado || 'Activo'}</td>
-                </tr>
-            `;
-        });
-
-        // Agrega todo el contenido generado al tbody
         tbody.innerHTML = filasHTML;
 
     } catch (error) {
@@ -151,8 +142,7 @@ async function view_users() {
         });
     }
 }
-
-// Verifica si existe el elemento antes de ejecutar
+/* capturar en valor con js y enviar al controlador mostrar en un formulario para poder actualizar*/
 if (document.getElementById('content_users')) {
     view_users();
 }
