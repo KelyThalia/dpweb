@@ -66,7 +66,7 @@ class UsuarioModel
 {
     $stmt = $this->conexion->prepare("UPDATE persona SET nro_identidad = ?, razon_social = ?, telefono = ?, correo = ?, departamento = ?, provincia = ?, distrito = ?, cod_postal = ?, direccion = ?, rol = ? WHERE id = ?");
     $stmt->bind_param(
-      "ssssssssssi",
+      "ssssssssss",
       $data['nro_identidad'],
       $data['razon_social'],
       $data['telefono'],

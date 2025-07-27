@@ -73,7 +73,7 @@ if ($tipo == "ver_usuarios") {
     exit;
 }
 
-if ($tipo == 'obtener_usuario') {
+if ($tipo == "obtener_usuario") {
     header('Content-Type: application/json');
     $id = $_GET['id'] ?? '';
     $usuario = $objPersona->obtenerUsuarioPorId($id);
