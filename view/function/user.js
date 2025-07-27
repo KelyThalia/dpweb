@@ -121,6 +121,7 @@ async function iniciar_secion() {
         let json = await respuesta.json();
         if (json.status) {
             location.replace(base_url + 'new-user');
+           
             //validamos que json.status sea igual tru , si es false ya 
             //sea registrado registrado
 
@@ -176,7 +177,7 @@ async function view_users() {
                 <td>${usuario.rol || 'Desconocido'}</td>
                 <td>${usuario.estado || 'Activo'}</td>
                 <td>
-                 <a href="`+ base_url+`edit_user/`+usuario.id+`">Editar</a>
+                 <a href="`+ base_url+`view/update.php?id=`+usuario.id+`">Editar</a>
                 </td>
             </tr>
         `).join('');

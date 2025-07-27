@@ -89,12 +89,12 @@
  <script src="<?php echo BASE_URL; ?>view/function/user.js"></script>
 
 <script>
-    
 document.addEventListener('DOMContentLoaded', () => {
-    let partes = window.location.pathname.split('/');
-    let id = partes[partes.length - 1];
+    // Obtener el parámetro id de la URL
+    const params = new URLSearchParams(window.location.search);
+    const id = params.get('id');
 
-    if (!isNaN(id)) {
+    if (id && !isNaN(id)) {
         obtenerUsuarioPorId(id); // Cargar los datos si estamos editando
     }
 });

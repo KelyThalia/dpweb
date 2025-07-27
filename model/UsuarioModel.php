@@ -12,7 +12,7 @@ class UsuarioModel
   public function registrar($nro_identidad, $razon_social, $telefono, $correo, $departamento, $distrito, $provincia, $cod_postal,  $direccion,
     $rol, $password
   ) {
-    $consulta = "INSERT INTO  Persona (nro_identidad, razon_social, telefono, correo, departamento, 
+    $consulta = "INSERT INTO  persona (nro_identidad, razon_social, telefono, correo, departamento, 
       distrito, provincia, cod_postal, direccion, rol, password) VALUES ('$nro_identidad', '$razon_social', '$telefono', '$correo', '$departamento', 
       '$distrito', '$provincia', '$cod_postal', '$direccion', '$rol', '$password')";
     $sql = $this->conexion->query($consulta);
@@ -61,10 +61,10 @@ class UsuarioModel
     $resultado = $stmt->get_result();
     return $resultado->fetch_assoc();
   }
+  
   public function actualizarPersona($data)
-  {
+{
     $stmt = $this->conexion->prepare("UPDATE persona SET nro_identidad = ?, razon_social = ?, telefono = ?, correo = ?, departamento = ?, provincia = ?, distrito = ?, cod_postal = ?, direccion = ?, rol = ? WHERE id = ?");
-
     $stmt->bind_param(
       "ssssssssssi",
       $data['nro_identidad'],
@@ -79,9 +79,8 @@ class UsuarioModel
       $data['rol'],
       $data['id_persona']
     );
-
-    return $stmt->execute(); // Devuelve true si se actualizó correctamente, false si no
-  }
+    return $stmt->execute();
+}
 
 }
 
