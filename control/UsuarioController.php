@@ -70,6 +70,37 @@ if($tipo == "ver_usuarios") {
     $usuarios = $objPersona->verUsuario();
     echo json_encode($usuarios);
 }
+if ($_GET['tipo'] == 'obtener_usuario') {
+    header('Content-Type: application/json');
+
+    $id = $_GET['id'];
+
+    require_once '../model/UsuarioModel.php';
+
+    $modelo = new UsuarioModel();
+    $usuario = $modelo->obtenerUsuarioPorId($id);
+
+    echo json_encode($usuario);
+    exit;
+}
+
+//
+if ($tipo == "actualizar_usuario") {
+    $data = $_POST;
+    $modelo = new UsuarioModel();
+    
+    $nro = $data['nro_identidad'];
+    $id_actual = $data['id_persona'];
+
+    $verificar = $modelo->buscarPorDocumento($nro);
+    
+    if ($verificar && $verificar['id'] != $id_actual) {
+        echo json_encode(['status' => false, 'msg' => 'Este número de documento ya está registrado con otro usuario.']);
+    } else {
+        $actualizado = $modelo->actualizarPersona($data);
+        echo json_encode(['status' => $actualizado, 'msg' => $actualizado ? 'Usuario actualizado correctamente' : 'Error al actualizar']);
+    }
+}
 
 
 

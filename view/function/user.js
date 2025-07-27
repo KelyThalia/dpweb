@@ -1,6 +1,6 @@
 /*Cada línea busca un campo del formulario HTML por su ID 
 (como nro_identidad, correo, etc.) y guarda su valor en una variable.*/
-//include("../config/config.php");
+
 function validar_form() {
     let nro_documento = document.getElementById("nro_identidad").value; /*nro_documento guarda el valor del campo número de documento. */
     let razon_social = document.getElementById("razon_social").value;
@@ -15,7 +15,12 @@ function validar_form() {
     /*VALIDACON DE CAMPOS VACIOS */
     if (nro_documento == "" || razon_social == "" || telefono == "" || correo == "" || departamento == ""
         || provincia == "" || distrito == "" || cod_postal == "" || direccion == "" || rol == "") {
-        alert("Error: Existen campos vacios");
+
+        Swal.fire({
+            title: "ERROR?",
+            text: "¡Ups! Hay campos vacíos.",
+            icon: "question"
+        });
         return;
     }/*Aquí se verifica si alguno de los campos está vacío. */
     registarUsuario();
@@ -62,7 +67,7 @@ async function registarUsuario() {
         }
 
     } catch (e) {
-        console.log("Error al registrar usuario" + e);
+        console.log("Error al registrar usuario:" + e);
 
     }
     /*“Esta función registrarUsuario se encarga de enviar los datos del formulario al servidor
@@ -70,12 +75,38 @@ async function registarUsuario() {
      envía mediante una solicitud POST a un archivo PHP. Espera la respuesta y muestra un mensaje
     de éxito o error dependiendo del resultado. Si ocurre un problema técnico, lo muestra en la consola del navegador.” */
 }
+async function actualizarUsuario() {
+    try {
+        const datos = new FormData(frm_user);
+        console.log([...datos]);
+        let respuesta = await fetch(base_url + 'control/UsuarioController.php?tipo=actualizar_usuario', {
+            method: 'POST',
+            mode: 'cors',
+            cache: 'no-cache',
+            body: datos
+        });
+
+        let json = await respuesta.json();
+        if (json.status) {
+            alert(json.msg);
+              location.href = base_url + 'view/users.php';  // Redirige si deseas
+        } else {
+            alert(json.msg);
+        }
+    } catch (e) {
+        console.log("Error al actualizar usuario:", e);
+    }
+}
 async function iniciar_secion() {
     let usuario = document.getElementById("username").value;
     let password = document.getElementById("password").value;
 
     if (usuario == "" || password == "") {
-        alert("Error, campos vacios!")
+        Swal.fire({
+            icon: "error",
+            title: "Error, campos vacios!"
+
+        });
         return;
 
     }
@@ -101,6 +132,25 @@ async function iniciar_secion() {
         console.log(error);
     }
 
+}
+async function obtenerUsuarioPorId(id) {
+    try {
+        let respuesta = await fetch(base_url + 'control/UsuarioController.php?tipo=obtener_usuario&id=' + id);
+        let usuario = await respuesta.json();
+        document.getElementById('id_persona').value = usuario.id || '';
+        document.getElementById('nro_identidad').value = usuario.nro_identidad || '';
+        document.getElementById('razon_social').value = usuario.razon_social || '';
+        document.getElementById('telefono').value = usuario.telefono || '';
+        document.getElementById('correo').value = usuario.correo || '';
+        document.getElementById('departamento').value = usuario.departamento || '';
+        document.getElementById('provincia').value = usuario.provincia || '';
+        document.getElementById('distrito').value = usuario.distrito || '';
+        document.getElementById('cod_postal').value = usuario.cod_postal || '';
+        document.getElementById('direccion').value = usuario.direccion || '';
+        document.getElementById('rol').value = usuario.rol || '';
+    } catch (e) {
+        console.error("Error al obtener usuario por ID", e); //  AHORA ESTÁ BIEN
+    }
 }
 
 async function view_users() {
@@ -146,4 +196,9 @@ async function view_users() {
 if (document.getElementById('content_users')) {
     view_users();
     
+}
+if (document.getElementById('btn_guardar_cambios')) {
+    document.getElementById('btn_guardar_cambios').addEventListener('click', function () {
+        actualizarUsuario(); // Llama a la función que hará el update
+    });
 }
