@@ -145,4 +145,5 @@ async function view_users() {
 /* capturar en valor con js y enviar al controlador mostrar en un formulario para poder actualizar*/
 if (document.getElementById('content_users')) {
     view_users();
+    
 }

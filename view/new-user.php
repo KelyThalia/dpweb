@@ -93,3 +93,4 @@
     </div>
      <!-- FIN DE CUERPO DE PÁGINA-->
       <script src="<?php echo BASE_URL ?>view/function/user.js"></script>
+      
