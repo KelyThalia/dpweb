@@ -35,7 +35,7 @@ class UsuarioModel
     $sql = $this->conexion->query($consulta);
     return $sql->fetch_object();
   }
-  public function verUsuario() {
+  public function verUsuarios() {
     $arr_usuario = array();
     $consulta = "SELECT * FROM persona";
     $sql = $this->conexion->query($consulta);
@@ -67,7 +67,7 @@ class UsuarioModel
 {
     $stmt = $this->conexion->prepare("UPDATE persona SET nro_identidad = ?, razon_social = ?, telefono = ?, correo = ?, departamento = ?, provincia = ?, distrito = ?, cod_postal = ?, direccion = ?, rol = ? WHERE id = ?");
     $stmt->bind_param(
-      "ssssssssss",
+      "ssssssssssi",
       $data['nro_identidad'],
       $data['razon_social'],
       $data['telefono'],
