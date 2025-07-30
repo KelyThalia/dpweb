@@ -38,17 +38,18 @@
                                 </div>
                             </div>
                             <div class="mb-3 row">
-                                <label for="distrito" class="col-sm-4 col-form-label"><b>Distrito:</b></label>
-                                <div class="col-sm-8">
-                                    <input type="tex" class="form-control" id="distrito" name="distrito" required>
-                                </div>
-                            </div>
-                            <div class="mb-3 row">
                                 <label for="provincia" class="col-sm-4 col-form-label"><b>provincia</b></label>
                                 <div class="col-sm-8">
                                     <input type="tex" class="form-control" id="provincia" name="provincia" required>
                                 </div>
                             </div>
+                            <div class="mb-3 row">
+                                <label for="distrito" class="col-sm-4 col-form-label"><b>Distrito:</b></label>
+                                <div class="col-sm-8">
+                                    <input type="tex" class="form-control" id="distrito" name="distrito" required>
+                                </div>
+                            </div>
+                            
                             <div class="mb-3 row">
                                 <label for="cod_postal" class="col-sm-4 col-form-label"><b>Codigo Postal:</b></label>
                                 <div class="col-sm-8">

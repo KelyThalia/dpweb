@@ -44,6 +44,7 @@ class UsuarioModel
       }
     return $arr_usuario;
   }
+  
    public function obtenerUsuarioPorId($id)
   {
     $stmt = $this->conexion->prepare("SELECT * FROM persona WHERE id = ?");

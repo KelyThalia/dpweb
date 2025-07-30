@@ -1,5 +1,5 @@
-<!-- INICIO DE CUERPO DE PAGINA -->
-    <div class="container-fluid">
+
+ <div class="container-fluid">
         <div class="card">
             <h5 class="card-header">Registro de Usuario</h5>
             <form id="frm_user" action="" method="">
@@ -75,7 +75,7 @@
                     </div>
                     <button type="submit" class="btn btn-success">Registrar</button>
                     <button type="reset" class="btn btn-info">Limpiar</button>
-                   <button type="button" class="btn btn-danger">Cancelar</button>
+                    <button type="button" class="btn btn-danger">Cancelar</button>
                     <button type="button" class="btn btn-danger" id="btn_guardar_cambios">Guardar Cambios</button>
                     
                 </div>
@@ -83,14 +83,13 @@
         </div>
     </div>
     </div>
-<!-- FIN DE CUERPO DE PAGINA -->
-
+<!--FIN DE CUERPO DE PAGINA -->
 
  <script src="<?php echo BASE_URL; ?>view/function/user.js"></script>
+ <script src="<?php echo BASE_URL; ?>view/bootstrap/js/bootstrap.bundle.min.js"></script>
 
 <script>
 document.addEventListener('DOMContentLoaded', () => {
-    // Obtener el parámetro id de la URL
     const params = new URLSearchParams(window.location.search);
     const id = params.get('id');
 
@@ -99,3 +98,5 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 </script>
+
+

@@ -1,5 +1,7 @@
+
+
 <div class="container">
-   <h3 class="mt-3 mb-3">Lista de Usuarios</h3>
+   <h4 class="mt-3 mb-3">Lista de Usuarios</h4>
     <table class="table table-success table-striped-columns">
         <thead>
             <tr>
@@ -17,4 +19,4 @@
         </tbody>
     </table>
 </div>
-<script src="<?= BASE_URL?>view/function/user.js"></script>
+<script src="<?= BASE_URL?>view/function/user.js"></script>-
