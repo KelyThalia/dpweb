@@ -3,7 +3,7 @@
   {
      protected static function get_view($views)
         {
-        $white_list = ["Home", "Pruducts", "new-user", "users", "new-categoria"];
+        $white_list = ["Home", "Pruducts", "new-user", "users", "new-categoria", "edit-user"];
         if (in_array($views, $white_list)) {
             if (is_file("./view/" . $views . ".php")) {
                 $content = "./view/" . $views . ".php";

@@ -73,26 +73,17 @@ if ($tipo == "ver_usuarios") {
     exit;
 }
 
-if ($tipo == "obtener_usuario") {
-    header('Content-Type: application/json');
-    $id = $_GET['id'] ?? '';
-    $usuario = $objPersona->obtenerUsuarioPorId($id);
-    echo json_encode($usuario);
-    exit;
-}
 
-if ($tipo == "actualizar_usuario") {
-    $data = $_POST;
-    $nro = $data['nro_identidad'] ?? '';
-    $id_actual = $data['id_persona'] ?? '';
-
-    $verificar = $objPersona->buscarPorDocumento($nro);
-
-    if ($verificar && $verificar['id'] != $id_actual) {
-        echo json_encode(['status' => false, 'msg' => 'Este número de documento ya está registrado con otro usuario.']);
-    } else {
-        $actualizado = $objPersona->actualizarPersona($data);
-        echo json_encode(['status' => $actualizado, 'msg' => $actualizado ? 'Usuario actualizado correctamente' : 'Error al actualizar']);
+if ($tipo == "ver"){
+     //print_r($_POST);
+    $respuesta = array('status'=>false, 'msg'=>'error');
+    $id_persona = $_POST['id_persona']; 
+     $usuario =$objPersona->ver($id_persona);
+    if ($usuario) {
+        $respuesta['status'] = true;
+        $respuesta['data'] = $usuario;
+    }else{
+        $respuesta['msg'] = ' Error, usuario no existe';
     }
-    exit;
+     echo json_encode($respuesta);
 }

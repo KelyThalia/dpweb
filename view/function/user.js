@@ -177,7 +177,7 @@ async function view_users() {
                 <td>${usuario.rol || 'Desconocido'}</td>
                 <td>${usuario.estado || 'Activo'}</td>
                 <td>
-                 <a href="`+ base_url+`view/update.php?id=`+usuario.id+`">Editar</a>
+                 <a href="`+ base_url+`edit-user/`+usuario.id+`">Editar</a>
                 </td>
             </tr>
         `).join('');
@@ -198,8 +198,39 @@ if (document.getElementById('content_users')) {
     view_users();
     
 }
-if (document.getElementById('btn_guardar_cambios')) {
-    document.getElementById('btn_guardar_cambios').addEventListener('click', function () {
-        actualizarUsuario(); // Llama a la función que hará el update
-    });
+
+async function edit_user() {
+    try {
+        let id_persona = document.getElementById('id_persona').value;
+        const datos = new FormData();
+        //para agregar como un hijos.
+        datos.append('id_persona', id_persona);
+
+        let respuesta = await fetch(base_url + 'control/UsuarioController.php?tipo=ver', {
+            method: 'POST',
+            mode: 'cors',
+            cache: 'no-cache',
+            body: datos
+        });
+
+        json = await respuesta.json();
+
+        if (!json.status) {
+            alert(jsn.msg);
+            return; 
+        }
+        document.getElementById('nro_identidad').value = json.data.nro_identidad;
+        document.getElementById('razon_social').value = json.data.razon_social;
+        document.getElementById('telefono').value = json.data.telefono;
+        document.getElementById('correo').value = json.data.correo;
+        document.getElementById('departamento').value = json.data.departamento;
+        document.getElementById('provincia').value = json.data.provincia;
+        document.getElementById('distrito').value = json.data.distrito;
+        document.getElementById('cod_postal').value = json.data.cod_postal;
+        document.getElementById('direccion').value = json.data.direccion;
+        document.getElementById('rol').value = json.data.rol;
+
+    } catch (error) {
+       console.log('oops, ocurrió un error'+error);
+    }
 }
