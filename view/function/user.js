@@ -1,7 +1,7 @@
 /*Cada línea busca un campo del formulario HTML por su ID 
 (como nro_identidad, correo, etc.) y guarda su valor en una variable.*/
 
-function validar_form() {
+function validar_form(tipo) {
     let nro_documento = document.getElementById("nro_identidad").value; /*nro_documento guarda el valor del campo número de documento. */
     let razon_social = document.getElementById("razon_social").value;
     let telefono = document.getElementById("telefono").value;
@@ -22,8 +22,15 @@ function validar_form() {
             icon: "question"
         });
         return;
-    }/*Aquí se verifica si alguno de los campos está vacío. */
-    registarUsuario();
+    }
+    if (tipo=="nuevo") {
+        registarUsuario();   
+    }
+      if (tipo=="actualizar") {
+        actualizarUsuarioUsuario();   
+    }
+    /*Aquí se verifica si alguno de los campos está vacío. */
+ 
 } /* El operador || significa "o",
    así que si cualquiera de los campos es una--
     cadena vacía (""), entra al bloque if. */
@@ -40,7 +47,7 @@ if (document.querySelector('#frm_user')) { /* verifica si existe un formulario c
     let frm_user = document.querySelector('#frm_user'); /* Aquí se guarda una referencia al formulario en la variable frm_user */
     frm_user.onsubmit = function (e) { /*Se define qué pasará cuando el formulario se intente enviar (evento submit). */
         e.preventDefault(); /*Esto detiene el comportamiento predeterminado del formulario, que sería enviarlo directamente al servidor y recargar la página.En lugar de eso, queremos validar los datos primero. */
-        validar_form(); /* Aquí se llama a la función validar_form() que hemos definido antes. Esta función valida los campos del formulario y, si todo está bien, llama a registarUsuario() para enviar los datos al servidor. */
+        validar_form("nuevo"); /* Aquí se llama a la función validar_form() que hemos definido antes. Esta función valida los campos del formulario y, si todo está bien, llama a registarUsuario() para enviar los datos al servidor. */
     }
 }
 
@@ -156,10 +163,8 @@ async function view_users() {
                 <td>${usuario.rol || 'Desconocido'}</td>
                 <td>${usuario.estado || 'Activo'}</td>
                 <td>
-
                  <a href="`+ base_url+`edit-user/`+usuario.id+`">Editar</a>
-
-                 <a href="` + base_url + `view/update.php?id=` + usuario.id + `" class="btn btn-sm btn-primary">Editar</a>
+                 <a href="` + base_url + `view/edit-user/` + usuario.id + `" class="btn btn-sm btn-primary">Editar</a>
 
                 </td>
             </tr>
@@ -228,6 +233,11 @@ if (document.querySelector('#frm_edit-user')) {
     let frm_user = document.querySelector('#frm_edit-user'); 
     frm_user.onsubmit = function (e) { 
         e.preventDefault(); 
-        validar_form(); 
+        validar_form("actualizar"); 
     }
+}
+
+async function actualizarUsuario() {
+    alert('actualizar');
+    
 }
