@@ -75,29 +75,8 @@ async function registarUsuario() {
      envía mediante una solicitud POST a un archivo PHP. Espera la respuesta y muestra un mensaje
     de éxito o error dependiendo del resultado. Si ocurre un problema técnico, lo muestra en la consola del navegador.” */
 }
-async function actualizarUsuario() {
-    try {
-        const datos = new FormData(frm_user);
-        console.log([...datos]);
-        let respuesta = await fetch(base_url + 'control/UsuarioController.php?tipo=actualizar_usuario', {
-            method: 'POST',
-            mode: 'cors',
-            cache: 'no-cache',
-            body: datos
-        });
 
-        let json = await respuesta.json();
-        if (json.status) {
-            alert(json.msg);
-              location.href = base_url + 'view/users.php';  // Redirige si deseas
-        } else {
-            alert(json.msg);
-        }
-    } catch (e) {
-        console.log("Error al actualizar usuario:", e);
-    }
-}
-async function iniciar_secion() {
+async function iniciar_sesion() {
     let usuario = document.getElementById("username").value;
     let password = document.getElementById("password").value;
 
@@ -177,7 +156,11 @@ async function view_users() {
                 <td>${usuario.rol || 'Desconocido'}</td>
                 <td>${usuario.estado || 'Activo'}</td>
                 <td>
+
                  <a href="`+ base_url+`edit-user/`+usuario.id+`">Editar</a>
+
+                 <a href="` + base_url + `view/update.php?id=` + usuario.id + `" class="btn btn-sm btn-primary">Editar</a>
+
                 </td>
             </tr>
         `).join('');
@@ -198,6 +181,7 @@ if (document.getElementById('content_users')) {
     view_users();
     
 }
+
 
 async function edit_user() {
     try {
@@ -232,5 +216,18 @@ async function edit_user() {
 
     } catch (error) {
        console.log('oops, ocurrió un error'+error);
+    }
+}
+
+if (document.getElementById('btn_guardar_cambios')) {
+    document.getElementById('btn_guardar_cambios').addEventListener('click', function () {
+        actualizarUsuario(); // Llama a la función que hará el update
+    });
+}
+if (document.querySelector('#frm_edit-user')) { 
+    let frm_user = document.querySelector('#frm_edit-user'); 
+    frm_user.onsubmit = function (e) { 
+        e.preventDefault(); 
+        validar_form(); 
     }
 }

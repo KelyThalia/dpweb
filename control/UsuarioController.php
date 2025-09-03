@@ -68,7 +68,7 @@ if ($tipo == "iniciar_sesion") {
 
 if ($tipo == "ver_usuarios") {
     header('Content-Type: application/json');
-    $usuarios = $objPersona->verUsuario();
+    $usuarios = $objPersona->verUsuarios();
     echo json_encode($usuarios);
     exit;
 }

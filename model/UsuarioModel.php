@@ -33,7 +33,7 @@ class UsuarioModel
     $sql = $this->conexion->query($consulta);
     return $sql->fetch_object();
   }
-  public function verUsuario() {
+  public function verUsuarios() {
     $arr_usuario = array();
     $consulta = "SELECT * FROM persona";
     $sql = $this->conexion->query($consulta);
@@ -43,19 +43,47 @@ class UsuarioModel
     return $arr_usuario;
   }
 
-  public function ver($id){
+
+  
+   public function obtenerUsuarioPorId($id)
+  {
+    $stmt = $this->conexion->prepare("SELECT * FROM persona WHERE id = ?");
+    $stmt->bind_param("i", $id);
+    $stmt->execute();
+
+
+   public function ver($id){
      $consulta = " SELECT * FROM persona WHERE id='$id'";
       $sql = $this->conexion->query($consulta);
       return $sql->fetch_object();
    
+    }
+  
+
+  
+  
+  
+
+  public function actualizarPersona($data){
+    $stmt = $this->conexion->prepare("UPDATE persona SET nro_identidad = ?, razon_social = ?, telefono = ?, correo = ?, departamento = ?, provincia = ?, distrito = ?, cod_postal = ?, direccion = ?, rol = ? WHERE id = ?");
+    $stmt->bind_param(
+      "ssssssssssi",
+      $data['nro_identidad'],
+      $data['razon_social'],
+      $data['telefono'],
+      $data['correo'],
+      $data['departamento'],
+      $data['provincia'],
+      $data['distrito'],
+      $data['cod_postal'],
+      $data['direccion'],
+      $data['rol'],
+      $data['id_persona']
+    );
+    return $stmt->execute();
+
   }
-  
-  
-  
-  
+
+
+
 }
-
-
-
-  
-

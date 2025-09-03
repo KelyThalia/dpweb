@@ -75,7 +75,7 @@
                         </div class="mb-3 row">
                         <label for="rol" class="col-sm-4 col-form-label"><b>Rol:</b></label>
                         <div class="col-sm-8">
-                            <select class="form_control" name="rol" id="rol">
+                            <select class="form_control" name="rol" id="rol" required>
 
                                 <option value="" disabled selected>seleccione</option>
                                 <option value="administrador">administrador</option>
