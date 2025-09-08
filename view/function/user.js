@@ -238,6 +238,45 @@ if (document.querySelector('#frm_edit-user')) {
 }
 
 async function actualizarUsuario() {
-    alert('actualizar');
+   const datos = new FormData(frm_edit_user);
+   let respuesta = await fetch(base_url + 'control/UsuarioController.php?tipo=actualizar', {
+            method: 'POST',
+            mode: 'cors',
+            cache: 'no-cache',
+            body: datos
+        });
+        json = await respuesta.json();
+        if (!json.status) {
+            alert("Ooops. ocurrio un error al actualizar, intentelo nuevamente");
+            console.log(json.msg);
+            return;
+            
+        }else{
+            alert(json.msg);
+        }
+
     
+}
+async function fn_eliminar(id) { 
+    let datos
+}
+
+async function Eliminar(id) {
+  let datos = new FormData();
+  datos.append('id_persona'.id);
+   let respuesta = await fetch(base_url + 'control/UsuarioController.php?tipo=eliminar', {
+            method: 'POST',
+            mode: 'cors',
+            cache: 'no-cache',
+            body: datos
+        });
+        json = await respuesta.json();
+        if (!json.status) {
+            alert("Ooops. ocurrio un error al eliminar, intentelo nuevamente");
+            console.log(json.msg);
+            return;
+            
+        }else{
+            alert(json.msg);
+        }  
 }
