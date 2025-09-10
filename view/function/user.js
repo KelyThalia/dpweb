@@ -165,6 +165,7 @@ async function view_users() {
                 <td>
                  <a href="`+ base_url+`edit-user/`+usuario.id+`">Editar</a>
                  <a href="` + base_url + `view/edit-user/` + usuario.id + `" class="btn btn-sm btn-primary">Editar</a>
+                 <button type="button" class="btn btn-danger" onclick="eliminarUsuario(' + user.id+')">eliminar</button>
 
                 </td>
             </tr>
