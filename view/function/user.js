@@ -23,12 +23,12 @@ function validar_form(tipo) {
         });
         return;
     }
-    if (tipo=="nuevo") {
-        registarUsuario();   
-    }
-      if (tipo=="actualizar") {
-        actualizarUsuarioUsuario();   
-    }
+        if (tipo=="nuevo") {
+            registarUsuario();   
+        }
+        if (tipo=="actualizar") {
+            actualizarUsuario();   
+        }
     /*Aquí se verifica si alguno de los campos está vacío. */
  
 } /* El operador || significa "o",
@@ -44,10 +44,10 @@ Esta validación garantiza que todos los campos estén llenos antes de registrar
 
 
 if (document.querySelector('#frm_user')) { /* verifica si existe un formulario con el ID frm_user en el documento HTML.document.querySelector('#frm_user') busca el formulario.Si existe, entra al bloque if. */
-    let frm_user = document.querySelector('#frm_user'); /* Aquí se guarda una referencia al formulario en la variable frm_user */
-    frm_user.onsubmit = function (e) { /*Se define qué pasará cuando el formulario se intente enviar (evento submit). */
-        e.preventDefault(); /*Esto detiene el comportamiento predeterminado del formulario, que sería enviarlo directamente al servidor y recargar la página.En lugar de eso, queremos validar los datos primero. */
-        validar_form("nuevo"); /* Aquí se llama a la función validar_form() que hemos definido antes. Esta función valida los campos del formulario y, si todo está bien, llama a registarUsuario() para enviar los datos al servidor. */
+    window.frm_user = document.querySelector('#frm_user');
+    frm_user.onsubmit = function (e) {
+        e.preventDefault();
+        validar_form("nuevo");
     }
 }
 
@@ -55,7 +55,7 @@ async function registarUsuario() {
     try {
         // capturar campos de formulario(html)
 
-        const datos = new FormData(frm_user);
+    const datos = new FormData(window.frm_user);
         // enviar datos al controlador 
         let respuesta = await fetch(base_url + 'control/UsuarioController.php?tipo=registrar', {
             method: 'POST',
@@ -171,8 +171,15 @@ async function view_users() {
                 <td>${usuario.rol || 'Desconocido'}</td>
                 <td>${usuario.estado || 'Activo'}</td>
                 <td>
+<<<<<<< HEAD
                     <a href="${base_url}edit-user/${usuario.id}" class="btn btn-sm btn-primary">Editar</a>
                     <button type="button" class="btn btn-danger" onclick="Eliminar(${usuario.id})">Eliminar</button>
+=======
+                 <a href="`+ base_url+`edit-user/`+usuario.id+`">Editar</a>
+                 <a href="` + base_url + `view/edit-user/` + usuario.id + `" class="btn btn-sm btn-primary">Editar</a>
+                 <button type="button" class="btn btn-danger" onclick="eliminarUsuario(' + user.id+')">eliminar</button>
+
+>>>>>>> eeca8a832dda93259fd31cac89f9a82099f35a26
                 </td>
             </tr>
         `).join('');
@@ -237,15 +244,15 @@ if (document.getElementById('btn_guardar_cambios')) {
     });
 }
 if (document.querySelector('#frm_edit-user')) { 
-    let frm_user = document.querySelector('#frm_edit-user'); 
-    frm_user.onsubmit = function (e) { 
-        e.preventDefault(); 
-        validar_form("actualizar"); 
+    window.frm_edit_user = document.querySelector('#frm_edit-user');
+    frm_edit_user.onsubmit = function (e) {
+        e.preventDefault();
+        validar_form("actualizar");
     }
 }
 
 async function actualizarUsuario() {
-   const datos = new FormData(frm_edit_user);
+    const datos = new FormData(window.frm_edit_user);
    let respuesta = await fetch(base_url + 'control/UsuarioController.php?tipo=actualizar', {
             method: 'POST',
             mode: 'cors',
@@ -261,29 +268,21 @@ async function actualizarUsuario() {
         }else{
             alert(json.msg);
         }
-
-    
-}
-async function fn_eliminar(id) { 
-    let datos
-}
-
-async function Eliminar(id) {
-  let datos = new FormData();
-  datos.append('id_persona', id);
-   let respuesta = await fetch(base_url + 'control/UsuarioController.php?tipo=eliminar', {
-            method: 'POST',
-            mode: 'cors',
-            cache: 'no-cache',
-            body: datos
-        });
-        json = await respuesta.json();
-        if (!json.status) {
-            Swal.fire({
-                icon: "error",
-                title: "Error",
-                text: "Ooops. ocurrió un error al eliminar, inténtelo nuevamente"
-            });
+                    let filasHTML = usuarios.map((usuario, index) => `
+                        <tr class="text-center">
+                            <td>${index + 1}</td>
+                            <td>${usuario.nro_identidad}</td>
+                            <td>${usuario.razon_social}</td>
+                            <td>${usuario.correo}</td>
+                            <td>${usuario.rol || 'Desconocido'}</td>
+                            <td>${usuario.estado || 'Activo'}</td>
+                            <td>
+                                <a href="${base_url}edit-user/${usuario.id}" class="btn btn-sm btn-primary">Editar</a>
+                                <button type="button" class="btn btn-danger" onclick="Eliminar(${usuario.id})">Eliminar</button>
+                            </td>
+                        </tr>
+                    `).join('');
+                    tbody.innerHTML = filasHTML;
             console.log(json.msg);
             return;
             
