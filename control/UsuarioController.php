@@ -20,7 +20,7 @@ if ($tipo == "registrar") {
      $password = password_hash($nro_identidad, PASSWORD_DEFAULT);
 
      if (
-          $nro_identidad == "" || $razon_social == "" ||  $telefono == "" || $correo  == "" || $departamento == "" || $provincia = "" ||
+          $nro_identidad == "" || $razon_social == "" ||  $telefono == "" || $correo  == "" || $departamento == "" || $provincia == "" ||
           $distrito == "" || $cod_postal == "" || $direccion == "" ||  $rol == ""
      ) {
           $arrResponse = array('status' => false, 'msg' => 'Error,campos vacios');
@@ -61,14 +61,14 @@ if ($tipo == "iniciar_sesion") {
                     $_SESSION['ventas_usuario']=$persona->razon_social;
                     $respuesta = array('status' => true, 'msg' => 'ok');
                }else{
-                      $respuesta = array('status' => false, 'msg' => 'Error, contaseña encorrecta');
+                      $arrResponse = array('status' => false, 'msg' => 'Error, contraseña incorrecta');
 
                }
           }
      }
      echo json_encode($respuesta);
 }
-if ($tipo == "ver_usuario") {
+if ($tipo == "ver_usuarios") {
      $usuario = $objPersona->verUsuario();
      header('Content-Type: application/json');
      echo json_encode($usuario);
@@ -99,7 +99,7 @@ if ($tipo=="actualizar") {
     $cod_postal = $_POST['cod_postal'];
     $direccion = $_POST['direccion'];
     $rol = $_POST['rol'];
-    if ( $id_persona ==""|| $nro_identidad == "" || $razon_social == "" ||  $telefono == "" || $correo  == "" || $departamento == "" || $provincia = "" ||
+    if ( $id_persona == "" || $nro_identidad == "" || $razon_social == "" ||  $telefono == "" || $correo  == "" || $departamento == "" || $provincia == "" ||
           $distrito == "" || $cod_postal == "" || $direccion == "" ||  $rol == "") {
         $arrResponse = array('status' => false, 'msg' => 'Error,campos vacios');
     }else {
@@ -132,13 +132,13 @@ if ($tipo=="actualizar") {
 if ($tipo =="eliminar") {
      //print_r($_POST);
      $id_persona = $_POST['id_persona'];
-     $usuario = $objPersona-> eliminar($id_persona);
+     $usuario = $objPersona->eliminar($id_persona);
      if ($usuario) {
-          $respuesta = array('status' => true, 'msg' => 'Eliminado');
+          $arrResponse = array('status' => true, 'msg' => 'Eliminado');
      }else {
-         $respuesta = array('status' => false, 'msg' => $eliminar); 
+         $arrResponse = array('status' => false, 'msg' => 'Error al eliminar');
      }
-     echo json_encode($respuesta);
+     echo json_encode($arrResponse);
      
 
 

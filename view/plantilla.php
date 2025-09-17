@@ -10,7 +10,7 @@ if ($mostrar == "login" || $mostrar == "404") {
 } else {
     include "./view/include/header.php"; //cargamos el header
     include $mostrar;
-    include "./view/include/fooder.php"; //cargamos el fooder
+    include "./view/include/footer.php"; //cargamos el footer
 }
 /*“Este archivo es como el corazón del sistema. Se encarga de decidir qué vista mostrar al usuario. 
 Primero incluye la configuración y los controladores necesarios. Luego obtiene el nombre de la vista usando 

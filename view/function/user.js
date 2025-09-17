@@ -66,11 +66,19 @@ async function registarUsuario() {
         // ----
         let json = await respuesta.json();
         if (json.status) {
-            //validamos que json.status sea igual tru , si es false ya 
-            alert(json.msg);//sea registrado registrado
+            //validamos que json.status sea igual tru , si es false ya
+            Swal.fire({
+                title: "Éxito",
+                text: json.msg,
+                icon: "success"
+            });
             document.getElementById('frm_user').reset();
         } else {
-            alert(json.msg);
+            Swal.fire({
+                title: "Error",
+                text: json.msg,
+                icon: "error"
+            });
         }
 
     } catch (e) {
@@ -163,9 +171,8 @@ async function view_users() {
                 <td>${usuario.rol || 'Desconocido'}</td>
                 <td>${usuario.estado || 'Activo'}</td>
                 <td>
-                 <a href="`+ base_url+`edit-user/`+usuario.id+`">Editar</a>
-                 <a href="` + base_url + `view/edit-user/` + usuario.id + `" class="btn btn-sm btn-primary">Editar</a>
-
+                    <a href="${base_url}edit-user/${usuario.id}" class="btn btn-sm btn-primary">Editar</a>
+                    <button type="button" class="btn btn-danger" onclick="Eliminar(${usuario.id})">Eliminar</button>
                 </td>
             </tr>
         `).join('');
@@ -263,7 +270,7 @@ async function fn_eliminar(id) {
 
 async function Eliminar(id) {
   let datos = new FormData();
-  datos.append('id_persona'.id);
+  datos.append('id_persona', id);
    let respuesta = await fetch(base_url + 'control/UsuarioController.php?tipo=eliminar', {
             method: 'POST',
             mode: 'cors',
@@ -272,11 +279,20 @@ async function Eliminar(id) {
         });
         json = await respuesta.json();
         if (!json.status) {
-            alert("Ooops. ocurrio un error al eliminar, intentelo nuevamente");
+            Swal.fire({
+                icon: "error",
+                title: "Error",
+                text: "Ooops. ocurrió un error al eliminar, inténtelo nuevamente"
+            });
             console.log(json.msg);
             return;
             
         }else{
-            alert(json.msg);
+            Swal.fire({
+                icon: "success",
+                title: "Éxito",
+                text: json.msg
+            });
+            view_users();
         }  
 }

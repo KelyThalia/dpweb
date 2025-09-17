@@ -22,10 +22,10 @@ if ($tipo == "registrar") {
        }else{
         $respuesta = $objCategoria->registrar($nombre, $detalle);
         if ($respuesta) {
-            $arrResponse = array('status' => true, 'msg' => 'registrado correctamente');
-        }else{
-            $arrResponse = array('status' => false, 'msg' => 'Error, procedemos a registrar');
-        } 
+            $arrResponse = array('status' => true, 'msg' => 'Registrado correctamente');
+        } else {
+            $arrResponse = array('status' => false, 'msg' => 'Error al registrar');
+        }
         }
     }
     echo json_encode($arrResponse);

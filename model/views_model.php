@@ -3,7 +3,7 @@
   {
      protected static function get_view($views)
         {
-        $white_list = ["Home", "Pruducts", "new-user", "users", "new-categoria", "edit-user"];
+        $white_list = ["Home", "Products", "new-user", "users", "edit-user","new-categoria","categoria-lista","categoria-edit","new-producto","producto-listar","producto-edit"];
         if (in_array($views, $white_list)) {
             if (is_file("./view/" . $views . ".php")) {
                 $content = "./view/" . $views . ".php";
@@ -21,6 +21,7 @@
        }
   }
 ?>
+
 <!--“Este código pertenece a un sistema de plantillas en un proyecto MVC.
  El método get_view determina qué vista debe mostrarse según el nombre recibido. 
  Solo se permiten vistas específicas que están en una lista blanca como 'Home' o 'new-user'.

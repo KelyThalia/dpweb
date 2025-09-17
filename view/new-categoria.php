@@ -14,57 +14,7 @@
 
 <body>
 
-    <nav class="navbar navbar-expand-lg bg-body-tertiary">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="#">logo</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                    <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="#">Home</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">users</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">productos</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">categories</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">clients</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">schops</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">sales</a>
-                    </li>
-                </ul>
-                <form class="d-flex" role="search">
-                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                Dropdown
-                            </a>
-                            <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="#">perfil</a></li>
-                                <li><a class="dropdown-item" href="#">logout</a></li>
-                                <li>
-                                    <hr class="dropdown-divider">
-                                </li>
-                                <li><a class="dropdown-item" href="#">conted</a></li>
-
-                            </ul>
-                        </li>
-                    </ul>
-                </form>
-            </div>
-        </div>
-    </nav>
+   
  <!-- FIN DE CUERPO DE PÁGINA-->
     <div class="container_fluid">
         <div class="card">
@@ -86,7 +36,8 @@
                     <div>
                         <button type="submit" class="btn btn-success">registrar</button>
                         <button type="reset" class="btn btn-primary">limpiar</button>
-                        <button type="button" class="btn btn-danger">cancelar</button>
+                        <a href="index.php?page=categoria" class="btn btn-danger">cancelar</a>
+                          <a href="<?php echo BASE_URL; ?>producto-listar" class="btn btn-secondary">ver</a>
                     </div>
 
 
