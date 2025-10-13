@@ -24,38 +24,28 @@ function validar_form(tipo) {
         return;
     }
     if (tipo=="nuevo") {
-        registarUsuario();   
+        registarProveedor();   
     }
       if (tipo=="actualizar") {
-        actualizarUsuarioUsuario();   
+        actualizarUsuarioProveedor();   
     }
     /*Aquí se verifica si alguno de los campos está vacío. */
  
-} /* El operador || significa "o",
-   así que si cualquiera de los campos es una--
-    cadena vacía (""), entra al bloque if. */
+} 
 
-/* Evita que se envie el formulario 
-MANEJO DEL ENVIO DEL FORMULARIO
-“Este código se asegura de que el formulario con ID frm_user no se envíe automáticamente.
- En vez de eso, cuando el usuario hace clic en enviar, se ejecuta una función que primero detiene 
- el envío y luego llama a validar_form(). 
-Esta validación garantiza que todos los campos estén llenos antes de registrar al usuario.”*/
-
-
-if (document.querySelector('#frm_user')) { /* verifica si existe un formulario con el ID frm_user en el documento HTML.document.querySelector('#frm_user') busca el formulario.Si existe, entra al bloque if. */
-    let frm_user = document.querySelector('#frm_user'); /* Aquí se guarda una referencia al formulario en la variable frm_user */
-    frm_user.onsubmit = function (e) { /*Se define qué pasará cuando el formulario se intente enviar (evento submit). */
+if (document.querySelector('#frm_proveedor')) { /* verifica si existe un formulario con el ID frm_user en el documento HTML.document.querySelector('#frm_user') busca el formulario.Si existe, entra al bloque if. */
+    let frm_proveedor = document.querySelector('#frm_proveedor'); /* Aquí se guarda una referencia al formulario en la variable frm_user */
+    frm_proveedor.onsubmit = function (e) { /*Se define qué pasará cuando el formulario se intente enviar (evento submit). */
         e.preventDefault(); /*Esto detiene el comportamiento predeterminado del formulario, que sería enviarlo directamente al servidor y recargar la página.En lugar de eso, queremos validar los datos primero. */
         validar_form("nuevo"); /* Aquí se llama a la función validar_form() que hemos definido antes. Esta función valida los campos del formulario y, si todo está bien, llama a registarUsuario() para enviar los datos al servidor. */
     }
 }
 
-async function registarUsuario() {
+async function registarProveedor() {
     try {
         // capturar campos de formulario(html)
 
-        const datos = new FormData(frm_user);
+        const datos = new FormData(frm_proveedor);
         // enviar datos al controlador 
         let respuesta = await fetch(base_url + 'control/UsuarioController.php?tipo=registrar', {
             method: 'POST',
@@ -72,7 +62,7 @@ async function registarUsuario() {
                 text: json.msg,
                 icon: "success"
             });
-            document.getElementById('frm_user').reset();
+            document.getElementById('frm_proveedor').reset();
         } else {
             Swal.fire({
                 title: "Error",
@@ -82,13 +72,9 @@ async function registarUsuario() {
         }
 
     } catch (e) {
-        console.log("Error al registrar usuario:" + e);
+        console.log("Error al registrar Proveedor:" + e);
 
     }
-    /*“Esta función registrarUsuario se encarga de enviar los datos del formulario al servidor
-    usando JavaScript moderno con fetch. Primero recoge todos los datos con FormData, luego los
-     envía mediante una solicitud POST a un archivo PHP. Espera la respuesta y muestra un mensaje
-    de éxito o error dependiendo del resultado. Si ocurre un problema técnico, lo muestra en la consola del navegador.” */
 }
 
 async function iniciar_sesion() {
@@ -148,9 +134,9 @@ async function obtenerUsuarioPorId(id) {
     }
 }
 
-async function view_users() {
+async function ver_Proveedor() {
     try {
-        let respuesta = await fetch(base_url + 'control/UsuarioController.php?tipo=ver_usuarios', {
+        let respuesta = await fetch(base_url + 'control/UsuarioController.php?tipo=ver_proveedor', {
             method: 'POST',
             mode: 'cors',
             cache: 'no-cache'
@@ -159,7 +145,7 @@ async function view_users() {
         let usuarios = await respuesta.json();
         console.log("Usuarios recibidos:", usuarios); // <-- para depurar
 
-        let tbody = document.getElementById('content_users');
+        let tbody = document.getElementById('content_proveedor');
         tbody.innerHTML = '';
 
         let filasHTML = usuarios.map((usuario, index) => `
@@ -171,7 +157,7 @@ async function view_users() {
                 <td>${usuario.rol || 'Desconocido'}</td>
                 <td>${usuario.estado || 'Activo'}</td>
                 <td>
-                    <a href="${base_url}edit-user/${usuario.id}" class="btn btn-sm btn-primary">Editar</a>
+                    <a href="${base_url}edit-proveedor/${usuario.id}" class="btn btn-sm btn-primary">Editar</a>
                     <button type="button" class="btn btn-danger" onclick="Eliminar(${usuario.id})">Eliminar</button>
                 </td>
             </tr>
@@ -189,13 +175,13 @@ async function view_users() {
     }
 }
 /* capturar en valor con js y enviar al controlador mostrar en un formulario para poder actualizar*/
-if (document.getElementById('content_users')) {
-    view_users();
+if (document.getElementById('content_proveedor')) {
+    view_Proveedor();
     
 }
 
 
-async function edit_user() {
+async function edit_proveedor() {
     try {
         let id_persona = document.getElementById('id_persona').value;
         const datos = new FormData();
@@ -233,19 +219,19 @@ async function edit_user() {
 
 if (document.getElementById('btn_guardar_cambios')) {
     document.getElementById('btn_guardar_cambios').addEventListener('click', function () {
-        actualizarUsuario(); // Llama a la función que hará el update
+        actualizarUsuarioProveedor(); // Llama a la función que hará el update
     });
 }
-if (document.querySelector('#frm_edit-user')) { 
-    let frm_user = document.querySelector('#frm_edit-user'); 
-    frm_user.onsubmit = function (e) { 
+if (document.querySelector('#frm_proveedor')) { 
+    let frm_proveedor = document.querySelector('#frm_proveedor'); 
+    frm_proveedor.onsubmit = function (e) { 
         e.preventDefault(); 
         validar_form("actualizar"); 
     }
 }
 
-async function actualizarUsuario() {
-   const datos = new FormData(frm_edit_user);
+async function actualizarProveedor() {
+   const datos = new FormData(frm_edit_proveedor);
    let respuesta = await fetch(base_url + 'control/UsuarioController.php?tipo=actualizar', {
             method: 'POST',
             mode: 'cors',
@@ -264,8 +250,10 @@ async function actualizarUsuario() {
 
     
 }
-async function fn_eliminar(id) { 
-    let datos
+async function fn_eliminar(id) {
+    if (window.confirm("Confirmar eliminar?")) {
+        eliminar(id);
+    }
 }
 
 async function Eliminar(id) {

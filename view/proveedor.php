@@ -1,7 +1,9 @@
 
 
+
+
 <div class="container">
-   <h3 class="mt-3 mb-3">Lista de Usuarios</h3>
+   <h3 class="mt-3 mb-3">Lista de provedores</h3>
     <table class="table table-success table-striped-columns">
         <thead>
             <tr>
@@ -14,9 +16,9 @@
                 <th>Acciones</th>
             </tr>
         </thead>
-        <tbody id="content_users">
+        <tbody id="content_proveedor">
             
         </tbody>
     </table>
 </div>
-<script src="<?= BASE_URL ?>view/function/user.js"></script>
+<script src="<?= BASE_URL ?>view/function/proveedor.js"></script>

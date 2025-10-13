@@ -33,19 +33,22 @@
                         <a class="nav-link" href="<?= BASE_URL ?>users">users</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">productos</a>
+                        <a class="nav-link" href="<?= BASE_URL ?>new-producto">productos</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">categories</a>
+                        <a class="nav-link" href="<?= BASE_URL ?>new-categoria">categories</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">clients</a>
+                        <a class="nav-link" href="<?= BASE_URL ?>new-cliente">Clients</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">schops</a>
+                        <a class="nav-link" href="#">Schops</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">sales</a>
+                        <a class="nav-link" href="#">Sales</a>
+                    </li>
+                     <li class="nav-item">
+                        <a class="nav-link" href="<?= BASE_URL ?>new-proveedor">Proveedor</a>
                     </li>
                     
                 </ul>

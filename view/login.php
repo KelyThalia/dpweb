@@ -101,7 +101,7 @@
             <label for="password">Contraseña</label>
             <input type="password" id="password" name="password" required>
 
-            <button type="button" onclick="iniciar_secion();">Iniciar sesión</button>
+            <button type="button" onclick="iniciar_sesion();">Iniciar sesión</button>
         </form>
     </div>
 
