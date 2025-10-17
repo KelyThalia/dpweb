@@ -134,7 +134,7 @@ async function obtenerUsuarioPorId(id) {
     }
 }
 
-async function view_cliente() {
+async function view_cliente() {   // ✅ nombre corregido
     try {
         let respuesta = await fetch(base_url + 'control/UsuarioController.php?tipo=ver_cliente', {
             method: 'POST',
@@ -143,7 +143,7 @@ async function view_cliente() {
         });
 
         let usuarios = await respuesta.json();
-        console.log("Usuarios recibidos:", usuarios); // <-- para depurar
+        console.log("Usuarios recibidos:", usuarios);
 
         let tbody = document.getElementById('content_cliente');
         tbody.innerHTML = '';
@@ -166,18 +166,17 @@ async function view_cliente() {
         tbody.innerHTML = filasHTML;
 
     } catch (error) {
-        console.error("Error al obtener usuarios:", error);
+        console.error("Error al obtener clientes:", error);
         Swal.fire({
             icon: "error",
             title: "Error",
-            text: "No se pudieron cargar los usuarios."
+            text: "No se pudieron cargar los clientes."
         });
     }
 }
-/* capturar en valor con js y enviar al controlador mostrar en un formulario para poder actualizar*/
+
 if (document.getElementById('content_cliente')) {
-    view_cliente();
-    
+    view_cliente(); // ✅ ahora sí coincide el nombre
 }
 
 

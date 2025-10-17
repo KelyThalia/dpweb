@@ -167,7 +167,7 @@ if ($tipo == "eliminar") {
 
 if ($tipo == "ver_cliente") {
     $respuesta = array('status' => false, 'msg' => 'fallo el controlador');
-    $usuarios = $objPersona->vercliente();
+    $usuarios = $objPersona->ver_cliente();
     if (count($usuarios)) {
         $respuesta = array('status' => true, 'msg' => '', 'data' => $usuarios);
     }

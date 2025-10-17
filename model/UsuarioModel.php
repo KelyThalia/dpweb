@@ -79,7 +79,8 @@ class UsuarioModel
         $sql = $this->conexion->query($consulta);
         return $sql;
     }
-    public function vercliente()
+
+    public function ver_cliente()
     {
         $arr_usuarios = array();
         $consulta = "SELECT * FROM persona WHERE rol='cliente'";

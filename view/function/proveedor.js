@@ -134,7 +134,7 @@ async function obtenerUsuarioPorId(id) {
     }
 }
 
-async function ver_Proveedor() {
+async function view_Proveedor() {
     try {
         let respuesta = await fetch(base_url + 'control/UsuarioController.php?tipo=ver_proveedor', {
             method: 'POST',
