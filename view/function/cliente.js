@@ -221,9 +221,9 @@ if (document.getElementById('btn_guardar_cambios')) {
         actualizarCliente(); // Llama a la función que hará el update
     });
 }
-if (document.querySelector('#frm_edit_user')) {
+if (document.querySelector('#frm_edit-user')) {
     // evita que se envie el formulario
-    let frm_user = document.querySelector('#frm_edit_user');
+    let frm_user = document.querySelector('#frm_edit-user');
     frm_user.onsubmit = function (e) {
         e.preventDefault();
         validar_form("actualizar");
