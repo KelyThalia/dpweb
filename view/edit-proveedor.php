@@ -2,7 +2,7 @@
     <!-- INICIO DE CUERPO DE PÁGINA-->
     <div class="container_fluid">
         <div class="card">
-            <h5 class="btn btn-info">Editar Datos de Usuario</h5>
+            <h5 class="btn btn-info">Editar Datos de proveedor</h5>
            <?php
             if (isset($_GET["views"])) {
 
@@ -11,7 +11,7 @@
                  //echo $ruta[1];
             }
             ?>
-            <form id="frm_edit_user" action="" method="">
+            <form id="frm_edit-proveedor" action="" method="">
                 <input type="hidden" id="id_persona" name="id_persona" value="<?= $ruta[1];?>">
                 <div class="card-body">
                     <div class="mb-3 row">
@@ -75,13 +75,9 @@
                         </div class="mb-3 row">
                         <label for="rol" class="col-sm-4 col-form-label"><b>Rol:</b></label>
                         <div class="col-sm-8">
-                            <select class="form_control" name="rol" id="rol" required>
-
-                                <option value="" disabled selected>seleccione</option>
-                                <option value="administrador">administrador</option>
-                                <option value="vendedor">vendedor</option>
-
-                            </select>
+                            <select class="form-control" name="rol" id="rol" required readonly>
+                            <option value="proveedor">proveedor</option>
+                        </select>
 
 
                         </div>

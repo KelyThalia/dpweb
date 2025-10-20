@@ -24,7 +24,7 @@ function validar_form(tipo) {
         return;
     }
     if (tipo=="nuevo") {
-        registarCliente();   
+        registrarCliente();   
     }
       if (tipo=="actualizar") {
         actualizarCliente();   
@@ -41,39 +41,40 @@ if (document.querySelector('#frm_cliente')) { /* verifica si existe un formulari
     }
 }
 
-async function registarCliente() {
-    try {
-        // capturar campos de formulario(html)
+async function registrarCliente() {
+    const form = document.getElementById("frm_cliente");
+    const datos = new FormData(form);
 
-        const datos = new FormData(frm_cliente);
-        // enviar datos al controlador 
-        let respuesta = await fetch(base_url + 'control/UsuarioController.php?tipo=registrar_cliente', {
-            method: 'POST',
-            mode: 'cors',
-            cache: 'no-cache',
+    try {
+        const response = await fetch(base_url + "control/UsuarioController.php?tipo=registrar", {
+            method: "POST",
             body: datos
-        }); //ALERTA EN UNA CONDICION (TRUE) (FALSE)
-        // ----
-        let json = await respuesta.json();
-        if (json.status) {
-            //validamos que json.status sea igual tru , si es false ya
+        });
+
+        const result = await response.json();
+
+        if (result.status) {
             Swal.fire({
+                icon: "success",
                 title: "Éxito",
-                text: json.msg,
-                icon: "success"
+                text: result.msg
             });
-            document.getElementById('frm_cliente').reset();
+            form.reset();
         } else {
             Swal.fire({
+                icon: "error",
                 title: "Error",
-                text: json.msg,
-                icon: "error"
+                text: result.msg
             });
         }
 
-    } catch (e) {
-        console.log("Error al registrar cliente:" + e);
-
+    } catch (error) {
+        console.error("Error al registrar cliente:", error);
+        Swal.fire({
+            icon: "error",
+            title: "Error",
+            text: "Ocurrió un problema al registrar el cliente."
+        });
     }
 }
 
@@ -134,7 +135,7 @@ async function obtenerUsuarioPorId(id) {
     }
 }
 
-async function view_cliente() {   // ✅ nombre corregido
+async function view_cliente() {
     try {
         let respuesta = await fetch(base_url + 'control/UsuarioController.php?tipo=ver_cliente', {
             method: 'POST',
@@ -142,8 +143,23 @@ async function view_cliente() {   // ✅ nombre corregido
             cache: 'no-cache'
         });
 
-        let usuarios = await respuesta.json();
-        console.log("Usuarios recibidos:", usuarios);
+        // Verificar si el servidor devolvió algo
+        if (!respuesta.ok) throw new Error("Error HTTP: " + respuesta.status);
+
+        let resultado = await respuesta.json();
+        console.log("Respuesta del servidor:", resultado);
+
+        if (!resultado.status) {
+            console.warn("Servidor respondió con error:", resultado.msg);
+            Swal.fire({
+                icon: "warning",
+                title: "Atención",
+                text: resultado.msg || "No hay clientes registrados."
+            });
+            return;
+        }
+
+        let usuarios = resultado.data; // ✅ AQUÍ está el array real
 
         let tbody = document.getElementById('content_cliente');
         tbody.innerHTML = '';
@@ -174,6 +190,11 @@ async function view_cliente() {   // ✅ nombre corregido
         });
     }
 }
+
+if (document.getElementById('content_cliente')) {
+    view_cliente();
+}
+
 
 if (document.getElementById('content_cliente')) {
     view_cliente(); // ✅ ahora sí coincide el nombre
@@ -221,17 +242,17 @@ if (document.getElementById('btn_guardar_cambios')) {
         actualizarCliente(); // Llama a la función que hará el update
     });
 }
-if (document.querySelector('#frm_edit-user')) {
-    // evita que se envie el formulario
-    let frm_user = document.querySelector('#frm_edit-user');
-    frm_user.onsubmit = function (e) {
-        e.preventDefault();
-        validar_form("actualizar");
+if (document.querySelector('#frm_edit-cliente')) { 
+    let frm_cliente = document.querySelector('#frm_edit-cliente'); 
+    frm_cliente.onsubmit = function (e) { 
+        e.preventDefault(); 
+        validar_form("actualizar"); 
     }
 }
 
+
 async function actualizarCliente() {
-   const datos = new FormData(frm_edit_user);
+   const datos = new FormData(frm_edit_cliente);
    let respuesta = await fetch(base_url + 'control/UsuarioController.php?tipo=actualizar', {
             method: 'POST',
             mode: 'cors',

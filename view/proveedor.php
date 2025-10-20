@@ -1,9 +1,7 @@
 
 
-
-
 <div class="container">
-   <h3 class="mt-3 mb-3">Lista de provedores</h3>
+   <h3 class="mt-3 mb-3">Lista de proveedor</h3>
     <table class="table table-success table-striped-columns">
         <thead>
             <tr>

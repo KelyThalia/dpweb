@@ -1,7 +1,7 @@
 <!-- INICIO DE CUERPO DE PÁGINA-->
-<div class="d-flex justify-content-center">
-    <div class="table table-success table-striped text-center w-50">
-        <h5 class="card-header">Editar producto
+<div class="container_fluid">
+    <div class="card">
+        <h5 class="card-header">Editar datos de producto
             <?php
             if (isset($_GET["views"])) {
                 $ruta = explode("/", $_GET["views"]);
@@ -59,7 +59,12 @@
                         <input type="date" class="form-control" id="fecha_vencimiento" name="fecha_vencimiento" required>
                     </div>
                 </div>
-
+                <div class="mb-3 row">
+                    <label for="imagen" class="col-sm-2 col-form-label"><b>Imagen</b></label>
+                    <div class="col-sm-4">
+                        <input type="file" class="form-control" id="imagen" name="imagen" accept=".jpg, .jpeg, .png" >
+                    </div>
+                </div>
 
                 <div class="mt-3">
                     <button type="submit" class="btn btn-success">actualizar</button>

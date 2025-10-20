@@ -24,10 +24,10 @@ function validar_form(tipo) {
         return;
     }
     if (tipo=="nuevo") {
-        registarProveedor();   
+        registrarproveedor();   
     }
       if (tipo=="actualizar") {
-        actualizarUsuarioProveedor();   
+        actualizarproveedor();   
     }
     /*Aquí se verifica si alguno de los campos está vacío. */
  
@@ -41,39 +41,40 @@ if (document.querySelector('#frm_proveedor')) { /* verifica si existe un formula
     }
 }
 
-async function registarProveedor() {
-    try {
-        // capturar campos de formulario(html)
+async function registrarproveedor() {
+    const form = document.getElementById("frm_proveedor");
+    const datos = new FormData(form);
 
-        const datos = new FormData(frm_proveedor);
-        // enviar datos al controlador 
-        let respuesta = await fetch(base_url + 'control/UsuarioController.php?tipo=registrar', {
-            method: 'POST',
-            mode: 'cors',
-            cache: 'no-cache',
+    try {
+        const response = await fetch(base_url + "control/UsuarioController.php?tipo=registrar", {
+            method: "POST",
             body: datos
-        }); //ALERTA EN UNA CONDICION (TRUE) (FALSE)
-        // ----
-        let json = await respuesta.json();
-        if (json.status) {
-            //validamos que json.status sea igual tru , si es false ya
+        });
+
+        const result = await response.json();
+
+        if (result.status) {
             Swal.fire({
+                icon: "success",
                 title: "Éxito",
-                text: json.msg,
-                icon: "success"
+                text: result.msg
             });
-            document.getElementById('frm_proveedor').reset();
+            form.reset();
         } else {
             Swal.fire({
+                icon: "error",
                 title: "Error",
-                text: json.msg,
-                icon: "error"
+                text: result.msg
             });
         }
 
-    } catch (e) {
-        console.log("Error al registrar Proveedor:" + e);
-
+    } catch (error) {
+        console.error("Error al registrar cliente:", error);
+        Swal.fire({
+            icon: "error",
+            title: "Error",
+            text: "Ocurrió un problema al registrar el cliente."
+        });
     }
 }
 
@@ -134,7 +135,7 @@ async function obtenerUsuarioPorId(id) {
     }
 }
 
-async function view_Proveedor() {
+async function view_proveedor() {
     try {
         let respuesta = await fetch(base_url + 'control/UsuarioController.php?tipo=ver_proveedor', {
             method: 'POST',
@@ -142,23 +143,40 @@ async function view_Proveedor() {
             cache: 'no-cache'
         });
 
-        let usuarios = await respuesta.json();
-        console.log("Usuarios recibidos:", usuarios); // <-- para depurar
+        // Verificar si la respuesta HTTP fue correcta
+        if (!respuesta.ok) throw new Error("Error HTTP: " + respuesta.status);
 
+        // Convertir la respuesta en JSON
+        let resultado = await respuesta.json();
+        console.log("Respuesta del servidor:", resultado);
+
+        // Validar que el servidor haya devuelto datos válidos
+        if (!resultado.status) {
+            Swal.fire({
+                icon: "warning",
+                title: "Atención",
+                text: resultado.msg || "No hay proveedores registrados."
+            });
+            return;
+        }
+
+        // Obtener el array de proveedores
+        let proveedores = resultado.data;
         let tbody = document.getElementById('content_proveedor');
         tbody.innerHTML = '';
 
-        let filasHTML = usuarios.map((usuario, index) => `
+        // Generar filas dinámicas
+        let filasHTML = proveedores.map((proveedor, index) => `
             <tr class="text-center">
                 <td>${index + 1}</td>
-                <td>${usuario.nro_identidad}</td>
-                <td>${usuario.razon_social}</td>
-                <td>${usuario.correo}</td>
-                <td>${usuario.rol || 'Desconocido'}</td>
-                <td>${usuario.estado || 'Activo'}</td>
+                <td>${proveedor.nro_identidad}</td>
+                <td>${proveedor.razon_social}</td>
+                <td>${proveedor.correo}</td>
+                <td>${proveedor.rol || 'Proveedor'}</td>
+                <td>${proveedor.estado || 'Activo'}</td>
                 <td>
-                    <a href="${base_url}edit-proveedor/${usuario.id}" class="btn btn-sm btn-primary">Editar</a>
-                    <button type="button" class="btn btn-danger" onclick="Eliminar(${usuario.id})">Eliminar</button>
+                    <a href="${base_url}edit-proveedor/${proveedor.id}" class="btn btn-sm btn-primary">Editar</a>
+                    <button type="button" class="btn btn-danger" onclick="eliminarProveedor(${proveedor.id})">Eliminar</button>
                 </td>
             </tr>
         `).join('');
@@ -166,18 +184,76 @@ async function view_Proveedor() {
         tbody.innerHTML = filasHTML;
 
     } catch (error) {
-        console.error("Error al obtener usuarios:", error);
+        console.error("Error al obtener proveedores:", error);
         Swal.fire({
             icon: "error",
             title: "Error",
-            text: "No se pudieron cargar los usuarios."
+            text: "No se pudieron cargar los proveedores."
         });
     }
 }
-/* capturar en valor con js y enviar al controlador mostrar en un formulario para poder actualizar*/
+
+// ✅ Ejecuta automáticamente si existe la tabla
 if (document.getElementById('content_proveedor')) {
-    view_Proveedor();
-    
+    view_proveedor();
+}
+
+// =========================
+// FUNCIONES DE ELIMINAR
+// =========================
+async function eliminarProveedor(id) {
+    if (!confirm("¿Seguro que desea eliminar este proveedor?")) return;
+
+    const datos = new FormData();
+    datos.append('id_persona', id);
+
+    try {
+        let respuesta = await fetch(base_url + 'control/UsuarioController.php?tipo=eliminar', {
+            method: 'POST',
+            mode: 'cors',
+            cache: 'no-cache',
+            body: datos
+        });
+
+        let json = await respuesta.json();
+
+        if (!json.status) {
+            Swal.fire({
+                icon: "error",
+                title: "Error",
+                text: json.msg || "No se pudo eliminar el proveedor."
+            });
+            return;
+        }
+
+        Swal.fire({
+            icon: "success",
+            title: "Éxito",
+            text: json.msg
+        }).then(() => {
+            view_proveedor(); // 🔄 Recargar la lista automáticamente
+        });
+
+    } catch (error) {
+        console.error("Error al eliminar proveedor:", error);
+        Swal.fire({
+            icon: "error",
+            title: "Error",
+            text: "Ocurrió un problema al eliminar el proveedor."
+        });
+    }
+}
+
+
+// ✅ Ejecuta automáticamente si existe la tabla de proveedores
+if (document.getElementById('content_proveedor')) {
+    view_proveedor();
+}
+
+
+
+if (document.getElementById('content_proveedor')) {
+    view_proveedor(); // ✅ ahora sí coincide el nombre
 }
 
 
@@ -219,18 +295,19 @@ async function edit_proveedor() {
 
 if (document.getElementById('btn_guardar_cambios')) {
     document.getElementById('btn_guardar_cambios').addEventListener('click', function () {
-        actualizarUsuarioProveedor(); // Llama a la función que hará el update
+        actualizarproveedor(); // Llama a la función que hará el update
     });
 }
-if (document.querySelector('#frm_proveedor')) { 
-    let frm_proveedor = document.querySelector('#frm_proveedor'); 
-    frm_proveedor.onsubmit = function (e) { 
-        e.preventDefault(); 
-        validar_form("actualizar"); 
+if (document.querySelector('#frm_edit-proveedor')) {
+    // evita que se envie el formulario
+    let frm_proveedor = document.querySelector('#frm_edit-proveedor');
+    frm_proveedor.onsubmit = function (e) {
+        e.preventDefault();
+        validar_form("actualizar");
     }
 }
 
-async function actualizarProveedor() {
+async function actualizarproveedor() {
    const datos = new FormData(frm_edit_proveedor);
    let respuesta = await fetch(base_url + 'control/UsuarioController.php?tipo=actualizar', {
             method: 'POST',
@@ -256,31 +333,22 @@ async function fn_eliminar(id) {
     }
 }
 
-async function Eliminar(id) {
-  let datos = new FormData();
-  datos.append('id_persona', id);
-   let respuesta = await fetch(base_url + 'control/UsuarioController.php?tipo=eliminar', {
-            method: 'POST',
-            mode: 'cors',
-            cache: 'no-cache',
-            body: datos
-        });
-        json = await respuesta.json();
-        if (!json.status) {
-            Swal.fire({
-                icon: "error",
-                title: "Error",
-                text: "Ooops. ocurrió un error al eliminar, inténtelo nuevamente"
-            });
-            console.log(json.msg);
-            return;
-            
-        }else{
-            Swal.fire({
-                icon: "success",
-                title: "Éxito",
-                text: json.msg
-            });
-            view_users();
-        }  
+async function eliminar(id) {
+    let datos = new FormData();
+    datos.append('id_persona', id);
+    let respuesta = await fetch(base_url + 'control/UsuarioController.php?tipo=eliminar', {
+        method: 'POST',
+        mode: 'cors',
+        cache: 'no-cache',
+        body: datos
+    });
+    json = await respuesta.json();
+    if (!json.status) {
+        alert("Oooooops, ocurrio un error al eliminar persona, intentelo mas tarde");
+        console.log(json.msg);
+        return;
+    }else{
+        alert(json.msg);
+        location.replace(base_url + 'proveedor');
+    }
 }

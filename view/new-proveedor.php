@@ -2,7 +2,7 @@
     <!-- INICIO DE CUERPO DE PÁGINA-->
     <div class="container_fluid">
         <div class="card">
-            <h5 class="btn btn-primary">Registrar Proveedor</h5>
+            <h5 class="btn btn-primary">registrar proveedor</h5>
             <form id="frm_proveedor" action="" method="">
                 <div class="card-body">
                     <div class="mb-3 row">
@@ -67,9 +67,9 @@
                         </div class="mb-3 row">
                         <label for="rol" class="col-sm-4 col-form-label"><b>Rol:</b></label>
                         <div class="col-sm-8">
-                           <select class="form-control" name="rol" id="rol" required readonly>
-                            <option value="proveedor" selected>proveedor</option>
-                        </select>
+                             <select class="form-control" name="rol" id="rol" required readonly>
+                                <option value="proveedor" selected>proveedor</option>
+                            </select>
 
 
                         </div>
@@ -90,5 +90,5 @@
     </div>
     </div>
      <!-- FIN DE CUERPO DE PÁGINA-->
-     
+      <script src="<?php echo BASE_URL ?>view/function/proveedor.js"></script>
       

@@ -86,8 +86,8 @@ if ($tipo == "ver") {
      echo json_encode($respuesta);
      
 }
-if ($tipo == "mostrar_proveedores") {
-     $proveedores = $objPersona->mostrarProveedores();
+if ($tipo == "ver_proveedor") {
+     $proveedores = $objPersona->ver_proveedor();
      $respuesta = array();
      if (!empty($proveedores)) {
           $respuesta = array('status' => true, 'msg' => 'Proveedores encontrados', 'data' => $proveedores);
@@ -129,18 +129,7 @@ if ($tipo == "actualizar") {
 
           } else {
                //actualizar
-               $actualizar = $objPersona->actualizar(
-                    $id_persona,
-                    $nro_identidad,
-                    $razon_social,
-                    $telefono,
-                    $correo,
-                    $departamento,
-                    $provincia,
-                    $distrito,
-                    $cod_postal,
-                    $direccion,
-                    $rol
+               $actualizar = $objPersona->actualizar( $id_persona, $nro_identidad, $razon_social, $telefono, $correo, $departamento, $provincia, $distrito, $cod_postal, $direccion, $rol
                );
                if ($actualizar) {
                     $arrResponse = array('status' => true, 'msg' => 'Actualizado Correctamente');

@@ -14,8 +14,10 @@ if ($tipo == "registrar") {
     $id_proveedor = $_POST['id_proveedor'];
 
     // Validar campos vacíos
-    if ($codigo == "" || $nombre == "" || $detalle == "" || $precio == "" || $stock == ""  
-        || $id_categoria == "" || $fecha_vencimiento == "" || $id_proveedor == "") {
+    if (
+        $codigo == "" || $nombre == "" || $detalle == "" || $precio == "" || $stock == ""
+        || $id_categoria == "" || $fecha_vencimiento == "" || $id_proveedor == ""
+    ) {
         echo json_encode(['status' => false, 'msg' => 'Error, campos vacíos']);
         exit;
     }
@@ -99,6 +101,7 @@ if ($tipo == "ver") {
 
 
 if ($tipo == "actualizar") {
+
     $id_producto = $_POST['id_producto'];
     $codigo = $_POST['codigo'];
     $nombre = $_POST['nombre'];
@@ -108,16 +111,23 @@ if ($tipo == "actualizar") {
     $id_categoria = $_POST['id_categoria'];
     $fecha_vencimiento = $_POST['fecha_vencimiento'];
 
-    if ($id_producto == "" || $codigo == "" || $nombre == "" || $detalle == "" || $precio == "" || $stock == "" || $id_categoria == "" || $fecha_vencimiento == "" || $imagen =="" || $id_proveedor =="") {
+    if ($id_producto == "" || $codigo == "" || $nombre == "" || $detalle == "" || $precio == "" || $stock == "" || $id_categoria == "" || $fecha_vencimiento == "" || $imagen == "" || $id_proveedor == "") {
         $arrResponse = array('status' => false, 'msg' => 'Error, campos vacios');
     } else {
         $existeID = $objProducto->ver($id_producto);
         if (!$existeID) {
-            $arrResponse = array('status' => false, 'msg' => 'Error, categoria no existe');
+            $arrResponse = array('status' => false, 'msg' => 'Error, producto no existe en DB');
             echo json_encode($arrResponse);
             exit;
         } else {
-            $actualizar = $objProducto->actualizar($id_producto, $codigo, $nombre, $detalle, $precio, $stock, $id_categoria, $fecha_vencimiento, $imagen, $id_proveedor);
+            if (!isset($_FILES['imagen']) || $_FILES['imagen']['error'] !== UPLOAD_ERR_OK) {
+               // echo "no se envio la imagen";
+               $imagen = $producto->imagen;
+            } else {
+               // echo "si se envio la imagen";
+               //subir imagen en la carpeta upload , obtener la ruta del archivo y esa misma ruta almacenar que se esta almacenando en la base de datos
+            }
+            $actualizar = $objProducto->actualizar($id_producto, $codigo, $nombre, $detalle, $precio, $stock, $id_categoria, $fecha_vencimiento, $id_proveedor, $imagen );
             if ($actualizar) {
                 $arrResponse = array('status' => true, 'msg' => 'Actualizado correctamente');
             } else {
