@@ -84,7 +84,14 @@ if ($tipo == "ver") {
           $respuesta['msg'] = ' Error, usuario no existe';
      }
      echo json_encode($respuesta);
-     
+}
+if ($tipo == "mostrar_proveedores") {
+     $respuesta = array('status' => false, 'msg' => 'fallo el controlador');
+     $usuarios = $objPersona->mostrarProveedores();
+     if (count($usuarios)) {
+          $respuesta = array('status' => true, 'msg' => '', 'data' => $usuarios);
+     }
+     echo json_encode($respuesta);
 }
 if ($tipo == "ver_proveedor") {
      $proveedores = $objPersona->ver_proveedor();
@@ -129,7 +136,18 @@ if ($tipo == "actualizar") {
 
           } else {
                //actualizar
-               $actualizar = $objPersona->actualizar( $id_persona, $nro_identidad, $razon_social, $telefono, $correo, $departamento, $provincia, $distrito, $cod_postal, $direccion, $rol
+               $actualizar = $objPersona->actualizar(
+                    $id_persona,
+                    $nro_identidad,
+                    $razon_social,
+                    $telefono,
+                    $correo,
+                    $departamento,
+                    $provincia,
+                    $distrito,
+                    $cod_postal,
+                    $direccion,
+                    $rol
                );
                if ($actualizar) {
                     $arrResponse = array('status' => true, 'msg' => 'Actualizado Correctamente');
@@ -155,11 +173,10 @@ if ($tipo == "eliminar") {
 }
 
 if ($tipo == "ver_cliente") {
-    $respuesta = array('status' => false, 'msg' => 'fallo el controlador');
-    $usuarios = $objPersona->ver_cliente();
-    if (count($usuarios)) {
-        $respuesta = array('status' => true, 'msg' => '', 'data' => $usuarios);
-    }
-    echo json_encode($respuesta);
+     $respuesta = array('status' => false, 'msg' => 'fallo el controlador');
+     $usuarios = $objPersona->ver_cliente();
+     if (count($usuarios)) {
+          $respuesta = array('status' => true, 'msg' => '', 'data' => $usuarios);
+     }
+     echo json_encode($respuesta);
 }
-

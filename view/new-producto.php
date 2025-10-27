@@ -88,8 +88,6 @@
 
 <script src="<?php echo BASE_URL ?>view/function/products.js"></script>
 <script> 
-    document.addEventListener('DOMContentLoaded', function() {
-        cargar_categorias();
-        cargar_proveedores();
-    });
+   cargar_categorias();
+   cargar_proveedores(); 
 </script>

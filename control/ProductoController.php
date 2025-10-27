@@ -121,13 +121,41 @@ if ($tipo == "actualizar") {
             exit;
         } else {
             if (!isset($_FILES['imagen']) || $_FILES['imagen']['error'] !== UPLOAD_ERR_OK) {
-               // echo "no se envio la imagen";
-               $imagen = $producto->imagen;
+                // echo "no se envio la imagen";
+                $imagen = $producto->imagen;
             } else {
-               // echo "si se envio la imagen";
-               //subir imagen en la carpeta upload , obtener la ruta del archivo y esa misma ruta almacenar que se esta almacenando en la base de datos
+                // echo "si se envio la imagen";
+                //subir imagen en la carpeta upload , obtener la ruta del archivo y esa misma ruta almacenar que se esta almacenando en la base de datos
+                // Procesar imagen
+                $file = $_FILES['imagen'];
+                $ext  = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
+                $extPermitidas = ['jpg', 'jpeg', 'png'];
+
+                if (!in_array($ext, $extPermitidas)) {
+                    echo json_encode(['status' => false, 'msg' => 'Formato de imagen no permitido']);
+                    exit;
+                }
+                if ($file['size'] > 5 * 1024 * 1024) { // 5MB
+                    echo json_encode(['status' => false, 'msg' => 'La imagen supera 5MB']);
+                    exit;
+                }
+
+                $carpetaUploads = "../uploads/productos/";
+                if (!is_dir($carpetaUploads)) {
+                    @mkdir($carpetaUploads, 0775, true);
+                }
+
+                $nombreUnico = uniqid('prod_') . '.' . $ext;
+                $rutaFisica  = $carpetaUploads . $nombreUnico;
+                $imagen = "uploads/productos/" . $nombreUnico;
+
+                if (!move_uploaded_file($file['tmp_name'], $rutaFisica)) {
+                    echo json_encode(['status' => false, 'msg' => 'No se pudo guardar la imagen']);
+                    exit;
+                }
             }
-            $actualizar = $objProducto->actualizar($id_producto, $codigo, $nombre, $detalle, $precio, $stock, $id_categoria, $fecha_vencimiento, $id_proveedor, $imagen );
+            //actualizar
+            $actualizar = $objProducto->actualizar($id_producto, $codigo, $nombre, $detalle, $precio, $stock, $id_categoria, $fecha_vencimiento, $id_proveedor, $imagen);
             if ($actualizar) {
                 $arrResponse = array('status' => true, 'msg' => 'Actualizado correctamente');
             } else {

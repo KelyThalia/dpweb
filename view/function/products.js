@@ -228,41 +228,36 @@ async function eliminar(id) {
         }
     });
 }
-async function cargar_categorias(params) {
-    let respuesta = await fetch(base_url + 'control/categoriaController.php?tipo=mostrar_categorias', {
+
+async function cargar_categorias(){
+    let respuesta = await fetch(base_url + 'control/CategoriaController.php?tipo=ver_categorias', {
         method: 'POST',
         mode: 'cors',
         cache: 'no-cache'
 
     });
     let json = await respuesta.json();
-    let contenido = '<option value="">Seleccione</option>';
+    let contenido = '<option>Seleccione</option>';
     json.data.forEach(categoria => {
-        contenido += `<option value="${categoria.id}">${categoria.nombre}</option>`;
+        contenido += '<option value="' + categoria.id + '">' + categoria.nombre + '</option>';
     });
+    //console.log(contenido);
     document.getElementById("id_categoria").innerHTML = contenido;
-
-
 }
+
 
 // cargar proveedor 
 async function cargar_proveedores() {
-    let respuesta = await fetch(base_url + 'control/usuarioController.php?tipo=mostrar_proveedores', {
+    let respuesta = await fetch(base_url + 'control/UsuarioController.php?tipo=mostrar_proveedores', {
         method: 'POST',
         mode: 'cors',
         cache: 'no-cache'
     });
-    json = await respuesta.json();
-    let contenido = '';
-    if (json.status && json.data) {
-        contenido += '<option value="">Seleccione un proveedor</option>';
-        json.data.forEach(proveedor => {
-            contenido += '<option value="' + proveedor.id + '">' + proveedor.razon_social + '</option>';
-        });
-    } else {
-        contenido = '<option value = ""> No hay proveedores disponibles</option>';
-    }
+    let json = await respuesta.json();
+    let contenido = '<option>Seleccione</option>';
+    json.data.forEach(proveedor => {
+        contenido += '<option value="' + proveedor.id + '">' + proveedor.razon_social + '</option>';
+    });
     //console.log(contenido);
     document.getElementById("id_proveedor").innerHTML = contenido;
-
 }

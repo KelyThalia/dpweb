@@ -50,6 +50,7 @@ if ($tipo == "ver") {
     }
     echo json_encode($respuesta);
 }
+
 if ($tipo == "actualizar") {
     //print_r($_POST);
     $id_cat = $_POST['id_categoria'];
