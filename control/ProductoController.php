@@ -111,7 +111,7 @@ if ($tipo == "actualizar") {
     $id_categoria = $_POST['id_categoria'];
     $fecha_vencimiento = $_POST['fecha_vencimiento'];
 
-    if ($id_producto == "" || $codigo == "" || $nombre == "" || $detalle == "" || $precio == "" || $stock == "" || $id_categoria == "" || $fecha_vencimiento == "" || $imagen == "" || $id_proveedor == "") {
+    if ($id_producto == "" || $codigo == "" || $nombre == "" || $detalle == "" || $precio == "" || $stock == "" || $id_categoria == "" || $fecha_vencimiento == "" || $imagen == "" || $id_proveedor == ""){
         $arrResponse = array('status' => false, 'msg' => 'Error, campos vacios');
     } else {
         $existeID = $objProducto->ver($id_producto);
