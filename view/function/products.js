@@ -81,7 +81,7 @@ function cancelar() {
 
 async function view_producto() {
     try {
-        let respuesta = await fetch(base_url + 'control/productoController.php?tipo=mostrar_productos', {
+        let respuesta = await fetch(base_url + 'control/ProductoController.php?tipo=mostrar_productos', {
             method: 'POST',
             mode: 'cors',
             cache: 'no-cache'
