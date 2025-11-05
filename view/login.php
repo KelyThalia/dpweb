@@ -1,14 +1,24 @@
-
 <!DOCTYPE html>
 <html lang="es">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kely</title>
+    <title>Iniciar Sesión - Kely</title>
+    <!-- Bootstrap CSS -->
+    <link href="<?= BASE_URL ?>programacion_aplicaciones/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
     <style>
+        :root {
+            --primary-gradient: linear-gradient(135deg, #6e45e2, #88d3ce);
+            --card-bg: rgba(255, 255, 255, 0.95);
+            --shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            --border-radius: 20px;
+        }
+
         body {
-            background: linear-gradient(to bottom right, khaki, #ffe9c6);
+            background: var(--primary-gradient);
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             display: flex;
             justify-content: center;
@@ -18,95 +28,147 @@
             color: #333;
         }
 
-        .container {
-            background-color: #fdc3f7;
+        .login-card {
+            background-color: var(--card-bg);
             width: 100%;
-            max-width: 420px;
+            max-width: 400px;
             padding: 35px 30px;
-            border-radius: 20px;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
             text-align: center;
+            transition: transform 0.3s ease;
         }
 
-        .container img {
-            height: 100px;
-            border-radius: 12px;
-            margin-bottom: 25px;
+        .login-card:hover {
+            transform: translateY(-5px);
         }
 
-        .container h2 {
-            font-size: 26px;
-            color: #2c63eb;
-            margin-bottom: 15px;
-            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+        .avatar {
+            width: 80px;
+            height: 80px;
+            background: #e0e0e0;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 25px;
+            color: #888;
+            font-size: 2rem;
         }
 
-        label {
-            display: block;
-            margin-top: 15px;
-            margin-bottom: 5px;
-            font-weight: bold;
-            color: #333;
-            text-align: left;
+        .form-group {
+            position: relative;
+            margin-bottom: 20px;
         }
 
-        input[type="text"],
-        input[type="password"] {
+        .form-control {
             width: 100%;
-            padding: 10px;
-            border: 1px solid #ccc;
+            padding: 12px 15px 12px 45px;
+            border: 1px solid #ddd;
             border-radius: 8px;
             font-size: 14px;
-            transition: border-color 0.3s;
+            transition: border-color 0.3s, box-shadow 0.3s;
         }
 
-        input[type="text"]:focus,
-        input[type="password"]:focus {
+        .form-control:focus {
             outline: none;
-            border-color: #7f45b2;
-            box-shadow: 0 0 5px rgba(127, 69, 178, 0.3);
+            border-color: #6e45e2;
+            box-shadow: 0 0 5px rgba(110, 69, 226, 0.3);
         }
 
-        button {
-            margin-top: 25px;
-            padding: 12px 25px;
-            background-color: rgb(151, 196, 244);
+        .input-icon {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #888;
+        }
+
+        .remember-forgot {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 15px 0;
+            font-size: 0.875rem;
+        }
+
+        .remember-me {
+            display: flex;
+            align-items: center;
+        }
+
+        .remember-me input[type="checkbox"] {
+            margin-right: 8px;
+        }
+
+        .forgot-password {
+            color: #6e45e2;
+            text-decoration: none;
+        }
+
+        .forgot-password:hover {
+            text-decoration: underline;
+        }
+
+        .btn-login {
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(135deg, #6e45e2, #88d3ce);
             border: none;
-            border-radius: 12px;
+            border-radius: 8px;
             cursor: pointer;
             font-weight: bold;
             font-size: 15px;
-            color: #fff;
-            transition: background-color 0.3s ease, transform 0.2s ease;
+            color: white;
+            transition: background 0.3s ease, transform 0.2s ease;
         }
 
-        button:hover {
-            background-color: rgb(130, 176, 230);
+        .btn-login:hover {
+            background: linear-gradient(135deg, #5a3abf, #7ac7c4);
             transform: scale(1.03);
         }
+
+        .alert {
+            margin-top: 15px;
+            display: none;
+        }
     </style>
-    <script>
-        const base_url = '<?= BASE_URL; ?>';
-    </script>
 </head>
 
 <body>
-    <div class="container">
-        <h2>Iniciar Sesión</h2>
-        <img src="https://i.pinimg.com/originals/e7/2e/1b/e72e1b76a864b49d49995b1294ba529e.gif" alt="Logo de Kely">
+    <div class="login-card">
+        <div class="avatar">
+            <i class="bi bi-person-fill"></i>
+        </div>
+        <h2 class="mb-4">Iniciar Sesión</h2>
+
+        <!-- Mensaje de error/success -->
+        <div id="msgAlert" class="alert alert-danger" role="alert"></div>
+
         <form id="frm_login">
-            <label for="username">Usuario</label>
-            <input type="text" id="username" name="username" required>
-
-            <label for="password">Contraseña</label>
-            <input type="password" id="password" name="password" required>
-
-            <button type="button" onclick="iniciar_sesion();">Iniciar sesión</button>
+            <div class="form-group">
+                <span class="input-icon"><i class="bi bi-envelope"></i></span>
+                <input type="email" class="form-control" id="username" name="username" placeholder="Email ID" required>
+            </div>
+            <div class="form-group">
+                <span class="input-icon"><i class="bi bi-lock"></i></span>
+                <input type="password" class="form-control" id="password" name="password" placeholder="Password" required>
+            </div>
+            <div class="remember-forgot">
+                <div class="remember-me">
+                    <input type="checkbox" id="remember" name="remember">
+                    <label for="remember">Remember me</label>
+                </div>
+                <a href="#" class="forgot-password">Forgot Password?</a>
+            </div>
+            <button type="button" class="btn-login" onclick="iniciar_sesion();">LOGIN</button>
         </form>
     </div>
 
-    <script src="<?= BASE_URL; ?>view/function/user.js"></script>
+    <!-- Bootstrap JS -->
+    <script src="<?= BASE_URL ?>programacion_aplicaciones/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <!-- Script de login -->
+    <script src="<?= BASE_URL ?>view/function/user.js"></script>
 </body>
 
 </html>
-
