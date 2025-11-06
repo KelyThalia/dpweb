@@ -6,4 +6,4 @@
 </div>
 
 <!-- Script -->
-<script src="<?php echo BASE_URL; ?>view/function/products-vista.js"></script>
+<script src="<?php echo BASE_URL; ?>view/function/vista-producto.js"></script>

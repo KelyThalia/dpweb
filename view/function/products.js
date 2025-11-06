@@ -1,15 +1,24 @@
 function validar_form(tipo) {
+    let formId = document.getElementById("frm_produc") ? "frm_produc" : "frm_edit_produc";
+    let form = document.getElementById(formId);
     let codigo = document.getElementById("codigo").value;
     let nombre = document.getElementById("nombre").value;
     let detalle = document.getElementById("detalle").value;
     let precio = document.getElementById("precio").value;
     let stock = document.getElementById("stock").value;
-    let id_categoria = document.getElementById("id_categoria").value;
     let fecha_vencimiento = document.getElementById("fecha_vencimiento").value;
+      let id_categoria = document.getElementById("id_categoria").value;
+    
+    //let imagen = document.getElementById("imagen").value;
+  
     //let imagen = document.getElementById("imagen").value;
     //let id_proveedor = document.getElementById("id_proveedor").value;
 
-    if (codigo == "" || nombre == "" || detalle == "" || precio == "" || stock == "" || id_categoria == "" || fecha_vencimiento == "" ) {
+    if (codigo == "" || nombre == "" || detalle == "" || precio == "" || stock == "" || fecha_vencimiento == "" || id_categoria == ""  ) {
+
+
+
+
 
         Swal.fire({
             title: 'Campos vacíos',
@@ -19,6 +28,7 @@ function validar_form(tipo) {
         });
         return;
     }
+    
     if (tipo == "nuevo") {
         registrarProducto();
     }
@@ -54,6 +64,7 @@ async function registrarProducto() {
                 text: json.msg
             });
             document.getElementById('frm_product').reset();
+            
         } else {
             Swal.fire({
                 icon: "error",
@@ -91,13 +102,17 @@ async function view_producto() {
             let html = '';
             json.forEach((producto, index) => {
                 html += `<tr>
-                    <td>${index + 1}</td>
-                    <td>${producto.codigo || ''}</td>
-                    <td>${producto.nombre || ''}</td>
-                    <td>${producto.precio || ''}</td>
-                    <td>${producto.stock || ''}</td>
-                    <td>${producto.categoria || ''}</td>
-                    <td>${producto.fecha_vencimiento || ''}</td>
+                   <td>${index + 1}</td>
+                        <td>${producto.codigo || ''}</td>
+                        <td>${producto.nombre || ''}</td>
+                        <td>${producto.detalle || ''}</td>
+                        <td>${producto.precio || ''}</td>
+                        <td>${producto.stock || ''}</td>
+                         <td>${producto.fecha_vencimiento || ''}</td>
+                        <td>${producto.categoria || ''}</td>
+                        <td>${producto.proveedor || ''}</td>
+                        
+                        
                     <td>
                         <a href="`+ base_url + `producto-edit/` + producto.id + `" class="btn btn-primary">Editar</a>
                         <button onclick="eliminar(` + producto.id + `)" class="btn btn-danger">Eliminar</button>
@@ -144,8 +159,9 @@ async function edit_producto() {
         document.getElementById('detalle').value = json.data.detalle;
         document.getElementById('precio').value = json.data.precio;
         document.getElementById('stock').value = json.data.stock;
-        document.getElementById('id_categoria').value = json.data.id_categoria;
         document.getElementById('fecha_vencimiento').value = json.data.fecha_vencimiento;
+        document.getElementById('id_categoria').value = json.data.id_categoria;
+        
 
     } catch (error) {
         console.log(' ocurrio un error' + error);
@@ -161,28 +177,57 @@ if (document.querySelector("#frm_edit_producto")) {
 }
 
 async function actualizarProducto() {
-    const frm_edit_producto = document.querySelector("#frm_edit_producto")
-    const datos = new FormData(frm_edit_producto);
-    let respuesta = await fetch(base_url + 'control/productoController.php?tipo=actualizar', {
-        method: 'POST',
-        mode: 'cors',
-        cache: 'no-cache',
-        body: datos
-    });
-    json = await respuesta.json();
-    if (!json.status) {
-        Swal.fire({
-            icon: "error",
-            title: "Error",
-            text: "Oooops, ocurrio un error al actualizar",
+    try {
+        const datos = new FormData(document.getElementById('frm_edit_producto'));
+        const idProducto = document.getElementById('id_producto').value;
+
+        if (idProducto) {
+            datos.append('id_producto', idProducto);
+        } else {
+            Swal.fire({
+                title: "Error",
+                text: "No se encontró el ID del producto.",
+                icon: "error"
+            });
+            return;
+        }
+
+        for (let pair of datos.entries()) {
+            console.log(`${pair[0]}: ${pair[1]}`);
+        }
+
+        let respuesta = await fetch(base_url + 'control/ProductoController.php?tipo=actualizar', {
+            method: 'POST',
+            mode: 'cors',
+            cache: 'no-cache',
+            body: datos
         });
-        console.log(json.msg);
-        return;
-    } else {
+
+        let json = await respuesta.json();
+        console.log("Respuesta de actualización:", json);
+        if (json.status) {
+            Swal.fire({
+                title: json.msg,
+                icon: "success",
+                draggable: true
+               }).then(() => {
+        // Redirigir después de cerrar el alert
+        location.href = base_url + 'producto';
+        // view_productos(); // Solo si quieres actualizar sin recargar
+    });
+        } else {
+            Swal.fire({
+                title: json.msg,
+                icon: "error",
+                draggable: true
+            });
+        }
+    } catch (e) {
+        console.error("Error al actualizar producto:",e);
         Swal.fire({
-            icon: 'success',
-            title: 'Éxito',
-            text: json.msg
+            title: "Error",
+            text: "Error al actualizar: " + e.message,
+            icon: "error"
         });
     }
 }

@@ -51,6 +51,12 @@
             </select>
           </div>
         </div>
+         <div class="mb-3 row">
+          <label for="fecha_vencimiento" class="col-sm-4 col-form-label"><b>Fecha vencimiento:</b></label>
+          <div class="col-sm-8">
+            <input type="date" class="form-control" id="fecha_vencimiento" name="fecha_vencimiento" required>
+          </div>
+        </div>
         <div class="mb-3 row">
           <label for="id_proveedor" class="col-sm-4 col-form-label"><b>Proveedor:</b></label>
           <div class="col-sm-8">
@@ -61,12 +67,7 @@
         </div>
 
 
-        <div class="mb-3 row">
-          <label for="fecha_vencimiento" class="col-sm-4 col-form-label"><b>Fecha vencimiento:</b></label>
-          <div class="col-sm-8">
-            <input type="date" class="form-control" id="fecha_vencimiento" name="fecha_vencimiento" required>
-          </div>
-        </div>
+       
         <div class="mb-3 row">
           <label for="imagen" class="col-sm-4 col-form-label"><b>Imagen</b></label>
           <div class="col-sm-8">

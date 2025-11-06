@@ -7,11 +7,12 @@
         <th>Nro</th>
         <th>Codigo</th>
         <th>Nombre</th>
+        <th>Detalle</th>
         <th>Precio</th>
         <th>Stock</th>
-        <th>Categoria</th>
-        <th>Proveedor</th>
-        <th>Fecha_Vencimiento</th>
+        <th>Fecha Vencimiento</th>
+        <th>proveedor</th>
+        <th>categoria</th>
         <th>Acciones</th>
       </tr>
     </thead>

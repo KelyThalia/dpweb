@@ -108,34 +108,35 @@ if ($tipo == "actualizar") {
     $detalle = $_POST['detalle'];
     $precio = $_POST['precio'];
     $stock = $_POST['stock'];
+     $fecha_vencimiento = $_POST['fecha_vencimiento'];
     $id_categoria = $_POST['id_categoria'];
-    $fecha_vencimiento = $_POST['fecha_vencimiento'];
+    $id_proveedor = $_POST['id_proveedor'];
 
-    if ($id_producto == "" || $codigo == "" || $nombre == "" || $detalle == "" || $precio == "" || $stock == "" || $id_categoria == "" || $fecha_vencimiento == "" || $imagen == "" || $id_proveedor == ""){
+    if ($id_producto == "" || $codigo == "" || $nombre == "" || $detalle == "" || $precio == "" || $stock == "" || $fecha_vencimiento == ""|| $id_categoria == ""  || $imagen == "" || $id_proveedor == "") {
         $arrResponse = array('status' => false, 'msg' => 'Error, campos vacios');
     } else {
-        $existeID = $objProducto->ver($id_producto);
-        if (!$existeID) {
+        $producto = $objProducto->ver($id_producto);
+        if (!$producto) {
             $arrResponse = array('status' => false, 'msg' => 'Error, producto no existe en DB');
             echo json_encode($arrResponse);
             exit;
         } else {
             if (!isset($_FILES['imagen']) || $_FILES['imagen']['error'] !== UPLOAD_ERR_OK) {
-                // echo "no se envio la imagen";
+                // Usar imagen existente
                 $imagen = $producto->imagen;
             } else {
                 // echo "si se envio la imagen";
                 //subir imagen en la carpeta upload , obtener la ruta del archivo y esa misma ruta almacenar que se esta almacenando en la base de datos
                 // Procesar imagen
                 $file = $_FILES['imagen'];
-                $ext  = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
+                $ext = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
                 $extPermitidas = ['jpg', 'jpeg', 'png'];
 
                 if (!in_array($ext, $extPermitidas)) {
                     echo json_encode(['status' => false, 'msg' => 'Formato de imagen no permitido']);
                     exit;
                 }
-                if ($file['size'] > 5 * 1024 * 1024) { // 5MB
+                if ($file['size'] > 5 * 1024 * 1024) {
                     echo json_encode(['status' => false, 'msg' => 'La imagen supera 5MB']);
                     exit;
                 }
@@ -146,7 +147,7 @@ if ($tipo == "actualizar") {
                 }
 
                 $nombreUnico = uniqid('prod_') . '.' . $ext;
-                $rutaFisica  = $carpetaUploads . $nombreUnico;
+                $rutaFisica = $carpetaUploads . $nombreUnico;
                 $imagen = "uploads/productos/" . $nombreUnico;
 
                 if (!move_uploaded_file($file['tmp_name'], $rutaFisica)) {
@@ -156,10 +157,11 @@ if ($tipo == "actualizar") {
             }
             //actualizar
             $actualizar = $objProducto->actualizar($id_producto, $codigo, $nombre, $detalle, $precio, $stock, $id_categoria, $fecha_vencimiento, $id_proveedor, $imagen);
+
             if ($actualizar) {
                 $arrResponse = array('status' => true, 'msg' => 'Actualizado correctamente');
             } else {
-                $arrResponse = array('status' => false, 'msg' => $actualizar);
+                $arrResponse = array('status' => false, 'msg' => 'Error al actualizar producto');
             }
             echo json_encode($arrResponse);
             exit;

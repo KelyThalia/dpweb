@@ -1,18 +1,7 @@
-// ====================================
-// 📦 VISOR DE PRODUCTOS EN TIENDA
-// ====================================
 
-// ⚙️ Ajusta esta variable según tu proyecto
-// Si este archivo se incluye desde un archivo PHP (ej: productos.php),
-// puedes usar la variable PHP BASE_URL
-const base_url = "<?php echo BASE_URL; ?>";
-
-// ====================================
-// 🔄 FUNCIÓN PRINCIPAL
-// ====================================
 async function cargarProductosTienda() {
     const contenedor = document.getElementById('contenedor_productos');
-    
+
     // Mostrar loader
     contenedor.innerHTML = `
         <div class="col-12 text-center text-muted">
