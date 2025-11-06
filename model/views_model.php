@@ -3,9 +3,9 @@
   {
      protected static function get_view($views)
         {
-        $white_list = [ "login", "Home", "Products", "new-user", "users", "edit-user","eliminar",
+        $white_list = [ "login", "Home", "producto", "new-user", "users", "edit-user","eliminar",
         "new-producto","producto-listar","producto-edit", "new-categoria","categoria","edit-categoria",
-          "new-proveedor", "proveedor", "edit-proveedor","new-cliente","cliente","edit-cliente","vista"];
+          "new-proveedor", "proveedor", "edit-proveedor","new-cliente","cliente","edit-cliente","producto-vista"];
         if (in_array($views, $white_list)) {
             if (is_file("./view/" . $views . ".php")) {
                 $content = "./view/" . $views . ".php";

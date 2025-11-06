@@ -51,7 +51,7 @@
                         <a class="nav-link" href="<?= BASE_URL ?>new-proveedor">Proveedor</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="<?= BASE_URL ?>vista">Vista</a>
+                        <a class="nav-link" href="<?= BASE_URL ?>producto-vista">Producto-vista</a>
                     </li>
                 </ul>
                 <form class="d-flex" role="search">
