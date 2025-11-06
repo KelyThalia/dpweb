@@ -1,5 +1,4 @@
-/*Cada línea busca un campo del formulario HTML por su ID 
-(como nro_identidad, correo, etc.) y guarda su valor en una variable.*/
+
 
 function validar_form(tipo) {
     let nro_documento = document.getElementById("nro_identidad").value; /*nro_documento guarda el valor del campo número de documento. */
@@ -31,17 +30,7 @@ function validar_form(tipo) {
     }
     /*Aquí se verifica si alguno de los campos está vacío. */
  
-} /* El operador || significa "o",
-   así que si cualquiera de los campos es una--
-    cadena vacía (""), entra al bloque if. */
-
-/* Evita que se envie el formulario 
-MANEJO DEL ENVIO DEL FORMULARIO
-“Este código se asegura de que el formulario con ID frm_user no se envíe automáticamente.
- En vez de eso, cuando el usuario hace clic en enviar, se ejecuta una función que primero detiene 
- el envío y luego llama a validar_form(). 
-Esta validación garantiza que todos los campos estén llenos antes de registrar al usuario.”*/
-
+} 
 
 if (document.querySelector('#frm_user')) { /* verifica si existe un formulario con el ID frm_user en el documento HTML.document.querySelector('#frm_user') busca el formulario.Si existe, entra al bloque if. */
     let frm_user = document.querySelector('#frm_user'); /* Aquí se guarda una referencia al formulario en la variable frm_user */
