@@ -14,6 +14,13 @@
             <div class="card-body">
 
                 <div class="mb-3 row">
+                    <label for="Nro" class="col-sm-2 col-form-label">Nro:</label>
+                    <div class="col-sm-4">
+                        <input type="number" class="form-control" id="Nro" name="Nro" required>
+                    </div>
+                </div>
+
+                <div class="mb-3 row">
                     <label for="codigo" class="col-sm-2 col-form-label">Codigo:</label>
                     <div class="col-sm-4">
                         <input type="number" class="form-control" id="codigo" name="codigo" required>
@@ -60,9 +67,9 @@
                     </div>
                 </div>
                 <div class="mb-3 row">
-                    <label for="imagen" class="col-sm-2 col-form-label"><b>Imagen</b></label>
+                    <label for="imagen" class="col-sm-2 col-form-label"><b>Imagen:</b></label>
                     <div class="col-sm-4">
-                        <input type="file" class="form-control" id="imagen" name="imagen" accept=".jpg, .jpeg, .png" >
+                        <input type="file" class="form-control" id="imagen" name="imagen" accept=".jpg, .jpeg, .png">
                     </div>
                 </div>
 

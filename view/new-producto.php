@@ -78,7 +78,7 @@
           <button type="submit" class="btn btn-success">Registrar</button>
           <button type="reset" class="btn btn-primary">Limpiar</button>
           <a href="index.php?page=products" class="btn btn-danger">Cancelar</a>
-          <a href="<?php echo BASE_URL; ?>producto-listar" class="btn btn-info">Ver</a>
+          <a href="<?php echo BASE_URL; ?>producto" class="btn btn-info">Ver</a>
         </div>
       </form>
     </div>

@@ -193,7 +193,7 @@ async function view_proveedor() {
     }
 }
 
-// ✅ Ejecuta automáticamente si existe la tabla
+// Ejecuta automáticamente si existe la tabla
 if (document.getElementById('content_proveedor')) {
     view_proveedor();
 }
@@ -231,7 +231,7 @@ async function eliminarProveedor(id) {
             title: "Éxito",
             text: json.msg
         }).then(() => {
-            view_proveedor(); // 🔄 Recargar la lista automáticamente
+            view_proveedor(); //  Recargar la lista automáticamente
         });
 
     } catch (error) {
@@ -245,7 +245,7 @@ async function eliminarProveedor(id) {
 }
 
 
-// ✅ Ejecuta automáticamente si existe la tabla de proveedores
+// Ejecuta automáticamente si existe la tabla de proveedores
 if (document.getElementById('content_proveedor')) {
     view_proveedor();
 }
@@ -253,7 +253,7 @@ if (document.getElementById('content_proveedor')) {
 
 
 if (document.getElementById('content_proveedor')) {
-    view_proveedor(); // ✅ ahora sí coincide el nombre
+    view_proveedor(); //  ahora sí coincide el nombre
 }
 
 

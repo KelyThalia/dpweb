@@ -27,7 +27,7 @@ function validar_form(tipo) {
         registarUsuario();   
     }
       if (tipo=="actualizar") {
-        actualizarUsuarioUsuario();   
+        actualizarUsuario();   
     }
     /*Aquí se verifica si alguno de los campos está vacío. */
  
