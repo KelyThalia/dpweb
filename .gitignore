@@ -1,2 +1,3 @@
 config.php
-upload/productos/*
+uploads/productos/*
+uploads/
