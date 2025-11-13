@@ -22,15 +22,15 @@ function validar_form(tipo) {
         });
         return;
     }
-    if (tipo=="nuevo") {
-        registarUsuario();   
+    if (tipo == "nuevo") {
+        registarUsuario();
     }
-      if (tipo=="actualizar") {
-        actualizarUsuario();   
+    if (tipo == "actualizar") {
+        actualizarUsuario();
     }
     /*Aquí se verifica si alguno de los campos está vacío. */
- 
-} 
+
+}
 
 if (document.querySelector('#frm_user')) { /* verifica si existe un formulario con el ID frm_user en el documento HTML.document.querySelector('#frm_user') busca el formulario.Si existe, entra al bloque if. */
     let frm_user = document.querySelector('#frm_user'); /* Aquí se guarda una referencia al formulario en la variable frm_user */
@@ -104,7 +104,7 @@ async function iniciar_sesion() {
         let json = await respuesta.json();
         if (json.status) {
             location.replace(base_url + 'new-user');
-           
+
             //validamos que json.status sea igual tru , si es false ya 
             //sea registrado registrado
 
@@ -133,7 +133,7 @@ async function obtenerUsuarioPorId(id) {
         document.getElementById('direccion').value = usuario.direccion || '';
         document.getElementById('rol').value = usuario.rol || '';
     } catch (e) {
-        console.error("Error al obtener usuario por ID", e); //  AHORA ESTÁ BIEN
+        console.error("Error al obtener usuario por ID", e); 
     }
 }
 
@@ -180,7 +180,7 @@ async function view_users() {
 /* capturar en valor con js y enviar al controlador mostrar en un formulario para poder actualizar*/
 if (document.getElementById('content_users')) {
     view_users();
-    
+
 }
 
 
@@ -201,9 +201,10 @@ async function edit_user() {
         json = await respuesta.json();
 
         if (!json.status) {
-            alert(jsn.msg);
-            return; 
+            alert(json.msg);
+            return;
         }
+
         document.getElementById('nro_identidad').value = json.data.nro_identidad;
         document.getElementById('razon_social').value = json.data.razon_social;
         document.getElementById('telefono').value = json.data.telefono;
@@ -216,7 +217,7 @@ async function edit_user() {
         document.getElementById('rol').value = json.data.rol;
 
     } catch (error) {
-       console.log('oops, ocurrió un error'+error);
+        console.log('oops, ocurrió un error' + error);
     }
 }
 
@@ -225,63 +226,63 @@ if (document.getElementById('btn_guardar_cambios')) {
         actualizarUsuario(); // Llama a la función que hará el update
     });
 }
-if (document.querySelector('#frm_edit-user')) { 
-    let frm_user = document.querySelector('#frm_edit-user'); 
-    frm_user.onsubmit = function (e) { 
-        e.preventDefault(); 
-        validar_form("actualizar"); 
+if (document.querySelector('#frm_edit-user')) {
+    let frm_user = document.querySelector('#frm_edit-user');
+    frm_user.onsubmit = function (e) {
+        e.preventDefault();
+        validar_form("actualizar");
     }
 }
 
 async function actualizarUsuario() {
-   const datos = new FormData(frm_edit_user);
-   let respuesta = await fetch(base_url + 'control/UsuarioController.php?tipo=actualizar', {
-            method: 'POST',
-            mode: 'cors',
-            cache: 'no-cache',
-            body: datos
-        });
-        json = await respuesta.json();
-        if (!json.status) {
-            alert("Ooops. ocurrio un error al actualizar, intentelo nuevamente");
-            console.log(json.msg);
-            return;
-            
-        }else{
-            alert(json.msg);
-        }
+    const datos = new FormData(document.getElementById('frm_edit-user'));
+    let respuesta = await fetch(base_url + 'control/UsuarioController.php?tipo=actualizar', {
+        method: 'POST',
+        mode: 'cors',
+        cache: 'no-cache',
+        body: datos
+    });
+    json = await respuesta.json();
+    if (!json.status) {
+        alert("Ooops. ocurrio un error al actualizar, intentelo nuevamente");
+        console.log(json.msg);
+        return;
 
-    
+    } else {
+        alert(json.msg);
+    }
+
+
 }
-async function fn_eliminar(id) { 
+async function fn_eliminar(id) {
     let datos
 }
 
 async function Eliminar(id) {
-  let datos = new FormData();
-  datos.append('id_persona', id);
-   let respuesta = await fetch(base_url + 'control/UsuarioController.php?tipo=eliminar', {
-            method: 'POST',
-            mode: 'cors',
-            cache: 'no-cache',
-            body: datos
+    let datos = new FormData();
+    datos.append('id_persona', id);
+    let respuesta = await fetch(base_url + 'control/UsuarioController.php?tipo=eliminar', {
+        method: 'POST',
+        mode: 'cors',
+        cache: 'no-cache',
+        body: datos
+    });
+    json = await respuesta.json();
+    if (!json.status) {
+        Swal.fire({
+            icon: "error",
+            title: "Error",
+            text: "Ooops. ocurrió un error al eliminar, inténtelo nuevamente"
         });
-        json = await respuesta.json();
-        if (!json.status) {
-            Swal.fire({
-                icon: "error",
-                title: "Error",
-                text: "Ooops. ocurrió un error al eliminar, inténtelo nuevamente"
-            });
-            console.log(json.msg);
-            return;
-            
-        }else{
-            Swal.fire({
-                icon: "success",
-                title: "Éxito",
-                text: json.msg
-            });
-            view_users();
-        }  
+        console.log(json.msg);
+        return;
+
+    } else {
+        Swal.fire({
+            icon: "success",
+            title: "Éxito",
+            text: json.msg
+        });
+        view_users();
+    }
 }

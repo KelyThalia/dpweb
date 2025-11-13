@@ -7,14 +7,14 @@ function validar_form(tipo) {
     let precio = document.getElementById("precio").value;
     let stock = document.getElementById("stock").value;
     let fecha_vencimiento = document.getElementById("fecha_vencimiento").value;
-      let id_categoria = document.getElementById("id_categoria").value;
-    
+    let id_categoria = document.getElementById("id_categoria").value;
+
     //let imagen = document.getElementById("imagen").value;
-  
+
     //let imagen = document.getElementById("imagen").value;
     //let id_proveedor = document.getElementById("id_proveedor").value;
 
-    if (codigo == "" || nombre == "" || detalle == "" || precio == "" || stock == "" || fecha_vencimiento == "" || id_categoria == ""  ) {
+    if (codigo == "" || nombre == "" || detalle == "" || precio == "" || stock == "" || fecha_vencimiento == "" || id_categoria == "") {
 
 
 
@@ -28,7 +28,7 @@ function validar_form(tipo) {
         });
         return;
     }
-    
+
     if (tipo == "nuevo") {
         registrarProducto();
     }
@@ -64,7 +64,7 @@ async function registrarProducto() {
                 text: json.msg
             });
             document.getElementById('frm_product').reset();
-            
+
         } else {
             Swal.fire({
                 icon: "error",
@@ -98,40 +98,59 @@ async function view_producto() {
             cache: 'no-cache'
         });
         let json = await respuesta.json();
+
+
+        document.getElementById('content_products').innerHTML = '';
+
         if (json && json.length > 0) {
-            let html = '';
+
             json.forEach((producto, index) => {
-                html += `<tr>
-                   <td>${index + 1}</td>
-                        <td>${producto.codigo || ''}</td>
-                        <td>${producto.nombre || ''}</td>
-                        <td>${producto.detalle || ''}</td>
-                        <td>${producto.precio || ''}</td>
-                        <td>${producto.stock || ''}</td>
-                         <td>${producto.fecha_vencimiento || ''}</td>
-                        <td>${producto.categoria || ''}</td>
-                        <td>${producto.proveedor || ''}</td>
-                        
-                        
+                let tr = document.createElement("tr");
+
+                tr.innerHTML = `
+                    <td>${index + 1}</td>
+                    <td>${producto.codigo || ""}</td>
+                    <td>${producto.nombre || ""}</td>
+                    <td>${producto.detalle || ""}</td>
+                    <td>${producto.precio || ""}</td>
+                    <td>${producto.stock || ""}</td>
+                    <td>${producto.fecha_vencimiento || ""}</td>
+                    <td>${producto.categoria || ""}</td>
+                    <td><svg id="barcode${producto.id}"></svg></td>
                     <td>
-                        <a href="`+ base_url + `producto-edit/` + producto.id + `" class="btn btn-primary">Editar</a>
-                        <button onclick="eliminar(` + producto.id + `)" class="btn btn-danger">Eliminar</button>
-                    </td>
-                </tr>`;
+                        <a href="${base_url}producto-edit/${producto.id}" class="btn btn-primary">Editar</a>
+                        <button class="btn btn-danger" onclick="eliminar(${producto.id})">Eliminar</button>
+                    </td>`;
+                document.getElementById('content_products').appendChild(tr);
             });
-            document.getElementById('content_products').innerHTML = html;
+
+            json.forEach(producto => {
+                JsBarcode("#barcode" + producto.id, String(producto.codigo || ""), {
+                    Width: 2,
+                    height: 40
+                });
+            });
+
         } else {
-            document.getElementById('content_products').innerHTML = '<tr><td colspan="6">No hay productos disponibles</td></tr>';
+            document.getElementById('content_products').innerHTML = `
+                <tr>
+                    <td colspan="10">No hay productos disponibles</td>
+                </tr>`;
         }
+
     } catch (error) {
         console.log(error);
-        document.getElementById('content_products').innerHTML = '<tr><td colspan="6">Error al cargar los productos</td></tr>';
+        document.getElementById('content_products').innerHTML = `
+            <tr>
+                <td colspan="10">Error al cargar productos</td>
+            </tr>`;
     }
 }
 
 if (document.getElementById('content_products')) {
     view_producto();
 }
+
 
 async function edit_producto() {
     try {
@@ -161,7 +180,7 @@ async function edit_producto() {
         document.getElementById('stock').value = json.data.stock;
         document.getElementById('fecha_vencimiento').value = json.data.fecha_vencimiento;
         document.getElementById('id_categoria').value = json.data.id_categoria;
-        
+
 
     } catch (error) {
         console.log(' ocurrio un error' + error);
@@ -210,11 +229,11 @@ async function actualizarProducto() {
                 title: json.msg,
                 icon: "success",
                 draggable: true
-               }).then(() => {
-        // Redirigir después de cerrar el alert
-        location.href = base_url + 'producto';
-        // view_productos(); // Solo si quieres actualizar sin recargar
-    });
+            }).then(() => {
+                // Redirigir después de cerrar el alert
+                location.href = base_url + 'producto';
+                // view_productos(); // Solo si quieres actualizar sin recargar
+            });
         } else {
             Swal.fire({
                 title: json.msg,
@@ -223,7 +242,7 @@ async function actualizarProducto() {
             });
         }
     } catch (e) {
-        console.error("Error al actualizar producto:",e);
+        console.error("Error al actualizar producto:", e);
         Swal.fire({
             title: "Error",
             text: "Error al actualizar: " + e.message,
@@ -274,7 +293,7 @@ async function eliminar(id) {
     });
 }
 
-async function cargar_categorias(){
+async function cargar_categorias() {
     let respuesta = await fetch(base_url + 'control/CategoriaController.php?tipo=ver_categorias', {
         method: 'POST',
         mode: 'cors',

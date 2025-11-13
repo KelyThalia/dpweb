@@ -2,36 +2,41 @@
 (como nro_identidad, correo, etc.) y guarda su valor en una variable.*/
 
 function validar_form(tipo) {
-    let nro_documento = document.getElementById("nro_identidad").value; /*nro_documento guarda el valor del campo número de documento. */
+    let nro_documento = document.getElementById("nro_identidad").value;
     let razon_social = document.getElementById("razon_social").value;
     let telefono = document.getElementById("telefono").value;
-    let correo = document.getElementById("correo").value; /*correo guarda el valor del campo correo electrónico. */
+    let correo = document.getElementById("correo").value;
     let departamento = document.getElementById("departamento").value;
     let provincia = document.getElementById("provincia").value;
     let distrito = document.getElementById("distrito").value;
     let cod_postal = document.getElementById("cod_postal").value;
     let direccion = document.getElementById("direccion").value;
     let rol = document.getElementById("rol").value;
-    /*VALIDACON DE CAMPOS VACIOS */
-    if (nro_documento == "" || razon_social == "" || telefono == "" || correo == "" || departamento == ""
-        || provincia == "" || distrito == "" || cod_postal == "" || direccion == "" || rol == "") {
 
+    if (
+        nro_documento === "" || razon_social === "" || telefono === "" ||
+        correo === "" || departamento === "" || provincia === "" ||
+        distrito === "" || cod_postal === "" || direccion === "" || rol === ""
+    ) {
         Swal.fire({
-            title: "ERROR?",
-            text: "¡Ups! Hay campos vacíos.",
-            icon: "question"
+            icon: "warning",
+            title: "Campos vacíos",
+            text: "Por favor completa todos los campos antes de continuar."
         });
         return;
     }
-    if (tipo=="nuevo") {
-        registrarCliente();   
+
+    if (tipo == "nuevo") {
+        registrarCliente();
     }
-      if (tipo=="actualizar") {
-        actualizarCliente();   
+    if (tipo == "actualizar") {
+        actualizarCliente();
     }
-    /*Aquí se verifica si alguno de los campos está vacío. */
- 
-} 
+
+}
+/*Aquí se verifica si alguno de los campos está vacío. */
+
+
 
 if (document.querySelector('#frm_cliente')) { /* verifica si existe un formulario con el ID frm_user en el documento HTML.document.querySelector('#frm_user') busca el formulario.Si existe, entra al bloque if. */
     let frm_cliente = document.querySelector('#frm_cliente'); /* Aquí se guarda una referencia al formulario en la variable frm_user */
@@ -42,7 +47,7 @@ if (document.querySelector('#frm_cliente')) { /* verifica si existe un formulari
 }
 
 async function registrarCliente() {
-    const form = document.getElementById("frm_cliente");
+    const form = document.querySelector('#frm_edit-cliente');
     const datos = new FormData(form);
 
     try {
@@ -67,14 +72,8 @@ async function registrarCliente() {
                 text: result.msg
             });
         }
-
     } catch (error) {
         console.error("Error al registrar cliente:", error);
-        Swal.fire({
-            icon: "error",
-            title: "Error",
-            text: "Ocurrió un problema al registrar el cliente."
-        });
     }
 }
 
@@ -102,7 +101,7 @@ async function iniciar_sesion() {
         let json = await respuesta.json();
         if (json.status) {
             location.replace(base_url + 'new-user');
-           
+
             //validamos que json.status sea igual tru , si es false ya 
             //sea registrado registrado
 
@@ -159,7 +158,7 @@ async function view_cliente() {
             return;
         }
 
-        let usuarios = resultado.data; // ✅ AQUÍ está el array real
+        let usuarios = resultado.data; //  AQUÍ está el array real
 
         let tbody = document.getElementById('content_cliente');
         tbody.innerHTML = '';
@@ -203,74 +202,81 @@ if (document.getElementById('content_cliente')) {
 
 async function edit_cliente() {
     try {
-        let id_persona = document.getElementById('id_persona').value;
+        const id_persona = document.getElementById('id_persona').value;
         const datos = new FormData();
-        //para agregar como un hijos.
         datos.append('id_persona', id_persona);
 
-        let respuesta = await fetch(base_url + 'control/UsuarioController.php?tipo=ver', {
+        let respuesta = await fetch(base_url + 'control/UsuarioController.php?tipo=obtener_usuario', {
             method: 'POST',
-            mode: 'cors',
-            cache: 'no-cache',
             body: datos
         });
 
-        json = await respuesta.json();
+        let json = await respuesta.json();
 
         if (!json.status) {
-            alert(jsn.msg);
-            return; 
+            Swal.fire({ icon: "error", text: json.msg });
+            return;
         }
-        document.getElementById('nro_identidad').value = json.data.nro_identidad;
-        document.getElementById('razon_social').value = json.data.razon_social;
-        document.getElementById('telefono').value = json.data.telefono;
-        document.getElementById('correo').value = json.data.correo;
-        document.getElementById('departamento').value = json.data.departamento;
-        document.getElementById('provincia').value = json.data.provincia;
-        document.getElementById('distrito').value = json.data.distrito;
-        document.getElementById('cod_postal').value = json.data.cod_postal;
-        document.getElementById('direccion').value = json.data.direccion;
-        document.getElementById('rol').value = json.data.rol;
+
+        const data = json.data;
+        document.getElementById('nro_identidad').value = data.nro_identidad || '';
+        document.getElementById('razon_social').value = data.razon_social || '';
+        document.getElementById('telefono').value = data.telefono || '';
+        document.getElementById('correo').value = data.correo || '';
+        document.getElementById('departamento').value = data.departamento || '';
+        document.getElementById('provincia').value = data.provincia || '';
+        document.getElementById('distrito').value = data.distrito || '';
+        document.getElementById('cod_postal').value = data.cod_postal || '';
+        document.getElementById('direccion').value = data.direccion || '';
+        document.getElementById('rol').value = data.rol || '';
 
     } catch (error) {
-       console.log('oops, ocurrió un error'+error);
+        console.error("Error al obtener cliente:", error);
     }
 }
-
 if (document.getElementById('btn_guardar_cambios')) {
     document.getElementById('btn_guardar_cambios').addEventListener('click', function () {
         actualizarCliente(); // Llama a la función que hará el update
     });
 }
-if (document.querySelector('#frm_edit-cliente')) { 
-    let frm_cliente = document.querySelector('#frm_edit-cliente'); 
-    frm_cliente.onsubmit = function (e) { 
-        e.preventDefault(); 
-        validar_form("actualizar"); 
+if (document.querySelector('#frm_edit-cliente')) {
+    let frm_cliente = document.querySelector('#frm_edit-cliente');
+    frm_cliente.onsubmit = function (e) {
+        e.preventDefault();
+        validar_form("actualizar");
     }
 }
 
 
 async function actualizarCliente() {
-   const datos = new FormData(frm_edit_cliente);
-   let respuesta = await fetch(base_url + 'control/UsuarioController.php?tipo=actualizar', {
+    const form = document.getElementById("frm_edit-cliente");
+    const datos = new FormData(form);
+
+    try {
+        let respuesta = await fetch(base_url + 'control/UsuarioController.php?tipo=actualizar', {
             method: 'POST',
-            mode: 'cors',
-            cache: 'no-cache',
             body: datos
         });
-        json = await respuesta.json();
-        if (!json.status) {
-            alert("Ooops. ocurrio un error al actualizar, intentelo nuevamente");
-            console.log(json.msg);
-            return;
-            
-        }else{
-            alert(json.msg);
-        }
+        let json = await respuesta.json();
 
-    
+        if (json.status) {
+            Swal.fire({
+                icon: "success",
+                title: "Actualizado correctamente",
+                text: json.msg
+            });
+        } else {
+            Swal.fire({
+                icon: "error",
+                title: "Error al actualizar",
+                text: json.msg
+            });
+        }
+    } catch (error) {
+        console.error("Error al actualizar cliente:", error);
+    }
 }
+
 async function fn_eliminar(id) {
     if (window.confirm("Confirmar eliminar?")) {
         eliminar(id);
@@ -291,7 +297,7 @@ async function eliminar(id) {
         alert("Oooooops, ocurrio un error al eliminar persona, intentelo mas tarde");
         console.log(json.msg);
         return;
-    }else{
+    } else {
         alert(json.msg);
         location.replace(base_url + 'users');
     }

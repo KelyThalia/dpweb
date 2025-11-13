@@ -1,18 +1,20 @@
 <!-- INICIO DE CUERPO DE PÁGINA-->
 <div class="container_fluid">
     <div class="card">
-        <h5 class="btn btn-info">Editar Datos de Usuario</h5>
+        <div class="card-header bg-info text-white">
+            <h5 class="mb-0">Editar Datos de Usuario</h5>
+        </div>
         <?php
+        $id = 0;
         if (isset($_GET["views"])) {
-
-
             $ruta = explode("/", $_GET["views"]);
-            //echo $ruta[1];
+            if (isset($ruta[1]) && is_numeric($ruta[1])) {
+                $id = (int)$ruta[1];
+            }
         }
         ?>
         <form id="frm_edit-user"> <!-- Corregido: guion en lugar de guion bajo -->
-            <input type="hidden" id="id_persona" name="id_persona" value="<?= (int)$id ?>">
-
+           <input type="hidden" id="id_persona" name="id_persona" value="<?= $id ?>">
             <div class="card-body">
                 <div class="mb-3 row">
                     <label for="nro_identidad" class="col-sm-4 col-form-label"><b>Nro Identidad:</b></label>
@@ -71,7 +73,7 @@
                 <div class="mb-3 row">
                     <label for="rol" class="col-sm-4 col-form-label"><b>Rol:</b></label>
                     <div class="col-sm-8">
-                        <select class="form-control" name="rol" id="rol" required> <!--  corregido -->
+                        <select class="form-control" name="rol" id="rol" required>
                             <option value="" disabled selected>Seleccione</option>
                             <option value="administrador">Administrador</option>
                             <option value="vendedor">Vendedor</option>
@@ -81,7 +83,7 @@
             </div>
 
             <div class="card-footer text-end">
-                <button type="button" class="btn btn-warning" id="btn_guardar_cambios">Actualizar</button>
+               <button type="submit" class="btn btn-warning" id="btn_guardar_cambios">Actualizar</button>
                 <a href="<?= BASE_URL ?>users" class="btn btn-success">Cancelar</a>
             </div>
         </form>

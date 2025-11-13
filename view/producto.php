@@ -11,8 +11,8 @@
         <th>Precio</th>
         <th>Stock</th>
         <th>Fecha Vencimiento</th>
-        <th>proveedor</th>
         <th>categoria</th>
+        <th>código Barra</th>
         <th>Acciones</th>
       </tr>
     </thead>
@@ -20,3 +20,4 @@
   </table>
 </div>
 <script src="<?php echo BASE_URL ?>view/function/products.js"></script>
+<script src="<?php echo BASE_URL ?>view/function/JsBarcode.all.min.js"></script>

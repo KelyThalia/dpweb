@@ -67,11 +67,15 @@ class UsuarioModel
     }
     public function actualizar($id_persona, $nro_identidad, $razon_social, $telefono, $correo, $departamento, $provincia, $distrito, $cod_postal, $direccion, $rol)
     {
-        $consulta = "UPDATE persona SET nro_identidad='$nro_identidad', razon_social='$razon_social', telefono='$telefono', correo='$correo',
-      departamento='$departamento', provincia='$provincia', distrito='$distrito', cod_postal='$cod_postal', direccion='$direccion', rol='$rol' WHERE id='$id_persona'";
-        $sql = $this->conexion->query($consulta);
-        return $sql;
+        $sql = "UPDATE persona 
+            SET nro_identidad='$nro_identidad', razon_social='$razon_social', telefono='$telefono', correo='$correo',
+                departamento='$departamento', provincia='$provincia', distrito='$distrito', cod_postal='$cod_postal',
+                direccion='$direccion', rol='$rol'
+            WHERE id='$id_persona'";
+        $query = $this->conexion->query($sql);
+        return $query;
     }
+
 
     public function eliminar($id)
     {
