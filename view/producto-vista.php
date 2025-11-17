@@ -6,6 +6,17 @@
         <div class="card shadow">
             <div class="card-body">
                 <h5 class="card-title">Productos</h5>
+                 <div class="col-9">
+                    <div class="card-body row">
+                        <h5 class="card-title">buscra producto</h5>
+                        <div class="col-md-6">
+                            <input type="text" class="from-control col-md-12" placeholder="buscar productos"
+                            id="busqueda_venta" onkeyup="listar_productos_venta();">
+                        </div>
+
+                    </div>
+
+                </div>
                 <div class="row container-fluid" id="productos_venta">
                     <!-- Aquí se cargarán los productos -->
                 </div>

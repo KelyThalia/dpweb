@@ -30,21 +30,28 @@ class ProductoModel
         $sql = $this->conexion->query($consulta);
         return $sql->fetch_object();
     }
-
     public function mostrarProductos()
     {
         $arr_productos = array();
-        $consulta = "SELECT * FROM producto";
+
+        $consulta = "SELECT p.*, c.nombre AS categoria
+                 FROM producto p
+                 INNER JOIN categoria c ON c.id = p.id_categoria";
+
         $sql = $this->conexion->query($consulta);
+
         if (!$sql) {
             error_log("Error en query(): " . $this->conexion->error);
             return $arr_productos;
         }
+
         while ($objeto = $sql->fetch_object()) {
-            array_push($arr_productos, $objeto);
+            $arr_productos[] = $objeto;
         }
+
         return $arr_productos;
     }
+
 
 
     public function ver($id)
@@ -70,5 +77,15 @@ class ProductoModel
         $consulta = "DELETE FROM producto WHERE id='$id_producto'";
         $sql = $this->conexion->query($consulta);
         return $sql;
+    }
+    public function buscarProductoByNombreOrCodigo($dato)
+    {
+        $arr_productos = array();
+        $consulta = "SELECT * FROM producto WHERE codigo LIKE '$dato%' OR nombre like '%$dato%' OR detalle LIKE '%$dato%'";
+       $sql = $this->conexion->query($consulta);
+        while ($objeto = $sql->fetch_object()) {
+            array_push ($arr_productos, $objeto);
+        }
+        return $arr_productos;
     }
 }
