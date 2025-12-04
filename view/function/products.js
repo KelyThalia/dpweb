@@ -357,6 +357,13 @@ async function listar_productos_venta() {
                 nueva_fila.innerHTML = producto_list;
                 cont++;
                 contenidot.appendChild(nueva_fila);
+                let id = document.getElementById('id_producto_venta').value;
+                let precio = document.getElementById('producto_precio_venta').value;
+                let cantidad = document.getElementById('producto_cantidad_venta').value;
+                id.value = producto.id;
+                precio.value = producto.precio;
+                cantidad.value = 1;
+
             });
         }
     } catch (e) {

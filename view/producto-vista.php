@@ -12,6 +12,11 @@
                         <div class="col-md-6">
                             <input type="text" class="from-control col-md-12" placeholder="buscar productos"
                             id="busqueda_venta" onkeyup="listar_productos_venta();">
+
+                            <input type="hidden" id="id_producto_venta">
+                            <input type="hidden" id="producto_precio_venta">
+                            <input type="hidden" id="producto_cantidad_venta".value= "1">
+
                         </div>
 
                     </div>
@@ -54,3 +59,11 @@
 <!-- Script -->
  <script src="<?php echo BASE_URL; ?>view/function/venta.js"></script>
 <script src="<?php echo BASE_URL; ?>view/function/products.js"></script>
+<script>
+    let input = document.getElementById("busqueda_venta");
+    input.addEventListener('keydown', (event)=>{
+        if (event.key == 'Enter') {
+            agregar_producto_temporal();
+        }
+    })
+</script>
