@@ -1,30 +1,68 @@
 <?php
-require_once("../model/ventaModel.php");
+require_once("../model/VentaModel.php");
 require_once("../model/productoModel.php");
 
+$objProducto = new ProductoModel();
+$objVenta = new VentaModel();
 
-$objVenta = new ventaModel();
-$objProducto = new productoModel();
+$tipo = $_GET['tipo'];
 
 
-
-
-$tipo = $_GET['tipo'] ?? '';
 if ($tipo == "registrarTemporal") {
-    $id_producto = $_POST ['id_producto'];
-    $precio = $_POST ['precio'];
+    $respuesta = array('status' => false, 'msg' => 'fallo el controlador');
+    $id_producto = $_POST['id_producto'];
+    $precio = $_POST['precio'];
     $cantidad = $_POST['cantidad'];
 
+    $b_producto = $objVenta->buscarTemporal($id_producto);
 
-    $b_producto = $objVenta->buscarTemporal($id_producto, $n_cantidad);
     if ($b_producto) {
-        $n_cantidad =$b_producto->cantidad+1;
-       $objVenta->actualizarCantidadTemporal($id_producto, $cantidad);
-       $respuesta = array('status' => true, 'msg'=>'');
-
-    }else {
+        $nueva_cantidad = $b_producto->cantidad + 1;
+        $objVenta->actualizarCantidadTemporal($id_producto, $nueva_cantidad);
+        $respuesta = array('status' => true, 'msg' => 'actualizado');
+    } else {
         $registro = $objVenta->registrar_temporal($id_producto, $precio, $cantidad);
-       $respuesta = array('status' => true, 'msg'=>'registrado');
+        $respuesta = array('status' => true, 'msg' => 'registrado');
     }
+    echo json_encode($respuesta);
+}
+
+
+
+
+if ($tipo == "ver") {
+    $respuesta = array('status' => false, 'msg' => '');
+    $id_producto = $_POST['id_producto'];
+    $producto = $objVenta->verTemporal($id_producto);
+    if ($producto) {
+        $respuesta['status'] = true;
+        $respuesta['data'] = $producto;
+    } else {
+        $respuesta['msg'] = "Error, producto no encontrado";
+    }
+    echo json_encode($respuesta);
+}
+
+
+
+if ($tipo == "listarTemporal") {
+    $temporales = $objVenta->mostrarProductosTemporal();
+    $respuesta = array('status' => true,'data' => $temporales);
+    echo json_encode($respuesta);
+}
+
+
+
+if ($tipo == "eliminar") {
+    $id = $_POST['id'];
+    $delete = $objVenta->eliminarTemporalVenta($id);
+
+    if ($delete) {
+        $respuesta['status'] = true;
+        $respuesta['msg'] = "Producto eliminado";
+    } else {
+        $respuesta['msg'] = "Error al eliminar";
+    }
+
     echo json_encode($respuesta);
 }
