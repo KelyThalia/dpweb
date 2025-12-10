@@ -35,7 +35,7 @@
             <div class="card-body">
                 <h5 class="card-title">Lista de Compra</h5>
 
-                <!-- RESPONSIVE en esta parte 👇 -->
+                <!-- RESPONSIVE en esta parte  -->
                 <div class="table-responsive">
                     <table class="table table-bordered table-striped">
                         <thead class="table-dark text-center">
