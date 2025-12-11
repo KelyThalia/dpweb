@@ -98,14 +98,25 @@ async function actualizarCarrito() {
                 rows += `
                 <tr>
                     <td>${p.nombre}</td>
-                    <td>${p.cantidad}</td>
-                    <td>${p.precio}</td>
-                    <td>${subtotal.toFixed(2)}</td>
+
+                    <td>
+                        <input type="number"
+                            class="form-control"
+                            id="cantidad_${p.id}"
+                            value="${p.cantidad}"
+                            style="width: 70px;"
+                            min="1"
+                            onkeyup="actualizar_subtotal(${p.id}, ${p.precio})"
+                        >
+                    </td>
+
+                    <td>s/. </td>
+                    <td>s/. ${subtotal.toFixed(2)}</td>
+
                     <td>
                         <button onclick="eliminar_temporal(${p.id})" class="btn btn-danger btn-sm">
-    Eliminar
-</button>
-
+                            Eliminar
+                        </button>
                     </td>
                 </tr>`;
             });
@@ -120,11 +131,40 @@ async function actualizarCarrito() {
             document.getElementById("subtotal_final").textContent = subtotalGeneral.toFixed(2);
             document.getElementById("igv_final").textContent = igv.toFixed(2);
             document.getElementById("total_final").textContent = totalFinal.toFixed(2);
-
         }
     } catch (error) {
         console.log(error);
     }
 }
-
 document.addEventListener('DOMContentLoaded', actualizarCarrito);
+async function actualizar_subtotal(id,precio) {
+    let cantidad = document.getElementById('cantidad_' + id).value;
+    try {
+        const datos = new FormData();
+        datos.append('id', id);
+        datos.append('cantidad', cantidad);
+        let respuesta = await fetch(base_url + 'control/ventaController.php?tipo=actualizar_cantidad', {
+            method: 'POST',
+            mode: 'cors',
+            cache: 'no-cache',
+            body:datos
+        });
+        json = await respuesta.json();
+        if (json.status) {
+            subtotal = cantidad * precio;
+            document.getElementById('subtotal_+id').innerHTML = 's/. '+subtotal;
+
+
+
+
+            
+            
+        }
+
+    } catch (error) {
+        console.log("error al actualizar cantidad" + error);
+
+    }
+
+
+}

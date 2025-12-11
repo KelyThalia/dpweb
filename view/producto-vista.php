@@ -82,4 +82,5 @@
             agregar_producto_temporal();
         }
     })
+    listarTemporales();
 </script>

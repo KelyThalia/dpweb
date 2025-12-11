@@ -44,15 +44,6 @@ if ($tipo == "ver") {
 }
 
 
-
-if ($tipo == "listarTemporal") {
-    $temporales = $objVenta->mostrarProductosTemporal();
-    $respuesta = array('status' => true,'data' => $temporales);
-    echo json_encode($respuesta);
-}
-
-
-
 if ($tipo == "eliminar") {
     $id = $_POST['id'];
     $delete = $objVenta->eliminarTemporalVenta($id);
@@ -66,3 +57,24 @@ if ($tipo == "eliminar") {
 
     echo json_encode($respuesta);
 }
+
+if ($tipo == "listarTemporal") {
+    $temporales = $objVenta->mostrarProductosTemporal();
+    $respuesta = array('status' => true,'data' => $temporales);
+    echo json_encode($respuesta);
+}
+if ($tipo == "actualizar_cantidad") {
+    $id = $_POST['id'];
+    $cantidad = $_POST['cantidad'];
+    $respuesta = array('status' => false, 'msg' => 'fallo el controlador');
+   $consulta = $objVenta->actualizarCantidadTemporalBYid($id, $cantidad);
+    if ($consulta) {
+        $respuesta = array('status' => true, 'msg' => 'success');
+
+    }else{
+        $respuesta = array('status' => false, 'msg' => 'error');
+    }
+    echo json_encode($respuesta);
+}
+
+

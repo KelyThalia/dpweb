@@ -37,20 +37,11 @@ class VentaModel
         $sql = $this->conexion->query($consulta);
         return $sql;
     }
-
-
-    public function buscarTemporales()
+    public function actualizarCantidadTemporalBYid($id_producto, $cantidad)
     {
-        $arr_temporal = array();
-        $consulta = "SELECT t.*, p.nombre, p.precio as precio_real 
-                 FROM temporal_venta t
-                 INNER JOIN productos p ON p.id = t.id_producto";
-
+        $consulta = "UPDATE temporal_venta SET cantidad='$cantidad' WHERE id='$id_producto'";
         $sql = $this->conexion->query($consulta);
-        while ($objeto = $sql->fetch_object()) {
-            array_push($arr_temporal, $objeto);
-        }
-        return $arr_temporal;
+        return $sql;
     }
 
     public function eliminarTemporalVenta($id)
@@ -59,16 +50,26 @@ class VentaModel
         $sql = $this->conexion->query($consulta);
         return $sql;
     }
-
-
-    public function eliminarTemporales()
+     public function eliminarTemporales()
     {
         $consulta = "DELETE  FROM temporal_venta";
         $sql = $this->conexion->query($consulta);
         return $sql;
     }
 
+    public function buscarTemporales()
+    {
+        $arr_temporal = array();
+        $consulta = "SELECT tv.*, p.nombre, 
+                 FROM temporal_venta tv
+                 INNER JOIN productos p ON p.id = tv.id_producto";
 
+        $sql = $this->conexion->query($consulta);
+        while ($objeto = $sql->fetch_object()) {
+            array_push($arr_temporal, $objeto);
+        }
+        return $arr_temporal;
+    }
     // ---------------------VENTAS REGISTRADAS (OFICIALES)--------------//
 
 
