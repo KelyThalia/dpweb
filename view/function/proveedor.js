@@ -198,9 +198,9 @@ if (document.getElementById('content_proveedor')) {
     view_proveedor();
 }
 
-// =========================
+
 // FUNCIONES DE ELIMINAR
-// =========================
+
 async function eliminarProveedor(id) {
     if (!confirm("¿Seguro que desea eliminar este proveedor?")) return;
 
@@ -274,7 +274,7 @@ async function edit_proveedor() {
         json = await respuesta.json();
 
         if (!json.status) {
-            alert(jsn.msg);
+            alert(json.msg);
             return; 
         }
         document.getElementById('nro_identidad').value = json.data.nro_identidad;

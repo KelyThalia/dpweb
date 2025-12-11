@@ -75,7 +75,7 @@ class UsuarioModel
         $query = $this->conexion->query($sql);
         return $query;
     }
-
+   
 
     public function eliminar($id)
     {
@@ -97,7 +97,7 @@ class UsuarioModel
     public function ver_proveedor()
     {
         $arr_usuarios = array();
-        $consulta = "SELECT * FROM persona WHERE rol='Proveedor'";
+        $consulta = "SELECT * FROM persona WHERE rol='proveedor'";
         $sql = $this->conexion->query($consulta);
         while ($objeto = $sql->fetch_object()) {
             array_push($arr_usuarios, $objeto);

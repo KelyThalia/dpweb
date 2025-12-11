@@ -1,7 +1,8 @@
-<h3 class="text-center mb-4">Lista de Productos</h3>
-
-<div class="d-flex justify-content-center">
-  <table class="table table-success table-striped text-center w-50">
+<div class="container">
+  <h3 class="mt-3 mb-3">Lista de Productos</h3>
+  <a href="<?= BASE_URL ?>new-producto" class="btn btn-primary">Nuevo +</a>
+  <br><br>
+  <table class="table table-success table-striped-columns">
     <thead>
       <tr>
         <th>Nro</th>
@@ -11,13 +12,16 @@
         <th>Precio</th>
         <th>Stock</th>
         <th>Fecha Vencimiento</th>
-        <th>categoria</th>
-        <th>código Barra</th>
+        <th>Categoría</th>
+        <th>Código Barra</th>
         <th>Acciones</th>
       </tr>
     </thead>
-    <tbody id="content_products"></tbody>
+    <tbody id="content_products">
+      <!-- Contenido dinámico -->
+    </tbody>
   </table>
 </div>
-<script src="<?php echo BASE_URL ?>view/function/products.js"></script>
-<script src="<?php echo BASE_URL ?>view/function/JsBarcode.all.min.js"></script>
+
+<script src="<?= BASE_URL ?>view/function/products.js"></script>
+<script src="<?= BASE_URL ?>view/function/JsBarcode.all.min.js"></script>

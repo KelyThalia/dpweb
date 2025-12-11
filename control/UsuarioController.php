@@ -4,6 +4,7 @@ $objPersona = new UsuarioModel();
 
 $tipo = $_GET['tipo'];
 
+
 if ($tipo == "registrar") {
      //print_r($_POST);
      $nro_identidad = $_POST['nro_identidad'];
@@ -45,28 +46,34 @@ if ($tipo == "iniciar_sesion") {
      $nro_identidad = $_POST['username'];
      $password = $_POST['password'];
 
+     $respuesta = array(); // aseguramos que la variable SIEMPRE exista
+
      if ($nro_identidad == "" || $password == "") {
           $respuesta = array('status' => false, 'msg' => 'Error, campos vacios');
      } else {
           $existePersona = $objPersona->existePersona($nro_identidad);
 
-
           if (!$existePersona) {
-               $arrResponse = array('status' => false, 'msg' => 'Error, usuario no registrado');
+               $respuesta = array('status' => false, 'msg' => 'Error, usuario no registrado');
           } else {
                $persona = $objPersona->buscarPesonaPorNroIdentidad($nro_identidad);
+
                if (password_verify($password, $persona->password)) {
                     session_start();
                     $_SESSION['ventas_id'] = $persona->id;
                     $_SESSION['ventas_usuario'] = $persona->razon_social;
+
                     $respuesta = array('status' => true, 'msg' => 'ok');
                } else {
-                    $arrResponse = array('status' => false, 'msg' => 'Error, contraseña incorrecta');
+                    $respuesta = array('status' => false, 'msg' => 'Error, contraseña incorrecta');
                }
           }
      }
+
      echo json_encode($respuesta);
+     exit;
 }
+
 if ($tipo == "ver_usuarios") {
      $usuario = $objPersona->verUsuarios();
      header('Content-Type: application/json');
@@ -136,26 +143,17 @@ if ($tipo == "actualizar") {
 
           } else {
                //actualizar
-               $actualizar = $objPersona->actualizar(
-                    $id_persona,
-                    $nro_identidad,
-                    $razon_social,
-                    $telefono,
-                    $correo,
-                    $departamento,
-                    $provincia,
-                    $distrito,
-                    $cod_postal,
-                    $direccion,
-                    $rol
+               $actualizar = $objPersona->actualizar($id_persona,$nro_identidad,$razon_social,$telefono,$correo,$departamento,$provincia,$distrito,$cod_postal,$direccion,$rol
+                    
                );
-               if ($actualizar) {
+              if ($actualizar) {
                     $arrResponse = array('status' => true, 'msg' => 'Actualizado Correctamente');
                } else {
-                    $arrResponse = array('status' => false, 'msg' => $actualizar);
+                    $arrResponse = array('status' => false, 'msg' => 'Error al actualizar');
                }
                echo json_encode($arrResponse);
                exit;
+
           }
      }
 }

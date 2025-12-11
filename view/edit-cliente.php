@@ -87,7 +87,7 @@
 
             <div>
 
-                <button type="reset" class="btn btn-warning">Actualizar</button>
+                <button type="submit" class="btn btn-warning">Actualizar</button>
                 <button type="button" class="btn btn-success">Cancelar</button>
             </div>
 
@@ -97,6 +97,8 @@
 </div>
 <!-- FIN DE CUERPO DE PÁGINA-->
 <script src="<?php echo BASE_URL; ?>view/function/user.js"></script>
+<script src="<?php echo BASE_URL; ?>view/function/cliente.js"></script>
+
 <script>
     edit_user();
 </script>
