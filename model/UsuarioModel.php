@@ -104,4 +104,7 @@ class UsuarioModel
         }
         return $arr_usuarios;
     }
+    
 }
+
+  

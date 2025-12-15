@@ -143,17 +143,27 @@ if ($tipo == "actualizar") {
 
           } else {
                //actualizar
-               $actualizar = $objPersona->actualizar($id_persona,$nro_identidad,$razon_social,$telefono,$correo,$departamento,$provincia,$distrito,$cod_postal,$direccion,$rol
-                    
+               $actualizar = $objPersona->actualizar(
+                    $id_persona,
+                    $nro_identidad,
+                    $razon_social,
+                    $telefono,
+                    $correo,
+                    $departamento,
+                    $provincia,
+                    $distrito,
+                    $cod_postal,
+                    $direccion,
+                    $rol
+
                );
-              if ($actualizar) {
+               if ($actualizar) {
                     $arrResponse = array('status' => true, 'msg' => 'Actualizado Correctamente');
                } else {
                     $arrResponse = array('status' => false, 'msg' => 'Error al actualizar');
                }
                echo json_encode($arrResponse);
                exit;
-
           }
      }
 }
@@ -175,6 +185,18 @@ if ($tipo == "ver_cliente") {
      $usuarios = $objPersona->ver_cliente();
      if (count($usuarios)) {
           $respuesta = array('status' => true, 'msg' => '', 'data' => $usuarios);
+     }
+     echo json_encode($respuesta);
+}
+
+if ($tipo == "buscar_cliente_DNI") {
+     $dni = $_POST['dni'];
+     $respuesta = array('status' => false, 'msg' => 'fallo el controlador');
+     $usuarios = $objPersona->buscarPesonaPorNroIdentidad($dni);
+     if ($usuarios) {
+          $respuesta = array('status' => true, 'msg' => '', 'data' => $usuarios);
+     } else {
+          $respuesta = array('status' => false, 'msg' => 'no se encontraron datos');
      }
      echo json_encode($respuesta);
 }

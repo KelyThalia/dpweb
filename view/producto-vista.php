@@ -1,86 +1,113 @@
 <div class="container-fluid mt-4 row">
-    <h2 class="text-center text-primary mb-4">PRODUCTOS EN LÍNEA</h2>
-
-    <!-- Sección izquierda: productos -->
-    <div class="col-7">
-        <div class="card shadow">
+    <h2>Ventas</h2>
+    <div class="col-8">
+        <div class="card">
+            <div class="card-body row">
+                <h5 class="card-title col-md-4">Busqueda de Productos</h5>
+                <div class="col-md-6">
+                    <input type="text" class="form-control col-md-12" placeholder="buscar producto por codigo o nombre" id="busqueda_venta" onkeyup="listar_productos_venta();">
+                    <input type="hidden" id="id_producto_venta">
+                    <input type="hidden" id="producto_precio_venta">
+                    <input type="hidden" id="producto_cantidad_venta" value="1">
+                </div>
+                <div class="row container-fluid" id="productos_venta">
+                    <!--<div class="card m-2 col-3">
+                        <div class="card-body">
+                            <img src="https://www.agenciaeplus.com.br/wp-content/uploads/2021/12/pagina-de-produto.jpg" alt="" width="100%" height="150px">
+                            <p class="card-text">Descripcion del producto</p>
+                            <button class="btn btn-primary">Agregar</button>
+                        </div>
+                    </div>-->
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-4">
+        <div class="card">
             <div class="card-body">
-                <h5 class="card-title">Productos</h5>
-                <div class="col-9">
-                    <div class="card-body row">
-                        <h5 class="card-title">buscra producto</h5>
+                <h5 class="card-title">Lista de Compra</h5>
+                <div class="row" style="min-height: auto;">
+                    <div class="col-12">
+                        <table class="table-responsive table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Producto</th>
+                                    <th>Cant.</th>
+                                    <th>P. Unit.</th>
+                                    <th>SubTotal</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody id="lista_compra">
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12 text-end">
+                        <h4>Subtotal : <label id="subtotal_general"></label></h4>
+                        <h4>Igv : <label id="igv_general"></label></h4>
+                        <h4>Total : <label id="total"></label></h4>
+                        <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal">Realizar Venta</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--modal-->
+<div class="modal fade modal-lg" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">registrado de venta</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="form_venta">
+                    <div class="row">
                         <div class="col-md-6">
-                            <input type="text" class="from-control col-md-12" placeholder="buscar productos"
-                                id="busqueda_venta" onkeyup="listar_productos_venta();">
+                            <label for="cliente_dni" class="form_label">DNI del cliente</label>
+                            <input type="number" class="form-control" id="cliente_dni" name="cliente_dni" onkeypress="return event.charCode >= 48 && event.charCode <= 57" maxlength="11">
+                        </div>
+                        <div class="col-md-6">
+                            <button type="button" class="btn btn-primary mt-4"
+                            onclick="buscar_cliente_venta();">
+                            Buscar cliente
+                        </button>
+                        </div>
+                        
 
-                            <input type="hidden" id="id_producto_venta">
-                            <input type="hidden" id="producto_precio_venta">
-                            <input type="hidden" id="producto_cantidad_venta" .value="1">
-
+                        <div class="col-md-12">
+                            <label for="cliente_nombre" class="form-label">Nombre del Cliente</label>
+                            <input type="text" class="form-control" id="cliente_nombre" name="cliente_nombre" readonly>
+                            <input type="hidden" class="form-control" id="id_cliente_venta">
+                        </div>
+                        <div class="col-md-3">
+                            <label for="fecha_venta">Fecha de venta</label>
+                            <input type="datetime-local" class="form-control" id="fecha_venta">
                         </div>
 
                     </div>
 
-                </div>
-                <div class="row container-fluid" id="productos_venta">
-                    <!-- Aquí se cargarán los productos -->
-                </div>
+                </form>
             </div>
-        </div>
-    </div>
-
-    <!-- Sección derecha: carrito / lista de compra -->
-    <div class="col-5">
-        <div class="card shadow">
-            <div class="card-body">
-                <h5 class="card-title">Lista de Compra</h5>
-
-                <!-- RESPONSIVE en esta parte  -->
-                <div class="table-responsive">
-                    <table class="table table-bordered table-striped">
-                        <thead class="table-dark text-center">
-                            <tr>
-                                <th>Producto</th>
-                                <th>Cantidad</th>
-                                <th>Precio</th>
-                                <th>Subtotal</th>
-                                <th>Acción</th>
-                            </tr>
-                        </thead>
-
-                        <tbody id="tablaCarrito"></tbody>
-                    </table>
-                </div>
-
-
-                <hr>
-
-                <div class="text-end">
-
-                    <h5>Subtotal: S/ <span id="subtotal_final">0.00</span></h5>
-                    <h5>IGV (18%): S/ <span id="igv_final">0.00</span></h5>
-                    <h4>Total: S/ <span id="total_final">0.00</span></h4>
-
-                    <div class="mt-3">
-                        <button id="btn_ver_carrito" class="btn btn-info me-2">Ver Detalle</button>
-                        <button class="btn btn-success">Realizar Venta</button>
-                    </div>
-                </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn btn-primary" onclick="registrarVenta()">Registrar venta</button>
             </div>
-
         </div>
     </div>
 </div>
-
-<!-- Script -->
-<script src="<?php echo BASE_URL; ?>view/function/venta.js"></script>
-<script src="<?php echo BASE_URL; ?>view/function/products.js"></script>
+<script src="<?= BASE_URL ?>view/function/products.js"></script>
+<script src="<?= BASE_URL ?>view/function/venta.js"></script>
 <script>
     let input = document.getElementById("busqueda_venta");
     input.addEventListener('keydown', (event) => {
         if (event.key == 'Enter') {
             agregar_producto_temporal();
         }
-    })
-    listarTemporales();
+    });
+    listar_temporales();
+    act_subt_general();
 </script>
