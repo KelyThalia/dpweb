@@ -38,6 +38,14 @@ function validar_form(tipo) {
 
 
 
+if (document.querySelector('#frm_cliente')) { /* verifica si existe un formulario con el ID frm_cliente en el documento HTML. */
+    let frm_cliente = document.querySelector('#frm_cliente'); /* Aquí se guarda una referencia al formulario en la variable frm_cliente */
+    frm_cliente.onsubmit = function (e) { /*Se define qué pasará cuando el formulario se intente enviar (evento submit). */
+        e.preventDefault(); /*Esto detiene el comportamiento predeterminado del formulario, que sería enviarlo directamente al servidor y recargar la página.En lugar de eso, queremos validar los datos primero. */
+        validar_form("nuevo"); /* Aquí se llama a la función validar_form() que hemos definido antes. Esta función valida los campos del formulario y, si todo está bien, llama a registrarCliente() para enviar los datos al servidor. */
+    }
+}
+
 if (document.querySelector('#frm_edit_user')) { /* verifica si existe un formulario con el ID frm_user en el documento HTML.document.querySelector('#frm_user') busca el formulario.Si existe, entra al bloque if. */
     let frm_edit_user = document.querySelector('#frm_edit_user'); /* Aquí se guarda una referencia al formulario en la variable frm_user */
     frm_edit_user.onsubmit = function (e) { /*Se define qué pasará cuando el formulario se intente enviar (evento submit). */
@@ -173,8 +181,9 @@ async function view_cliente() {
                 <td>${usuario.estado || 'Activo'}</td>
                 <td>
                     <a href="${base_url}edit-cliente/${usuario.id}" class="btn btn-sm btn-primary">Editar</a>
-                    <button type="button" class="btn btn-danger" onclick="Eliminar(${usuario.id})">Eliminar</button>
+                    <button class="btn btn-danger btn-sm" onclick="eliminarCliente(${usuario.id})">Eliminar</button>
                 </td>
+
             </tr>
         `).join('');
 
@@ -277,28 +286,53 @@ async function actualizarCliente() {
     }
 }
 
-async function fn_eliminar(id) {
-    if (window.confirm("Confirmar eliminar?")) {
-        eliminar(id);
-    }
-}
+async function eliminarCliente(id) {
 
-async function eliminar(id) {
-    let datos = new FormData();
-    datos.append('id_persona', id);
-    let respuesta = await fetch(base_url + 'control/UsuarioController.php?tipo=eliminar', {
-        method: 'POST',
-        mode: 'cors',
-        cache: 'no-cache',
-        body: datos
+    Swal.fire({
+        title: "¿Eliminar cliente?",
+        text: "Esta acción no se puede deshacer",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#d33",
+        cancelButtonColor: "#3085d6",
+        confirmButtonText: "Sí, eliminar",
+        cancelButtonText: "Cancelar"
+    }).then(async (result) => {
+
+        if (!result.isConfirmed) return;
+
+        const datos = new FormData();
+        datos.append('id_persona', id);
+
+        try {
+            let respuesta = await fetch(
+                base_url + 'control/UsuarioController.php?tipo=eliminar',
+                {
+                    method: 'POST',
+                    body: datos
+                }
+            );
+
+            let json = await respuesta.json();
+
+            if (!json.status) {
+                Swal.fire("Error", json.msg || "No se pudo eliminar", "error");
+                return;
+            }
+
+            Swal.fire({
+                icon: "success",
+                title: "Eliminado",
+                text: json.msg,
+                timer: 1500,
+                showConfirmButton: false
+            });
+
+            view_cliente(); // 🔄 refresca la tabla sin recargar
+
+        } catch (error) {
+            console.error("Error al eliminar cliente:", error);
+            Swal.fire("Error", "Problema al eliminar cliente", "error");
+        }
     });
-    json = await respuesta.json();
-    if (!json.status) {
-        alert("Oooooops, ocurrio un error al eliminar persona, intentelo mas tarde");
-        console.log(json.msg);
-        return;
-    } else {
-        alert(json.msg);
-        location.replace(base_url + 'users');
-    }
 }

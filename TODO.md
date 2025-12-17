@@ -1,4 +1,12 @@
-- [x] Fix header in view/edit-user.php: Change <h5 class="btn btn-info"> to proper card header.
-- [x] Add URL ID extraction in view/edit-user.php: Extract ID from URL and set hidden input.
-- [x] Fix form reference in view/function/user.js: Change 'frm_edit_user' to 'frm_edit-user'.
-- [x] Ensure edit_user() is called after setting ID.
+# TODO: Fix Edit Proveedor Functionality
+
+## Completed Tasks
+- [x] Analyze the issue: The edit-proveedor.php file was calling edit_user() instead of edit_proveedor(), preventing form population.
+- [x] Fix script call: Changed `edit_user();` to `edit_proveedor();` in edit-proveedor.php.
+- [x] Correct HTML input types: Fixed "tex" to "text" for departamento, provincia, and direccion fields.
+- [x] Verify backend: Confirmed UsuarioController.php and UsuarioModel.php handle updates correctly for providers.
+
+## Followup Steps
+- [ ] Test the edit functionality by navigating to edit-proveedor page and submitting changes.
+- [ ] Ensure form validation works and data is updated in the database.
+- [ ] Check for any console errors in the browser developer tools.

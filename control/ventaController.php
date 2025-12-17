@@ -49,6 +49,18 @@ if($tipo=="actualizar_cantidad"){
     echo json_encode($respuesta);
 }
 
+if($tipo=="eliminar_producto"){
+    $id = $_POST['id'];
+    $respuesta = array('status' => false, 'msg' => 'fallo el controlador');
+    $consulta = $objVenta->eliminarTemporal($id);
+    if ($consulta) {
+        $respuesta = array('status' => true, 'msg' => 'Producto eliminado');
+    } else {
+        $respuesta = array('status' => false, 'msg' => 'No se pudo eliminar');
+    }
+    echo json_encode($respuesta);
+}
+
 if ($tipo == "registrar_venta") {
     session_start();
     $id_cliente = $_POST['id_cliente'];

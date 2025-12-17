@@ -1,6 +1,6 @@
 <?php
 require_once("../library/conexion.php");
-class VentaModel
+class ventaModel
 {
     private $conexion;
     function __construct()
@@ -80,4 +80,6 @@ class VentaModel
         $sql = $this->conexion->query($consulta);
         return $sql;
     }
+    
+    
 }

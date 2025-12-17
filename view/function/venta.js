@@ -1,3 +1,4 @@
+
 let productos_venta = {};
 let id = 2;
 let id2 = 4;
@@ -16,47 +17,72 @@ productos_venta[id] = producto;
 productos_venta[id2] = producto2;
 console.log(productos_venta);
 
-async function agregar_producto_temporal(id_product = 0, price = 0, cant=1) {
-     if (id_product == 0) {
+async function agregar_producto_temporal(id_product = 0, price = 0, cant = 1) {
+
+    let id, precio, cantidad;
+
+    if (id_product == 0) {
         id = document.getElementById('id_producto_venta').value;
     } else {
         id = id_product;
     }
+
     if (price == 0) {
         precio = document.getElementById('producto_precio_venta').value;
     } else {
         precio = price;
     }
+
     if (cant == 0) {
         cantidad = document.getElementById('producto_cantidad_venta').value;
     } else {
         cantidad = cant;
     }
-    
+
     const datos = new FormData();
     datos.append('id_producto', id);
     datos.append('precio', precio);
     datos.append('cantidad', cantidad);
+
     try {
         let respuesta = await fetch(base_url + 'control/ventaController.php?tipo=registrarTemporal', {
             method: 'POST',
-            mode: 'cors',
-            cache: 'no-cache',
             body: datos
         });
-        json = await respuesta.json();
+
+        const json = await respuesta.json();
+
         if (json.status) {
-            if (json.msg == "registrado") {
-                alert("el producto fue registrado");
-            } else {
-                alert("el producto fue actualizado");
-            }
+
+            // 🔔 SWEET ALERT
+            Swal.fire({
+                icon: 'success',
+                title: json.msg === 'registrado'
+                    ? 'Producto agregado'
+                    : 'Producto actualizado',
+                text: 'Se agregó correctamente a la lista de compras',
+                timer: 1200,
+                showConfirmButton: false
+            });
+
+            // 🔄 ACTUALIZA LISTA SIN RECARGAR
+            listar_temporales();
+            act_subt_general();
+
+        } else {
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: json.msg || 'No se pudo agregar el producto'
+            });
         }
 
     } catch (error) {
-        console.log("error en agregar producto temporal " + error);
+        console.log("error en agregar producto temporal", error);
+        Swal.fire('Error', 'Error en el servidor', 'error');
     }
 }
+
 async function listar_temporales() {
     try {
         let respuesta = await fetch(base_url + 'control/ventaController.php?tipo=listar_venta_temporal', {
@@ -73,7 +99,7 @@ async function listar_temporales() {
                                     <td><input type="number" id="cant_${t_venta.id}" value="${t_venta.cantidad}" style="width: 60px;" onkeyup="actualizar_subtotal(${t_venta.id}, ${t_venta.precio});" onchange="actualizar_subtotal(${t_venta.id}, ${t_venta.precio});"></td>
                                     <td>S/. ${t_venta.precio}</td>
                                     <td id="subtotal_${t_venta.id}">S/. ${t_venta.cantidad * t_venta.precio}</td>
-                                    <td><button class="btn btn-danger btn-sm">Eliminar</button></td>
+                                    <td><button class="btn btn-danger btn-sm" onclick="eliminar_producto(${t_venta.id})">Eliminar</button></td>
                                 </tr>`
             });
             document.getElementById('lista_compra').innerHTML = lista_temporal;
@@ -180,3 +206,55 @@ async function registrarVenta() {
         console.log("error al registrar venta " + error);
     }
 }
+async function eliminar_producto(id) {
+
+    Swal.fire({
+        title: '¿Eliminar producto?',
+        text: 'Este producto se quitará de la lista de venta',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Sí, eliminar',
+        cancelButtonText: 'Cancelar'
+    }).then(async (result) => {
+
+        if (result.isConfirmed) {
+
+            try {
+                const datos = new FormData();
+                datos.append('id', id);
+
+                let respuesta = await fetch(
+                    base_url + 'control/ventaController.php?tipo=eliminar_producto',
+                    {
+                        method: 'POST',
+                        body: datos
+                    }
+                );
+
+                let json = await respuesta.json();
+
+                if (json.status) {
+
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Eliminado',
+                        text: json.msg,
+                        timer: 1200,
+                        showConfirmButton: false
+                    });
+
+                    listar_temporales();
+                    act_subt_general();
+
+                } else {
+                    Swal.fire('Error', json.msg, 'error');
+                }
+
+            } catch (error) {
+                console.log(error);
+                Swal.fire('Error', 'Error en el servidor', 'error');
+            }
+        }
+    });
+}
+

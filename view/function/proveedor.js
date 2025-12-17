@@ -308,25 +308,37 @@ if (document.querySelector('#frm_edit-proveedor')) {
 }
 
 async function actualizarproveedor() {
-   const datos = new FormData(frm_edit_proveedor);
-   let respuesta = await fetch(base_url + 'control/UsuarioController.php?tipo=actualizar', {
-            method: 'POST',
-            mode: 'cors',
-            cache: 'no-cache',
-            body: datos
-        });
-        json = await respuesta.json();
+
+    const form = document.getElementById('frm_edit-proveedor');
+    const datos = new FormData(form);
+
+    try {
+        let respuesta = await fetch(
+            base_url + 'control/UsuarioController.php?tipo=actualizar',
+            { method: 'POST', body: datos }
+        );
+
+        let json = await respuesta.json();
+
         if (!json.status) {
-            alert("Ooops. ocurrio un error al actualizar, intentelo nuevamente");
-            console.log(json.msg);
+            Swal.fire("Error", json.msg || "No se pudo actualizar", "error");
             return;
-            
-        }else{
-            alert(json.msg);
         }
 
-    
+        Swal.fire({
+            icon: "success",
+            title: "Proveedor actualizado",
+            timer: 1500,
+            showConfirmButton: false
+        }).then(() => {
+            window.location.href = base_url + "proveedor";
+        });
+
+    } catch (error) {
+        console.error("Error actualizar proveedor", error);
+    }
 }
+
 async function fn_eliminar(id) {
     if (window.confirm("Confirmar eliminar?")) {
         eliminar(id);
