@@ -14,6 +14,17 @@ header('Content-Type: application/json; charset=utf-8');
 // Evitar que los warnings rompan el JSON
 error_reporting(E_ALL & ~E_WARNING & ~E_NOTICE);
 
+// Capturar errores fatales al final de la ejecución y devolver JSON
+register_shutdown_function(function () {
+    $err = error_get_last();
+    if ($err !== null) {
+        http_response_code(500);
+        header('Content-Type: application/json; charset=utf-8');
+        $msg = isset($err['message']) ? $err['message'] : 'Error fatal';
+        echo json_encode(['status' => false, 'msg' => 'Fatal error: ' . $msg]);
+    }
+});
+
 
 $tipo = $_GET['tipo'] ?? '';
 

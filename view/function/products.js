@@ -222,8 +222,33 @@ async function actualizarProducto() {
             cache: 'no-cache',
             body: datos
         });
+        // Si la respuesta no es OK, mostrar el cuerpo para depuración
+        if (!respuesta.ok) {
+            const text = await respuesta.text();
+            console.error('Respuesta no OK:', respuesta.status, text);
+            Swal.fire({
+                title: 'Error al actualizar',
+                text: text || ('HTTP ' + respuesta.status),
+                icon: 'error'
+            });
+            return;
+        }
 
-        let json = await respuesta.json();
+        // Intentar parsear JSON, mostrar texto crudo si hay error de parseo
+        let json;
+        try {
+            json = await respuesta.json();
+        } catch (err) {
+            const text = await respuesta.text();
+            console.error('Error parseando JSON:', err, text);
+            Swal.fire({
+                title: 'Error al actualizar',
+                text: 'Respuesta inválida del servidor: ' + (text || err.message),
+                icon: 'error'
+            });
+            return;
+        }
+
         console.log("Respuesta de actualización:", json);
         if (json.status) {
             Swal.fire({
@@ -231,9 +256,7 @@ async function actualizarProducto() {
                 icon: "success",
                 draggable: true
             }).then(() => {
-                // Redirigir después de cerrar el alert
                 location.href = base_url + 'producto';
-                // view_productos(); // Solo si quieres actualizar sin recargar
             });
         } else {
             Swal.fire({
