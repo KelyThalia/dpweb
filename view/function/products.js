@@ -180,6 +180,7 @@ async function edit_producto() {
         document.getElementById('stock').value = json.data.stock;
         document.getElementById('fecha_vencimiento').value = json.data.fecha_vencimiento;
         document.getElementById('id_categoria').value = json.data.id_categoria;
+        document.getElementById('id_proveedor').value = json.data.id_proveedor;
 
 
     } catch (error) {
