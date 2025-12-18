@@ -189,18 +189,35 @@ async function registrarVenta() {
         datos.append('id_cliente', id_cliente);
         datos.append('fecha_venta', fecha_venta);
 
-        let respuesta = await fetch(base_url + 'control/VentaController.php?tipo=registrar_venta', {
+        // ruta corregida (archivo en control es ventaController.php)
+        let respuesta = await fetch(base_url + 'control/ventaController.php?tipo=registrar_venta', {
             method: 'POST',
             mode: 'cors',
             cache: 'no-cache',
             body: datos
         });
-        json = await respuesta.json();
+
+        if (!respuesta.ok) {
+            const text = await respuesta.text();
+            console.error('Error HTTP al registrar venta:', respuesta.status, text);
+            return alert('Error al registrar venta: ' + (text || respuesta.status));
+        }
+
+        // Intentar parsear JSON y manejar errores de parseo
+        let json;
+        try {
+            json = await respuesta.json();
+        } catch (err) {
+            const text = await respuesta.text();
+            console.error('Respuesta inválida al registrar venta:', err, text);
+            return alert('Respuesta inválida del servidor: ' + (text || err.message));
+        }
+
         if (json.status) {
             alert("venta registrada con exito");
             window.location.reload();
         } else {
-            alert(json.msg);
+            alert(json.msg || 'Error al registrar venta');
         }
     } catch (error) {
         console.log("error al registrar venta " + error);
