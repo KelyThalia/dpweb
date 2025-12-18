@@ -221,11 +221,11 @@ async function edit_user() {
     }
 }
 
-if (document.getElementById('btn_guardar_cambios')) {
+/*if (document.getElementById('btn_guardar_cambios')) {
     document.getElementById('btn_guardar_cambios').addEventListener('click', function () {
         actualizarUsuario(); // Llama a la función que hará el update
     });
-}
+}*/
 if (document.querySelector('#frm_edit-user')) {
     let frm_user = document.querySelector('#frm_edit-user');
     frm_user.onsubmit = function (e) {
@@ -236,24 +236,41 @@ if (document.querySelector('#frm_edit-user')) {
 
 async function actualizarUsuario() {
     const datos = new FormData(document.getElementById('frm_edit-user'));
-    let respuesta = await fetch(base_url + 'control/UsuarioController.php?tipo=actualizar', {
-        method: 'POST',
-        mode: 'cors',
-        cache: 'no-cache',
-        body: datos
-    });
-    json = await respuesta.json();
+
+    let respuesta = await fetch(
+        base_url + 'control/UsuarioController.php?tipo=actualizar',
+        {
+            method: 'POST',
+            body: datos
+        }
+    );
+
+    let json = await respuesta.json();
+
     if (!json.status) {
-        alert("Ooops. ocurrio un error al actualizar, intentelo nuevamente");
+        Swal.fire({
+            icon: 'error',
+            title: 'ERROR?',
+            text: 'Ooops, ocurrió un error al actualizar',
+            confirmButtonText: 'OK'
+        });
         console.log(json.msg);
         return;
-
-    } else {
-        alert(json.msg);
     }
 
-
+    //  ÉXITO (igual de bonito)
+    Swal.fire({
+        icon: 'success',
+        title: 'CORRECTO',
+        text: 'Usuario actualizado correctamente',
+        confirmButtonText: 'OK'
+    }).then(() => {
+        window.location.href = base_url + 'users'; // redirige
+    });
 }
+
+
+
 async function fn_eliminar(id) {
     let datos
 }
