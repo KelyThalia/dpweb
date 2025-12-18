@@ -1,112 +1,186 @@
 
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kely</title>
-    <style>
-        body {
-            background: linear-gradient(to bottom right, khaki, #ffe9c6);
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-            color: #333;
-        }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Kely | Login</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 
-        .container {
-            background-color: #fdc3f7;
-            width: 100%;
-            max-width: 420px;
-            padding: 35px 30px;
-            border-radius: 20px;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
-            text-align: center;
-        }
+  <style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{
+ font-family:'Inter',sans-serif;
+ min-height:100vh;
+ display:flex;
+ justify-content:center;
+ align-items:center;
+ background:radial-gradient(circle at top,#1f2937,#020617);
+ color:#fff
+}
+.login-card{
+ width:380px;
+ height:220px;
+ position:relative;
+ border-radius:22px;
+ background:#0f172a;
+ overflow:hidden;
+ box-shadow:0 25px 60px rgba(0,0,0,.6);
+ transition:height .7s cubic-bezier(.68,-0.55,.27,1.55)
+}
+/* borde animado */
+.login-card::before{
+ content:"";
+ position:absolute;
+ inset:0;
+ padding:2px;
+ border-radius:22px;
+ background:linear-gradient(120deg,#22d3ee,#ec4899,#22d3ee);
+ background-size:300% 300%;
+ animation:borderGlow 6s linear infinite;
+ -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);
+ -webkit-mask-composite:xor;
+ mask-composite:exclude
+}
+@keyframes borderGlow{
+ 0%{background-position:0% 50%}
+ 50%{background-position:100% 50%}
+ 100%{background-position:0% 50%}
+}
+/* LOGIN inicial */
+.login-button{
+ height:100%;
+ width:100%;
+ background:none;
+ border:none;
+ color:#ec4899;
+ font-size:26px;
+ font-weight:600;
+ letter-spacing:4px;
+ cursor:pointer;
+ transition:opacity .4s ease
+}
+/* formulario */
+.login-form{
+ position:absolute;
+ inset:0;
+ padding:32px 28px;
+ display:flex;
+ flex-direction:column;
+ justify-content:center;
+ opacity:0;
+ pointer-events:none;
+ transform:translateY(25px);
+ transition:all .6s cubic-bezier(.68,-0.55,.27,1.55)
+}
+/* hover */
+.login-card:hover{height:420px}
+.login-card:hover .login-button{opacity:0}
+.login-card:hover .login-form{
+ opacity:1;
+ pointer-events:auto;
+ transform:translateY(0)
+}
+.form-title{
+ text-align:center;
+ color:#22d3ee;
+ font-size:22px;
+ margin-bottom:18px;
+ letter-spacing:2px
+}
+label{font-size:13px;color:#cbd5f5;margin-bottom:6px;display:block}
+input{
+ width:100%;
+ padding:12px 16px;
+ border-radius:20px;
+ border:1px solid #334155;
+ background:#020617;
+ color:#fff;
+ margin-bottom:14px
+}
+input:focus{outline:none;border-color:#22d3ee;box-shadow:0 0 0 2px rgba(34,211,238,.3)}
+.btn-signin{
+ margin-top:10px;
+ padding:12px;
+ border-radius:22px;
+ border:none;
+ background:linear-gradient(135deg,#22d3ee,#3b82f6);
+ font-weight:600;
+ cursor:pointer
+}
+.btn-signin:hover{filter:brightness(1.15)}
+.form-links{
+ display:flex;
+ justify-content:space-between;
+ margin-top:12px;
+ font-size:12px
+}
+.form-links a{color:#ec4899;text-decoration:none}
+.form-links a:hover{text-decoration:underline}
+.footer-note{
+ position:absolute;
+ bottom:14px;
+ width:100%;
+ text-align:center;
+ font-size:11px;
+ color:#94a3b8
+}
+</style>
 
-        .container img {
-            height: 100px;
-            border-radius: 12px;
-            margin-bottom: 25px;
-        }
-
-        .container h2 {
-            font-size: 26px;
-            color: #2c63eb;
-            margin-bottom: 15px;
-            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
-        }
-
-        label {
-            display: block;
-            margin-top: 15px;
-            margin-bottom: 5px;
-            font-weight: bold;
-            color: #333;
-            text-align: left;
-        }
-
-        input[type="text"],
-        input[type="password"] {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 8px;
-            font-size: 14px;
-            transition: border-color 0.3s;
-        }
-
-        input[type="text"]:focus,
-        input[type="password"]:focus {
-            outline: none;
-            border-color: #7f45b2;
-            box-shadow: 0 0 5px rgba(127, 69, 178, 0.3);
-        }
-
-        button {
-            margin-top: 25px;
-            padding: 12px 25px;
-            background-color: rgb(151, 196, 244);
-            border: none;
-            border-radius: 12px;
-            cursor: pointer;
-            font-weight: bold;
-            font-size: 15px;
-            color: #fff;
-            transition: background-color 0.3s ease, transform 0.2s ease;
-        }
-
-        button:hover {
-            background-color: rgb(130, 176, 230);
-            transform: scale(1.03);
-        }
-    </style>
-    <script>
-        const base_url = '<?= BASE_URL; ?>';
-    </script>
+  <script>
+    const base_url = '<?= BASE_URL; ?>';
+  </script>
 </head>
-
 <body>
-    <div class="container">
-        <h2>Iniciar Sesión</h2>
-        <img src="https://i.pinimg.com/originals/e7/2e/1b/e72e1b76a864b49d49995b1294ba529e.gif" alt="Logo de Kely">
-        <form id="frm_login">
-            <label for="username">Usuario</label>
-            <input type="text" id="username" name="username" required>
 
-            <label for="password">Contraseña</label>
-            <input type="password" id="password" name="password" required>
+  <div class="login-card" id="loginCard">
 
-            <button type="button" onclick="iniciar_sesion();">Iniciar sesión</button>
-        </form>
+    <!-- LOGIN INICIAL -->
+    <button class="login-button" id="loginToggle">LOGIN</button>
+
+    <!-- FORMULARIO -->
+    <div class="login-form" id="loginForm">
+      <div class="form-title">LOGIN</div>
+
+      <form id="frm_login">
+        <label for="username">Usuario</label>
+        <input type="text" id="username" name="username" required>
+
+        <label for="password">Contraseña</label>
+        <input type="password" id="password" name="password" required>
+
+        <button type="button" class="btn-signin" onclick="iniciar_sesion();">Iniciar sesión</button>
+
+        <div class="form-links">
+          <a href="#">Forgot password</a>
+          <a href="#">Sign up</a>
+        </div>
+      </form>
     </div>
 
-    <script src="<?= BASE_URL; ?>view/function/user.js"></script>
-</body>
+    <div class="footer-note">© 2025 Kely — Seguridad y elegancia</div>
+  </div>
 
+  <script>
+    const base_url = '<?= BASE_URL; ?>';
+
+    const card = document.getElementById('loginCard');
+    const toggle = document.getElementById('loginToggle');
+
+    // Mobile & click support
+    toggle.addEventListener('click', () => {
+      card.classList.toggle('active');
+    });
+
+    // Close when clicking outside (mobile)
+    document.addEventListener('click', e => {
+      if (!card.contains(e.target)) {
+        card.classList.remove('active');
+      }
+    });
+  </script>
+
+  <script src="<?= BASE_URL; ?>view/function/user.js"></script>
+</body>
 </html>
 

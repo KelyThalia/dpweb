@@ -1,82 +1,92 @@
 <!-- INICIO DE CUERPO DE PÁGINA-->
-<div class="container_fluid">
-    <div class="card">
-        <h5 class="card-header">Editar datos de producto
-            <?php
-            if (isset($_GET["views"])) {
-                $ruta = explode("/", $_GET["views"]);
-                echo $ruta[1];
-            }
-            ?>
-        </h5>
-        <form id="frm_edit_producto" method="POST">
-            <input type="hidden" name="id_producto" id="id_producto" value="<?= $ruta[1]; ?>">
-            <div class="card-body">
+<div class="container mt-4">
+  <div class="card shadow-lg rounded-4">
 
-                <div class="mb-3 row">
-                    <label for="codigo" class="col-sm-2 col-form-label">Codigo:</label>
-                    <div class="col-sm-4">
-                        <input type="number" class="form-control" id="codigo" name="codigo" required>
-                    </div>
-                </div>
-
-                <div class="mb-3 row">
-                    <label for="nombre" class="col-sm-2 col-form-label">Nombre:</label>
-                    <div class="col-sm-4">
-                        <input type="text" class="form-control" id="nombre" name="nombre" required>
-                    </div>
-                </div>
-
-                <div class="mb-3 row">
-                    <label for="detalle" class="col-sm-2 col-form-label">Detalle:</label>
-                    <div class="col-sm-4">
-                        <input type="text" class="form-control" id="detalle" name="detalle" required>
-                    </div>
-                </div>
-
-                <div class="mb-3 row">
-                    <label for="precio" class="col-sm-2 col-form-label">Precio:</label>
-                    <div class="col-sm-4">
-                        <input type="number" step="0.01" class="form-control" id="precio" name="precio" required>
-                    </div>
-                </div>
-
-                <div class="mb-3 row">
-                    <label for="stock" class="col-sm-2 col-form-label">Stock:</label>
-                    <div class="col-sm-4">
-                        <input type="number" class="form-control" id="stock" name="stock" required>
-                    </div>
-                </div>
-                <div class="mb-3 row">
-                    <label for="id_categoria" class="col-sm-2 col-form-label">id_categoria:</label>
-                    <div class="col-sm-4">
-                        <input type="number" class="form-control" id="id_categoria" name="id_categoria" required>
-                    </div>
-                </div>
-                <div class="mb-3 row">
-                    <label for="fecha_vencimiento" class="col-sm-2 col-form-label">Fecha vencimiento:</label>
-                    <div class="col-sm-4">
-                        <input type="date" class="form-control" id="fecha_vencimiento" name="fecha_vencimiento" required>
-                    </div>
-                </div>
-                <div class="mb-3 row">
-                    <label for="imagen" class="col-sm-2 col-form-label"><b>Imagen:</b></label>
-                    <div class="col-sm-4">
-                        <input type="file" class="form-control" id="imagen" name="imagen" accept=".jpg, .jpeg, .png">
-                    </div>
-                </div>
-
-                <div class="mt-3">
-                    <button type="submit" class="btn btn-success">actualizar</button>
-                    <a href="<?php echo BASE_URL; ?>producto-listar" class="btn btn-secondary">Cancelar</a>
-                </div>
-
-            </div>
-        </form>
+    <div class="card-header text-white"
+         style="background:linear-gradient(90deg,#3a0ca3,#7209b7);">
+      Editar datos de producto
+      <?php
+        if (isset($_GET["views"])) {
+          $ruta = explode("/", $_GET["views"]);
+          echo $ruta[1];
+        }
+      ?>
     </div>
+
+    <form id="frm_edit_producto" method="POST">
+      <input type="hidden" name="id_producto" id="id_producto" value="<?= $ruta[1]; ?>">
+
+      <div class="card-body">
+
+        <div class="mb-3 row">
+          <label class="col-sm-2 col-form-label">Código:</label>
+          <div class="col-sm-4">
+            <input type="number" class="form-control rounded-pill" id="codigo" name="codigo" required>
+          </div>
+        </div>
+
+        <div class="mb-3 row">
+          <label class="col-sm-2 col-form-label">Nombre:</label>
+          <div class="col-sm-4">
+            <input type="text" class="form-control rounded-pill" id="nombre" name="nombre" required>
+          </div>
+        </div>
+
+        <div class="mb-3 row">
+          <label class="col-sm-2 col-form-label">Detalle:</label>
+          <div class="col-sm-4">
+            <input type="text" class="form-control rounded-pill" id="detalle" name="detalle" required>
+          </div>
+        </div>
+
+        <div class="mb-3 row">
+          <label class="col-sm-2 col-form-label">Precio:</label>
+          <div class="col-sm-4">
+            <input type="number" step="0.01" class="form-control rounded-pill" id="precio" name="precio" required>
+          </div>
+        </div>
+
+        <div class="mb-3 row">
+          <label class="col-sm-2 col-form-label">Stock:</label>
+          <div class="col-sm-4">
+            <input type="number" class="form-control rounded-pill" id="stock" name="stock" required>
+          </div>
+        </div>
+
+        <div class="mb-3 row">
+          <label class="col-sm-2 col-form-label">Categoría:</label>
+          <div class="col-sm-4">
+            <input type="number" class="form-control rounded-pill" id="id_categoria" name="id_categoria" required>
+          </div>
+        </div>
+
+        <div class="mb-3 row">
+          <label class="col-sm-2 col-form-label">Fecha venc.:</label>
+          <div class="col-sm-4">
+            <input type="date" class="form-control rounded-pill" id="fecha_vencimiento" name="fecha_vencimiento" required>
+          </div>
+        </div>
+
+        <div class="mb-3 row">
+          <label class="col-sm-2 col-form-label">Imagen:</label>
+          <div class="col-sm-4">
+            <input type="file" class="form-control rounded-pill" id="imagen" name="imagen">
+          </div>
+        </div>
+
+        <div class="mt-4">
+          <button type="submit" class="btn text-white"
+                  style="background:#3a0ca3;">Actualizar</button>
+          <a href="<?php echo BASE_URL; ?>producto-listar" class="btn btn-secondary">Cancelar</a>
+        </div>
+
+      </div>
+    </form>
+  </div>
 </div>
-<!--fin de acuerdo de pagina-->
+<!-- FIN DE CUERPO DE PÁGINA-->
+
 <script src="<?php echo BASE_URL; ?>view/function/products.js"></script>
 <script>
-    edit_producto();
+  edit_producto();
 </script>

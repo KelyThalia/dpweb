@@ -5,83 +5,121 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>kely</title>
+
     <link rel="stylesheet" href="<?php echo BASE_URL; ?>view/bootstrap/css/bootstrap.min.css">
+
     <script>
         const base_url = '<?php echo BASE_URL; ?>';
-        /* Define una variable JavaScript base_url con el mismo valor que BASE_URL en PHP*/
     </script>
+
+    <!-- ===== SOLO ESTILOS (NO AFECTA FUNCIONAMIENTO) ===== -->
+    <style>
+        /* Fondo del header rosado suave */
+        .navbar {
+            background: linear-gradient(90deg, #f7b3ff, #ffd1f3) !important;
+        }
+
+        /* BOTONES DEL MENÚ */
+        .navbar .nav-link {
+            color: #fff !important;
+            margin: 4px;
+            padding: 6px 14px;
+            border-radius: 14px;
+            background: rgba(0, 0, 0, 0.25);
+            backdrop-filter: blur(6px);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            font-weight: 500;
+        }
+
+        /* Borde rosado brillante */
+        .navbar .nav-link::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            padding: 2px;
+            border-radius: 14px;
+            background: linear-gradient(90deg, #ff6ec7, #ffb3ec);
+            -webkit-mask:
+                linear-gradient(#fff 0 0) content-box,
+                linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+        }
+
+        /* Glow rosado */
+        .navbar .nav-link::after {
+            content: "";
+            position: absolute;
+            inset: -4px;
+            background: linear-gradient(90deg, #ff6ec7, #ffb3ec);
+            filter: blur(14px);
+            opacity: 0.6;
+            z-index: -1;
+        }
+
+        /* Hover */
+        .navbar .nav-link:hover {
+            transform: scale(1.08);
+            box-shadow: 0 0 20px rgba(255, 110, 199, 0.9);
+            color: #fff !important;
+        }
+
+        /* Dropdown items normales */
+        .dropdown-menu {
+            border-radius: 14px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        }
+    </style>
 </head>
 
 <body>
 
-    <nav class="navbar navbar-expand-lg bg-body-tertiary"> <!-- Aquí comienza una barra de navegación -->
+    <nav class="navbar navbar-expand-lg bg-body-tertiary">
         <div class="container-fluid">
-            <a class="navbar-brand" href="#">logo</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <a class="navbar-brand fw-bold text-white" href="#">logo</a>
+
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarSupportedContent">
                 <span class="navbar-toggler-icon"></span>
-             <!-- Este es el botón que aparece en móviles para colapsar o expandir el menú.-->
             </button>
+
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <!-- Aquí inicia el menú de navegación con varias secciones (links). me-auto los alinea a la izquierda.-->
+
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                    <!-- Aquí se definen los enlaces de navegación del sitio web. -->
-                     <!--Cada li representa una opción del menú-->
-                    <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="#">Home</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="<?= BASE_URL ?>users">users</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="<?= BASE_URL ?>new-producto">productos</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="<?= BASE_URL ?>new-categoria">categories</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="<?= BASE_URL ?>new-cliente">Clients</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Schops</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Sales</a>
-                    </li>
-                     <li class="nav-item">
-                        <a class="nav-link" href="<?= BASE_URL ?>new-proveedor">Proveedor</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="<?= BASE_URL ?>producto-vista">Producto-vista</a>
+                    <li class="nav-item"><a class="nav-link active" href="#">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="<?= BASE_URL ?>users">users</a></li>
+                    <li class="nav-item"><a class="nav-link" href="<?= BASE_URL ?>new-producto">productos</a></li>
+                    <li class="nav-item"><a class="nav-link" href="<?= BASE_URL ?>new-categoria">categories</a></li>
+                    <li class="nav-item"><a class="nav-link" href="<?= BASE_URL ?>new-cliente">Clients</a></li>
+                    <li class="nav-item"><a class="nav-link" href="<?= BASE_URL ?>new-proveedor">Proveedor</a></li>
+                    <li class="nav-item"><a class="nav-link" href="<?= BASE_URL ?>producto-vista">Producto-vista</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">Schops</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">Sales</a></li>
+                </ul>
+
+                <ul class="navbar-nav">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">
+                            Dropdown
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="#">perfil</a></li>
+                            <li><a class="dropdown-item" href="#">logout</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="#">conted</a></li>
+                        </ul>
                     </li>
                 </ul>
-                <form class="d-flex" role="search">
 
-                    
-
-                    <!--Este bloque crea un menú desplegable
-                     para el perfil del usuario (por ejemplo,
-                      con opciones como “perfil” o “logout”). -->
-
-                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                        <li class="nav-item dropdown"> 
-                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                Dropdown <!-- Este es un menú desplegable que se activa al hacer clic en el enlace. -->
-                            </a>
-                            <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="#">perfil</a></li>
-                                <li><a class="dropdown-item" href="#">logout</a></li>
-                                <li>
-                                    <hr class="dropdown-divider">
-                                </li>
-                                <li><a class="dropdown-item" href="#">conted</a></li>
-                                <!--Opciones dentro del menú desplegable.-->
-                            </ul>
-                        </li>
-                    </ul>
-                </form>
             </div>
         </div>
     </nav>
+
+</body>
+</html>
+
     <!-- “Este código es la estructura base de una página web. 
      Usa Bootstrap para los estilos y la barra de navegación. En el <head>, 
      se define el título, se importa Bootstrap y se pasa la URL base desde PHP a
