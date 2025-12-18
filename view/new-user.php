@@ -101,7 +101,7 @@
                     </div>
                 </div>
 
-                <hr>
+               
 
                 <div class="row mb-3">
                     <label for="departamento" class="col-sm-4 col-form-label"><b>Departamento:</b></label>
