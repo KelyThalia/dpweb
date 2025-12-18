@@ -49,31 +49,38 @@
               </div>
             </div>
 
+            <!-- CATEGORIA -->
             <div class="mb-3 row">
               <label class="col-sm-4 col-form-label"><b>Categoría:</b></label>
               <div class="col-sm-8">
-                <select id="id_categoria" class="form-control rounded-pill"></select>
+                <select id="id_categoria" name="id_categoria" class="form-control rounded-pill" required>
+                  <option value="">Seleccione categoría</option>
+                </select>
               </div>
             </div>
 
             <div class="mb-3 row">
               <label class="col-sm-4 col-form-label"><b>Fecha vencimiento:</b></label>
               <div class="col-sm-8">
-                <input type="date" class="form-control rounded-pill" id="fecha_vencimiento" required>
+                <input type="date" class="form-control rounded-pill"
+                       id="fecha_vencimiento" name="fecha_vencimiento" required>
               </div>
             </div>
 
+            <!-- PROVEEDOR -->
             <div class="mb-3 row">
               <label class="col-sm-4 col-form-label"><b>Proveedor:</b></label>
               <div class="col-sm-8">
-                <select id="id_proveedor" class="form-control rounded-pill"></select>
+                <select id="id_proveedor" name="id_proveedor" class="form-control rounded-pill" required>
+                  <option value="">Seleccione proveedor</option>
+                </select>
               </div>
             </div>
 
             <div class="mb-3 row">
               <label class="col-sm-4 col-form-label"><b>Imagen:</b></label>
               <div class="col-sm-8">
-                <input type="file" class="form-control rounded-pill" id="imagen" required>
+                <input type="file" class="form-control rounded-pill" id="imagen" name="imagen" required>
               </div>
             </div>
 
@@ -94,3 +101,10 @@
   </div>
 </div>
 <!-- FIN DE CUERPO DE PÁGINA-->
+
+<!-- SCRIPTS -->
+<script src="<?= BASE_URL ?>view/function/products.js"></script>
+<script>
+  cargar_categorias();
+  cargar_proveedores();
+</script>
