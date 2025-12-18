@@ -50,7 +50,7 @@ async function registrarProducto() {
     try {
         const frm_product = document.querySelector("#frm_product");
         const datos = new FormData(frm_product);
-        let respuesta = await fetch(base_url + 'control/productoController.php?tipo=registrar', {
+        let respuesta = await fetch(base_url + 'control/ProductoController.php?tipo=registrar', {
             method: 'POST',
             mode: 'cors',
             cache: 'no-cache',
@@ -158,7 +158,7 @@ async function edit_producto() {
         const datos = new FormData();
         datos.append('id_producto', id_producto);
 
-        let respuesta = await fetch(base_url + 'control/productoController.php?tipo=ver', {
+        let respuesta = await fetch(base_url + 'control/ProductoController.php?tipo=ver', {
             method: 'POST',
             mode: 'cors',
             cache: 'no-cache',
@@ -263,7 +263,7 @@ async function eliminar(id) {
             try {
                 const datos = new FormData();
                 datos.append('id_producto', id)
-                let respuesta = await fetch(base_url + 'control/productoController.php?tipo=eliminar', {
+                let respuesta = await fetch(base_url + 'control/ProductoController.php?tipo=eliminar', {
                     method: 'POST',
                     mode: 'cors',
                     cache: 'no-cache',
